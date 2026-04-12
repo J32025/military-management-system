@@ -1,0 +1,645 @@
+
+      <div class="modal fade" id="btnaddca" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="btnaddcaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content modal-fullscreen-content">
+      <div class="modal-header bg-blue">
+        <h5 class="modal-title text-white" id="btnaddcaLabel"><i class="fa-solid fa-file-circle-plus"></i>เพิ่มข้อมูล</h5>
+        <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+  
+  <section>
+      <div class="row">
+         <div class="col-md-6 mb-4">
+          <div class="card mb-4">
+            <div class="card-header">
+              <div class="d-flex">
+                <strong><span>ลบแก้ไขสิทธิ์ผู้ใช้งานระบบ</span></strong>
+              
+              </div>
+            </div>
+           <div class="card-body">
+            <div class="table-responsive">
+                 <table id="user_example" class="table display responsive nowrap table-sm" style="width:100%; font-size:12px;"></table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="col-md-3 mb-4">
+          <div class="card mb-4">
+            <div class="card-header">
+              <div class="d-flex">
+                <strong><span>ทะเบียนรถ</span></strong>
+                <div class="btn ms-auto btn-sm  btn-outline-success"  data-bs-toggle="modal"
+                  onclick="car_clearpage()" data-bs-target="#car_book">
+                 <i class="fa-solid fa-car"></i> เพิ่มทะเบียนรถ
+                </div>
+              </div>
+            </div>
+           <div class="card-body">
+                 <table id="car_example" class="table  display responsive nowrap table-sm" style="width:100%; font-size:12px;"></table>
+            </div>
+          </div>
+        </div>
+
+
+          <div class="col-md-3 mb-4">
+          <div class="card mb-4">
+            <div class="card-header">
+              <div class="d-flex">
+                <strong><span>ชื่อคนขับรถ</span></strong>
+                <div class="btn ms-auto btn-sm btn-outline-primary" data-bs-toggle="modal"
+                  onclick="drive_clearpage()" data-bs-target="#drivecar_book">
+                  <i class="fa-solid fa-user"></i> เพิ่มชื่อคนขับรถ
+                </div>
+              </div>
+            </div>
+           <div class="card-body">
+                 <table id="drivecarexample" class="table  display responsive nowrap table-sm" style="width:100%; font-size:12px;"></table>
+            </div>
+          </div>
+        </div>
+
+
+
+ </div>
+    </section>
+      </div>
+      <div class="modal-footer bg-blue">
+
+         <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa-solid fa-circle-xmark"></i>ปิด</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- moddalเพิ่มข้อมูล -->
+<div class="modal fade" id="user_book" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title text-white" >ลบแก้ไขสิทธิ์</h5>
+        <button type="button" id="userbtn-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <form id="user_myForm" onsubmit="user_saveData()" class="row g-2">
+
+           <input type="text" class="form-group col-md-6" id="user_numiduser" name="user_numiduser" hidden>
+    
+        <div class="col-12 col-md-12 mb-2">
+            <div class="form-group">   <label>&nbspUsername</label>
+             
+           <input type="text" class="form-control" id="user_nameuser" name="user_nameuser" style="color:blue;" readonly>
+        
+        </div>
+      </div>
+
+              <div class="col-12 col-md-12 mb-2">
+            <div class="form-group">   <label>&nbspPassword</label>
+          
+           <input type="text" class="form-control" id="user_passuser" name="user_passuser" style="color:blue;" readonly>
+         
+        </div>
+      </div>
+
+         
+
+              <div class="col-12 col-md-12 mb-2">
+            <div class="form-group">   <label>&nbspชื่อผู้ใช้งาน</label>
+      
+           <input type="text" class="form-control" id="user_fullnameuser" name="user_fullnameuser" style="color:blue;" readonly>
+      
+        </div>
+      </div>
+
+              <div class="col-12 col-md-12 mb-2">
+            <div class="form-group">   <label>&nbspแผนก</label>
+       
+           <input type="text" class="form-control" id="user_depuser" name="user_depuser" style="color:blue;" readonly>
+       
+        </div>
+      </div>
+
+      <div class="col-12 col-md-12 mb-2">
+            <div class="form-group">   <label>&nbspเปลี่ยนสิทธิ์</label>
+
+           <select class="form-select text-primary" id="user_possibilityuser" name="user_possibilityuser" aria-label="Default select example" required>
+           <option value=''></option>
+            <option value="admin">admin</option>
+            <option value="user">user</option>
+            <option value="driver">driver</option>
+            <option value="ระงับการใช้งาน">ระงับการใช้งาน</option>
+    </select>
+        </div>
+      </div>
+
+
+
+<div class="col-12 col-md-12 mb-2"><br>
+ <button type="submit" class="btn bg-primary col-12 text-white"><i class="fas fa-paper-plane"></i> กดเปลี่ยนสิทธิ์</button>
+   </div>
+  
+</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="car_book" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title text-white">เพิ่มทะเบียนรถ</h5>
+        <button type="button" id="carbtn-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <form id="car_myForm" onsubmit="car_saveData()" class="row g-2">
+
+           <input type="text" class="form-group col-md-6" id="car_numid" name="car_numid" hidden>
+    
+        <div class="col-12 col-md-12 mb-2">
+            <div class="form-group">   <label>&nbspทะเบียนรถ</label>
+               <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-pencil"></i></span>
+           <input type="text" class="form-control" id="car_name" name="car_name" style="color:blue;" required>
+          </div>
+        </div>
+      </div>
+
+
+<div class="col-12 col-md-12 mb-2"><br>
+ <button type="submit" class="btn bg-success col-12 text-white"><i class="fas fa-paper-plane"></i> กดเพิ่มทะเบียนรถ</button>
+   </div>
+  
+</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="drivecar_book" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" >เพิ่มชื่อคนขับรถ</h5>
+        <button type="button" id="drivebtn-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <form id="drivecar_myForm" onsubmit="drivecar_saveData()" class="row g-2">
+
+           <input type="text" class="form-group col-md-6" id="drivecar_numid" name="drivecar_numid" hidden>
+    
+        <div class="col-12 col-md-12 mb-2">
+            <div class="form-group">   <label>&nbspชื่อคนขับ</label>
+               <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+           <input type="text" class="form-control" id="drivecar_name" name="drivecar_name" style="color:blue;" required>
+          </div>
+        </div>
+      </div>
+
+
+<div class="col-12 col-md-12 mb-2"><br>
+ <button type="submit" class="btn bg-primary col-12 text-white"><i class="fas fa-paper-plane"></i> กดเพิ่มชื่อ</button>
+   </div>
+  
+</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  //ฟังชั่นเคลียร์ฟอร์มในmodal
+  function user_clearpage(){
+document.getElementById('user_myForm').reset();
+ }
+
+   function car_clearpage(){
+document.getElementById('car_myForm').reset();
+ }
+
+  function drive_clearpage(){
+document.getElementById('drivecar_myForm').reset();
+ }
+
+
+
+function user_saveData() {
+     event.preventDefault()
+       Swal.fire({
+            position: 'center',
+            title: '<h4><br>กำลังบันทึกข้อมูล...</h4>',
+            showConfirmButton: false,
+          })
+           Swal.showLoading()
+            var user_numiduser = document.getElementById("user_numiduser").value;
+            var user_nameuser = document.getElementById("user_nameuser").value;
+            var user_passuser = document.getElementById("user_passuser").value;
+            var user_possibilityuser = document.getElementById("user_possibilityuser").value;
+            var user_fullnameuser = document.getElementById("user_fullnameuser").value;
+            var user_depuser = document.getElementById("user_depuser").value;
+          
+          
+
+    
+     
+      google.script.run.withSuccessHandler(function(response) {
+     
+        if (response === true) {
+           Swal.fire({
+            position: 'center',
+            icon: 'success',
+         
+            text: 'คุณได้เปลี่ยนแปลงสิทธิ์การใช้งานเรียบร้อยแล้ว',
+            //showConfirmButton: true,
+            showConfirmButton: false,
+            timer: 2500
+           })
+document.getElementById('user_myForm').reset();
+document.getElementById("userbtn-close").click();
+document.getElementById("addcarnew").click(); 
+
+ google.script.run.withSuccessHandler(user_showData).user_getdata(); 
+
+        }
+      }).user_Save(user_numiduser,user_nameuser,user_passuser,user_possibilityuser,user_fullnameuser,user_depuser)
+
+     
+    }
+ 
+       
+
+    function car_saveData() {
+     event.preventDefault()
+       Swal.fire({
+            position: 'center',
+            title: '<h4><br>กำลังบันทึกข้อมูล...</h4>',
+            showConfirmButton: false,
+          })
+           Swal.showLoading()
+            var car_numid = document.getElementById("car_numid").value;
+            var car_name = document.getElementById("car_name").value;
+          
+
+    
+     
+      google.script.run.withSuccessHandler(function(response) {
+     
+        if (response === true) {
+           Swal.fire({
+            position: 'center',
+            icon: 'success',
+         
+            text: 'คุณได้เพิ่มข้อมูลเรียบร้อยแล้ว',
+            //showConfirmButton: true,
+            showConfirmButton: false,
+            timer: 2500
+           })
+document.getElementById('car_myForm').reset();
+document.getElementById("carbtn-close").click(); 
+document.getElementById("addcarnew").click(); 
+ google.script.run.withSuccessHandler(car_showData).car_getdata(); 
+
+        }
+      }).car_Save(car_numid,car_name)
+
+     
+    }
+
+
+    function drivecar_saveData() {
+     event.preventDefault()
+       Swal.fire({
+            position: 'center',
+            title: '<h4><br>กำลังบันทึกข้อมูล...</h4>',
+            showConfirmButton: false,
+          })
+           Swal.showLoading()
+            var drivecar_numid = document.getElementById("drivecar_numid").value;
+            var drivecar_name = document.getElementById("drivecar_name").value;
+          
+
+    
+     
+      google.script.run.withSuccessHandler(function(response) {
+     
+        if (response === true) {
+           Swal.fire({
+            position: 'center',
+            icon: 'success',
+         
+            text: 'คุณได้เพิ่มข้อมูลเรียบร้อยแล้ว',
+            //showConfirmButton: true,
+            showConfirmButton: false,
+            timer: 2500
+           })
+document.getElementById('drivecar_myForm').reset();
+document.getElementById("drivebtn-close").click(); 
+document.getElementById("addcarnew").click();
+ google.script.run.withSuccessHandler(drivecar_showData).drivecar_getdata();
+
+        }
+      }).drivecar_Save(drivecar_numid,drivecar_name)
+
+     
+    }
+
+
+
+
+google.script.run.withSuccessHandler(user_showData).user_getdata()
+google.script.run.withSuccessHandler(car_showData).car_getdata()
+google.script.run.withSuccessHandler(drivecar_showData).drivecar_getdata()
+
+ 
+function user_showData(dataSet){
+    header = dataSet[0]
+    //console.log(header)
+  new DataTable('#user_example', {
+    columns: [
+        { title: header[0] },
+        { title: header[1]},
+        { title: header[2]},
+                { title: 'สิทธิ์' ,    
+        targets: 3,
+           render: function (data) {    
+        if (data === "admin") {
+        return `<span class='badge bg-primary text-white sfont'></i>admin</span>`;
+        }else if(data ==="user") {
+        data = "<span class='badge bg-info text-white sfont'>user</span> ";
+        }else if(data ==="driver") {
+        data = "<span class='badge bg-success text-white sfont'>driver</span> ";
+        }else if(data ==="ระงับการใช้งาน") {
+        data = "<span class='badge bg-danger text-white sfont'>ระงับการใช้งาน</span>";
+         }
+        return data;
+        }
+        }, 
+        { title: header[4]},
+        { title: header[5]},
+        { title: header[6],
+         render: function (data) {    
+        data ='<img src="'+data+ '" type="button" height="30px">';
+        return data;
+         }
+        },
+
+        
+        { title: 'แก้ไข' ,    
+        targets: 7,
+            data: null,
+            defaultContent: '&nbsp&nbsp&nbsp<button type="button" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#user_book" onclick="user_editData(this)"><i class="far fa-edit"></i></button>',
+        }, 
+         { title: 'ลบ' ,    
+        targets: 8,
+            data: null,
+            defaultContent: '&nbsp&nbsp<button type="button" class="btn btn-outline-danger btn-sm" onclick="user_delData(this)"><i class="fa-solid fa-trash-can" style="color: red; "></i></button>',
+        }, 
+    ],
+    data: dataSet.slice(1),
+    bFilter: false,
+    responsive: true,
+    oder:false,
+     language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/th.json',
+    },
+     "destroy": true,
+      order: [[0, 'asc']],
+      columnDefs:[
+          {
+          targets: [7,8],className: 'all',},
+       ],
+    
+      });    
+       
+    
+
+
+  
+  }
+
+
+
+function car_showData(dataSet){
+    header = dataSet[0]
+    //console.log(header)
+  new DataTable('#car_example', {
+    columns: [
+        { title: header[0] },
+        { title: header[1]},
+
+        
+        { title: 'แก้ไข' ,    
+        targets: 2,
+            data: null,
+            defaultContent: '&nbsp&nbsp&nbsp<button type="button" class="btn btn-outline-warning btn-sm"  data-bs-toggle="modal" data-bs-target="#car_book" onclick="car_editData(this)"><i class="far fa-edit"></i></button>',
+        }, 
+         { title: 'ลบ' ,    
+        targets: 3,
+            data: null,
+            defaultContent: '&nbsp&nbsp<button type="button" class="btn btn-outline-danger btn-sm"  onclick="car_delData(this)"><i class="fa-solid fa-trash-can" style="color: red; "></i></button>',
+        }, 
+    ],
+    data: dataSet.slice(1),
+    bFilter: false,
+    responsive: true,
+    oder:false,
+     language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/th.json',
+    },
+     "destroy": true,
+      order: [[0, 'asc']],
+      columnDefs:[
+          {
+          targets: [1,2,3],className: 'all',},
+       ],
+    
+      });    
+       
+  }
+
+ 
+function drivecar_showData(dataSet){
+    header = dataSet[0]
+    //console.log(header)
+  new DataTable('#drivecarexample', {
+    columns: [
+        { title: header[0] },
+        { title: header[1]},
+
+        
+        { title: 'แก้ไข' ,    
+        targets: 2,
+            data: null,
+            defaultContent: '&nbsp&nbsp&nbsp<button type="button" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#drivecar_book" onclick="drivecar_editData(this)"><i class="far fa-edit"></i></button>',
+        }, 
+         { title: 'ลบ' ,    
+        targets: 3,
+            data: null,
+            defaultContent: '&nbsp&nbsp<button type="button" class="btn btn-outline-danger btn-sm"  onclick="drivecar_delData(this)"><i class="fa-solid fa-trash-can" style="color: red; "></i></button>',
+        }, 
+    ],
+    data: dataSet.slice(1),
+    bFilter: false,
+    responsive: true,
+    oder:false,
+     language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/th.json',
+    },
+     "destroy": true,
+      order: [[0, 'asc']],
+      columnDefs:[
+          {
+          targets: [1,2,3],className: 'all',},
+       ],
+    
+      });    
+       
+    
+
+
+  
+  }
+
+
+
+
+
+ function user_editData(el){
+  var user_numiduser = el.parentNode.parentNode.cells[0].innerText
+  var user_nameuser = el.parentNode.parentNode.cells[1].innerText
+  var user_passuser = el.parentNode.parentNode.cells[2].innerText
+  var user_possibilityuser = el.parentNode.parentNode.cells[3].innerText
+  var user_fullnameuser = el.parentNode.parentNode.cells[4].innerText
+  var user_depuser = el.parentNode.parentNode.cells[5].innerText
+ 
+
+    document.getElementById('user_numiduser').value = user_numiduser
+    document.getElementById('user_nameuser').value = user_nameuser
+    document.getElementById('user_passuser').value = user_passuser
+    document.getElementById('user_possibilityuser').value = user_possibilityuser
+    document.getElementById('user_fullnameuser').value = user_fullnameuser
+    document.getElementById('user_depuser').value = user_depuser
+
+
+    
+ }
+
+ function car_editData(el){
+  var car_numid = el.parentNode.parentNode.cells[0].innerText
+  var car_name = el.parentNode.parentNode.cells[1].innerText
+
+    document.getElementById('car_numid').value = car_numid
+    document.getElementById('car_name').value = car_name
+ }
+
+function drivecar_editData(el){
+  var drivecar_numid = el.parentNode.parentNode.cells[0].innerText
+  var drivecar_name = el.parentNode.parentNode.cells[1].innerText
+
+    document.getElementById('drivecar_numid').value = drivecar_numid
+    document.getElementById('drivecar_name').value = drivecar_name
+ }
+
+
+
+
+
+function user_delData(el){
+ Swal.fire({
+  position: 'top',
+  title: 'ลบข้อมูล?',
+  text: "เมื่อท่านลบแล้วจะไม่สามารถกู้คืนข้อมูลได้อีก!!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'ยืนยันการลบ',
+  cancelButtonText: 'ยกเลิก'
+}).then((result) => {
+  if (result.isConfirmed) {
+     var record = el.parentNode.parentNode.cells[0].innerText 
+ google.script.run.withSuccessHandler(()=>{
+ google.script.run.withSuccessHandler(user_showData).user_getdata()
+ 
+}).user_delData(record)
+   
+   Swal.fire({
+  position: 'top',
+  icon: 'success',
+  title: 'ลบข้อมูลเรียบร้อย',
+  showConfirmButton: false,
+  timer: 2500
+})
+  }
+})
+}
+
+function car_delData(el){
+ Swal.fire({
+  position: 'top',
+  title: 'ลบข้อมูล?',
+  text: "เมื่อท่านลบแล้วจะไม่สามารถกู้คืนข้อมูลได้อีก!!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'ยืนยันการลบ',
+  cancelButtonText: 'ยกเลิก'
+}).then((result) => {
+  if (result.isConfirmed) {
+     var record = el.parentNode.parentNode.cells[0].innerText 
+ google.script.run.withSuccessHandler(()=>{
+ google.script.run.withSuccessHandler(car_showData).car_getdata()
+ google.script.run.withSuccessHandler(car_updateDropdownOptions).car_getDropdownOptions();
+}).car_delData(record)
+   
+   Swal.fire({
+  position: 'top',
+  icon: 'success',
+  title: 'ลบข้อมูลเรียบร้อย',
+  showConfirmButton: false,
+  timer: 2500
+})
+  }
+})
+}
+
+function drivecar_delData(el){
+ Swal.fire({
+  position: 'top',
+  title: 'ลบข้อมูล?',
+  text: "เมื่อท่านลบแล้วจะไม่สามารถกู้คืนข้อมูลได้อีก!!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'ยืนยันการลบ',
+  cancelButtonText: 'ยกเลิก'
+}).then((result) => {
+  if (result.isConfirmed) {
+     var record = el.parentNode.parentNode.cells[0].innerText 
+ google.script.run.withSuccessHandler(()=>{
+ google.script.run.withSuccessHandler(drivecar_showData).drivecar_getdata()
+}).drivecar_delData(record)
+   
+   Swal.fire({
+  position: 'top',
+  icon: 'success',
+  title: 'ลบข้อมูลเรียบร้อย',
+  showConfirmButton: false,
+  timer: 2500
+})
+  }
+})
+}
+
+
+</script>

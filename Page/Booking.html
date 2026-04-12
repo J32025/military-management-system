@@ -1,0 +1,596 @@
+
+
+<style>
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+  opacity: 1;
+  transition: opacity 0.6s;
+  margin-bottom: 15px;
+}
+
+.alert.success {background-color: #04AA6D;}
+.alert.info {background-color: #2196F3;}
+.alert.warning {background-color: #ff9800;}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+</style>
+
+
+<div class="d-flex justify-content-between">
+    <h1 class="mb-2"><i class="fa-solid fa-pen-to-square"></i> บันทึกข้อมูล</h1>
+    <div class="mx-0 ms-auto">
+      <button type="button" onclick="resetForm()" class="btn btn-warning"><i class="fa-solid fa-arrow-rotate-left"></i>
+        Reset</button>
+    </div>
+  </div>
+
+  <form id="bookmyForm" onsubmit="booksubmitForm(this)" class="row g-2">
+
+    <div class="col-12 col-md-3 mb-2">
+      <div class="form-group"> <label>&nbspเลือกประเภท</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fa fa-usd"></i> </span>
+          <select class="form-select" id="dropdown" name="dropdown" style="color:blue;"></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-3 mb-2">
+      <div class="form-group"> <label>&nbspวันที่เริ่มต้น</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i> </span>
+          <input type="date" class="form-control" id="startDate_book" name="startDate_book" style="color:blue;">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-3 mb-2">
+      <div class="form-group"> <label>&nbspวันที่สิ้นสุด</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i> </span>
+          <input type="date" class="form-control" id="endDate_book" name="endDate_book" style="color:blue;">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-3 mb-2">
+      <div class="form-group"> <label>&nbspเลขที่หนังสือ</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fa-solid fa-book"></i> </span>
+          <input type="text" class="form-control" id="etc" name="etc" placeholder="ระบุเลขที่หนังสือ เช่น 1234"
+            style="color:blue;">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4 mb-2">
+      <div class="form-group"> <label>&nbspชื่อเรื่อง</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fa-solid fa-book"></i> </span>
+          <input type="text" class="form-control" id="name_" name="name_" placeholder="ระบุชื่อของหนังสือ"
+            style="color:blue;">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4 mb-2">
+      <div class="form-group"> <label>&nbspสถานที่</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fa-solid fa-location-dot"></i> </span>
+          <input type="text" class="form-control" id="loca_book" name="loca_book" placeholder="ระบุสถานที่"
+            style="color:blue;">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4 mb-2">
+      <div class="form-group"><label>&nbspอื่นๆ(ถ้ามี)</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fa-solid fa-comments"></i> </span>
+          <input type="text" class="form-control" id="other_book" name="other_book" placeholder="รายละเอียดอื่นๆ ถ้ามี"
+            style="color:blue;">
+        </div>
+      </div>
+    </div>
+
+    <h3 class="mb-2"><i class="fa-solid fa-pen-to-square"></i> บันทึกรายชื่อ</h1>
+
+      <button type="button" class="btn bg-success col-1 text-white" onclick="addNewInputField()"><i
+          class="fas fa-plus"></i> เพิ่ม</button>
+
+      <section style="display:none;">
+
+        <div class="col-12 col-md-4 mb-2">
+          <div class="form-group"> <label>&nbspชื่อ-สกุล</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
+              <input type="text" id="name_book" class="form-control" name="name_book" readonly>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4 mb-2">
+          <div class="form-group"> <label>&nbspสังกัด</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-building"></i> </span>
+              <input type="text" id="dropdown_dep" class="form-control" name="dropdown_dep" readonly>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="d-flex justify-content-center mt-3">
+        <button type="submit" class="btn bg-primary col-12 text-white"><i class="fas fa-paper-plane"></i>
+          บันทึกข้อมูล</button>
+      </div>
+
+  </form>
+  <!-- <input type="text" id="uuid" value="<?= Utilities.getUuid() ?>" style="display:none;"> -->
+  <input type="text" id="uuid" style="display:none;">
+ <script>
+
+function removeInputField(button) {
+    // หา div ที่ถูกคลิก
+    const inputField = button.closest('.row');
+
+    // ลบ div นั้นออก
+    inputField.remove();
+  }
+
+  let inputCounter1 = 1;
+  let inputCounter = 1;
+  let data; // เพิ่มตัวแปร global เพื่อเก็บข้อมูล
+
+  // ฟังชั่นดึงข้อมูลจาก Google Apps Script
+  function getDataSheet1() {
+    google.script.run.withSuccessHandler(function (dataResponse) {
+      data = dataResponse;
+    }).getDataSheet1();
+  }
+
+  // // เรียกใช้ฟังชั่น getDataSheet1 เมื่อหน้า HTML โหลดเสร็จ
+  // document.addEventListener('DOMContentLoaded', function () {
+  //   getDataSheet1();
+  //   document.getElementById('uuid').value = Utilities.getUuid();
+  // });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    getDataSheet1();
+    var uuid = generateNumericUuid(); // สร้าง UUID ตัวเลข 10 หลัก
+
+    // กำหนดค่ารวมลงใน input หรือที่ต้องการแยกกัน
+    document.getElementById('uuid').value = uuid;
+   
+  });
+
+    function generateNumericUuid() {
+    // สร้าง UUID ที่เป็นตัวเลข 10 หลัก
+    var uuid = '';
+    for (var i = 0; i < 10; i++) {
+        uuid += Math.floor(Math.random() * 10); // เลือกตัวเลขสุ่ม 0-9
+    }
+    return uuid;
+}
+
+  // ประกาศตัวแปร global เพื่อเก็บข้อมูลจากแต่ละชุด
+  let inputFieldData = [];
+
+  function addNewInputField() {
+    const newInputField = document.createElement('div');
+    newInputField.className = 'row row-item'; // กำหนดให้เป็นแถว
+
+    // ให้ inputCounter เท่ากับค่าของ inputCounter1 ณ เวลาที่สร้าง newInputField
+    let inputCounter = inputCounter1;
+
+    newInputField.innerHTML = `
+        <div class="col-12 col-md-2 mb-2">
+            <div class="form-group">
+                <label>&nbspเลขประจำตัว</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                    <input type="text" id="search_name${inputCounter}" class="form-control" name="search_name${inputCounter}" placeholder="กรอกเลขประจำตัว" >
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-2 mb-2">
+            <div class="form-group">
+                <label>&nbspชื่อ สกุล</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                    <input type="text" id="rank3${inputCounter}" class="form-control" name="rank3${inputCounter}" placeholder="ชื่อ-สกุล" readonly>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-2 mb-2">
+            <div class="form-group">
+                <label>&nbspตำแหน่ง</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                   <input type="text" id="name_name${inputCounter}" class="form-control" name="name_name${inputCounter}" placeholder="ตำแหน่ง" readonly>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-3 mb-2">
+            <div class="form-group">
+                <label>&nbspสังกัด</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                    <input type="text" id="address_name${inputCounter}" class="form-control" name="address_name${inputCounter}" placeholder="สังกัด" readonly>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-2 mb-2">
+          <div class="form-group">
+            <label>&nbspเป็นหัวหน้าชุดหรือไม่</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-user-group"></i></span>
+              <select class="form-select" id="leader_1${inputCounter}" name="leader_1${inputCounter}" style="color: red;">
+                <option value="ไม่ใช่">ไม่ใช่</option>
+                <option value="ใช่">ใช่</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-1 mb-2">
+            <label>&nbsp</label>
+            <button type="button" class="btn btn-danger col-12" onclick="removeInputField(this)"><i class="fas fa-minus"></i> ลบ</button>
+        </div>
+        
+        <div class="alert" id="alert" style="display:none;">
+          <span class="closebtn" onclick="closeAlert()">&times;</span>  
+          <div id="duplicateList"></div>
+      </div>
+
+`;
+
+    // นำ newInputField มาแทรกลงในแบบฟอร์ม
+    const bookmyForm = document.querySelector('#bookmyForm');
+    const submitButton = document.querySelector('.d-flex.justify-content-center.mt-3');
+    bookmyForm.insertBefore(newInputField, submitButton);
+
+    // เพิ่มข้อมูลจากแต่ละชุดลงใน inputFieldData
+    inputFieldData.push({
+      search_name: `search_name${inputCounter}`,
+      rank3: `rank3${inputCounter}`,
+      name_name: `name_name${inputCounter}`,
+      address_name: `address_name${inputCounter}`,
+      leader_1: `leader_1${inputCounter}`
+    });
+
+    inputCounter1++;
+  }
+
+  $(document).ready(function () {
+    $("#bookmyForm").on("keyup", "input[id^='search_name']", function () {
+      show(this.id);
+    });
+  });
+
+  function show(inputId) {
+    var searchInput = document.getElementById(inputId);
+
+    // ใช้ replaceAll แทนที่ทุกตำแหน่งที่ตรงกับ "search_name" ใน id
+    var rankInputId = inputId.replaceAll("search_name", "rank3");
+    var nameInputId = inputId.replaceAll("search_name", "name_name");
+    var addressInputId = inputId.replaceAll("search_name", "address_name");
+
+    // ดึง element โดยใช้ id ที่แทนที่แล้ว
+    var rankInput = document.getElementById(rankInputId);
+    var nameInput = document.getElementById(nameInputId);
+    var addressInput = document.getElementById(addressInputId);
+
+    var value = searchInput.value;
+
+    // ค้นหาข้อมูลจาก data ที่ได้จาก Google Apps Script
+    var foundData = data.find(r => r[0] === value.toString());
+
+    if (foundData) {
+      // ถ้าพบข้อมูล
+      var rankValue = foundData[1]; // หรือตามลำดับของข้อมูลที่ต้องการ
+      var nameValue = foundData[2]; // เพิ่ม line นี้เพื่อดึงค่า name
+      var addressValue = foundData[3]; // เพิ่ม line นี้เพื่อดึงค่า address
+
+      rankInput.value = rankValue;
+      nameInput.value = nameValue; // ตั้งค่า value ของ nameInput
+      addressInput.value = addressValue; // ตั้งค่า value ของ addressInput
+
+      document.getElementById("errorMessage").innerHTML = " ";
+    } else {
+      // ถ้าไม่พบข้อมูล
+      rankInput.value = "";
+      nameInput.value = ""; // ตั้งค่า value ของ nameInput เป็นค่าว่าง
+      addressInput.value = ""; // ตั้งค่า value ของ addressInput เป็นค่าว่าง
+
+      document.getElementById("errorMessage").innerHTML = "ไม่พบข้อมูล!";
+    }
+  }
+
+  // ...
+
+  google.script.run.withSuccessHandler(_updateDropdownOptions)._getDropdownOptions();
+
+  function _updateDropdownOptions(options) {
+    var dropdown = document.getElementById("dropdown");
+    options.forEach(function (option) {
+      var optionElement = document.createElement("option");
+      optionElement.text = option;
+      dropdown.add(optionElement);
+    });
+  }
+
+  async function booksubmitForm() {
+    event.preventDefault()
+    Swal.fire({
+      position: 'center',
+      title: '<i class="fa-solid fa-download fa-bounce me-2"></i><h4><br>กำลังบันทึกข้อมูล...</h4>',
+      showConfirmButton: false,
+
+    })
+    Swal.showLoading()
+
+    // ตรวจสอบว่าอิลิเมนต์มี id 'dropdown', 'startDate_book', 'endDate_book', 'etc', 'loca_book', 'other_book' หรือไม่
+    dropdown = document.getElementById('dropdown');
+    startDate_book = document.getElementById('startDate_book');
+    endDate_book = document.getElementById('endDate_book');
+    etc = document.getElementById('etc');
+    name_ = document.getElementById("name_");
+    loca_book = document.getElementById("loca_book");
+
+    // ตรวจสอบว่าอิลิเมนต์มีค่าหรือไม่
+    if (dropdown && startDate_book && endDate_book && etc && name_ && loca_book) {
+      // ดำเนินการเฉพาะเมื่ออิลิเมนต์มีค่า
+      dropdown = dropdown.value;
+      startDate_book = startDate_book.value;
+      endDate_book = endDate_book.value;
+      etc = etc.value;
+      name_ = name_.value;
+      loca_book = loca_book.value;
+
+    } else {
+      // แสดงข้อความหรือดำเนินการเพิ่มเติมตามที่คุณต้องการ
+      console.error("ไม่สามารถหาอิลิเมนต์ที่ระบุได้");
+      return;
+    }
+
+    dropdown = document.getElementById('dropdown').value
+    startDate_book = document.getElementById('startDate_book').value
+    endDate_book = document.getElementById('endDate_book').value
+    etc = document.getElementById('etc').value
+    name_ = document.getElementById('name_').value
+    loca_book = document.getElementById("loca_book").value;
+
+    if (dropdown == "") {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        text: 'กรุณาเลือกประเภท',
+        showConfirmButton: true,
+        confirmButtonText: 'กดปิด',
+      })
+      return;
+    } else if (startDate_book == "") {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        text: 'กรุณาเลือกวันที่เริ่มต้น',
+        showConfirmButton: true,
+        confirmButtonText: 'กดปิด',
+      })
+      return;
+    } else if (endDate_book == "") {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        text: 'กรุณาเลือกวันที่สิ้นสุด',
+        showConfirmButton: true,
+        confirmButtonText: 'กดปิด',
+      })
+      return;
+    } else if (etc == "") {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        text: 'กรุณาใส่เลขที่หนังสือ',
+        showConfirmButton: true,
+        confirmButtonText: 'กดปิด',
+      })
+      return;
+    } else if (name_ == "") {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        text: 'กรุณาใส่ชื่อเรื่อง',
+        showConfirmButton: true,
+        confirmButtonText: 'กดปิด',
+      })
+      return;
+    } else if (loca_book == "") {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        text: 'กรุณาใส่สถานที่',
+        showConfirmButton: true,
+        confirmButtonText: 'กดปิด',
+      })
+      return;
+    } else if (startDate_book > endDate_book) {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        text: 'รูปแบบเวลาไม่ถูกต้อง',
+        showConfirmButton: true,
+        confirmButtonText: 'กดปิด',
+      })
+      return;
+    } else if (!inputFieldData.some(field => field.search_name)) {
+      // แสดงข้อความแจ้งเตือนผู้ใช้ว่าไม่มีข้อมูล
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        text: 'กรุณาใส่เลขประจำตัว',
+        showConfirmButton: true,
+        confirmButtonText: 'กดปิด',
+      });
+      return;
+    }
+  
+  let count = 1
+    let uuid = document.getElementById("uuid").value;
+    for (let field of inputFieldData) {
+      const search_name_value = document.getElementById(field.search_name).value;
+      const rank3_value = document.getElementById(field.rank3).value;
+      const name_name_value = document.getElementById(field.name_name).value;
+      const address_name_value = document.getElementById(field.address_name).value;
+      const leader_1_value = document.getElementById(field.leader_1).value;
+      const dropdown_value = document.getElementById('dropdown').value;
+      const startDate_book_value = document.getElementById('startDate_book').value;
+      const endDate_book_value = document.getElementById('endDate_book').value;
+      const etc_value = document.getElementById('etc').value;
+      const name_value = document.getElementById('name_').value;
+      const loca_book_value = document.getElementById("loca_book").value;
+      const other_book_value = document.getElementById("other_book").value;
+      const name_book_value = document.getElementById("name_book").value;
+      const dropdown_dep_value = document.getElementById("dropdown_dep").value;
+      await new Promise(resolve => {
+        google.script.run.withSuccessHandler(res => {
+          bookaddSuccess(res, count, inputFieldData.length);
+          count++;
+          resolve(res);
+        }).bookaddRecord(
+          search_name_value, rank3_value, name_name_value, address_name_value, leader_1_value,
+          dropdown_value, startDate_book_value, endDate_book_value, etc_value, name_value, loca_book_value, other_book_value, name_book_value, dropdown_dep_value,uuid
+        );
+      });
+    }
+  }
+
+  function bookaddSuccess(result, count, length) {
+    if (result === true) {
+      
+      let toast_opt = {
+        toast: true,
+        position: 'center',
+        showConfirmButton: false,
+        // timer: 1000,
+        // timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      }
+      if (count == length) {
+        toast_opt.timer = 1000
+        toast_opt.timerProgressBar = true
+        resetForm();
+      }
+      const Toast = Swal.mixin(toast_opt)
+
+      Toast.fire({
+        icon: 'success',
+        title: 'บันทึกข้อมูลเรียบร้อย ' + count + '/' + length
+      })
+      
+    } else if (result && result.duplicateList) {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: '<h4>ตรวจพบการปฏิบัติภารกิจในห้วงเวลาเดียวกัน</h4>',
+        showConfirmButton: true,
+        confirmButtonText: 'Close',
+        timer: 1000,
+      });
+      showDuplicateList(result.duplicateList);
+      document.getElementById("alert").show();
+
+    }
+  }
+
+  function showDuplicateList(duplicateList) {
+    const linesHTML = duplicateList.map((item, index) => `
+        <br>
+        <table class='table table-bordered table-striped table-hover text-start'>
+            <thead class='bg-primary text-white'>
+                <tr>
+                    <th colspan='2' class='text-center'>ตรวจพบการปฏิบัติภารกิจในห้วงเวลาเดียวกัน ลำดับที่ ${index + 1}</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <th scope='col'>ประเภท</th>
+                <td style="color:white;">${item.dropdown}</td>
+            </tr>
+
+            <tr>
+                <th scope='col'>วันที่เริ่ม</th>
+                <td style="color:white;">${item.thaistartDate}</td>
+            </tr>
+
+            <tr>
+                <th scope='col'>วันที่สิ้นสุด</th>
+                <td style="color:white;">${item.thaiendDate}</td>
+            </tr>
+
+            <tr>
+                <th scope='col'>รายละเอียด</th>
+                <td style="color:white;">${item.loca_book}</td>
+            </tr>
+
+        </table>
+        <br>
+    `).join('');
+
+    document.getElementById('duplicateList').innerHTML = linesHTML;
+
+    // แสดง alert
+    const alert = document.querySelector('.alert');
+    alert.style.backgroundColor = '#f44336'; // ตั้งค่าสี alert เป็นสีแดง
+    alert.style.display = 'block';
+  }
+
+  // function removeNewInputFields() {
+  //   let newInputField = document.querySelector('.row');
+
+  //   while (newInputField) {
+  //     newInputField.parentNode.removeChild(newInputField);
+  //     newInputField = document.querySelector('.row');
+  //   }
+  // }
+
+  function closeAlert() {
+    // ซ่อน alert เมื่อคลิกปุ่มปิด
+    const alert = document.querySelector('.alert');
+    alert.style.display = 'none';
+  }
+
+  function resetForm() {
+    // รับอ้างอิงไปยังฟอร์ม
+    var form = document.getElementById("bookmyForm");
+
+    // รีเซ็ตค่าในฟอร์ม
+    form.reset();
+  }
+
+</script>
+
+

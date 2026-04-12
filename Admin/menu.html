@@ -1,0 +1,329 @@
+  <!-- Sidenav Heading (Custom)-->
+  <a class="nav-link mt-2" id="homepage" type="button" onclick="openPage('home',this)">
+  <div class="nav-link-icon"><i data-feather="home"></i></div>
+ หน้าหลัก
+</a>
+  <div id="menu_admin">
+  <div class="sidenav-menu-heading">สำหรับผู้บังคับบัญชา</div>
+
+  <!-- Sidenav Accordion (Flows)-->
+  <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows"
+    aria-expanded="false" aria-controls="collapseFlows" onclick="openPage('home',this)">
+    <div class="nav-link-icon"><i class="fa-solid fa-building"></i></div>
+    อาคารสวัสดิการ
+    <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+  </a>
+  <div class="collapse" id="collapseFlows" data-bs-parent="#accordionSidenav">
+    <nav class="sidenav-menu-nested nav">
+
+      <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows_1"
+        aria-expanded="false" aria-controls="collapseFlows_1" onclick="openPage('requirement_dashbroad',this)">
+        ความต้องการเข้าพัก
+        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+      </a>
+
+       <div class="collapse" id="collapseFlows_1" data-bs-parent="#accordionSidenav_1_2">
+          <nav class="sidenav-menu-nested nav">
+              <!-- <a class="nav-link" type="button" onclick="openPage('requirement_1',this)"> การจัดลำดับ</a>      -->
+              <a class="nav-link" type="button" onclick="openPage('requirement_2',this)"> ผู้เช่าบ้าน</a>     
+              <a class="nav-link" type="button" onclick="openPage('requirement_3',this)"> ส. พักห้อง น.</a>     
+              <a class="nav-link" type="button" onclick="openPage('requirement_4',this)"> ผู้ผ่อนผัน</a>     
+              <a class="nav-link" type="button" onclick="openPage('requirement_5',this)"> ผู้หมดสิทธิ์</a>      
+
+          </nav>
+      </div>
+
+      <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows_2"
+        aria-expanded="false" aria-controls="collapseFlows_2" onclick="openPage('home',this)">
+        รายชื่อผู้เข้าพัก
+        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+      </a>
+
+       <div class="collapse" id="collapseFlows_2" data-bs-parent="#accordionSidenav_1_3">
+          <nav class="sidenav-menu-nested nav">
+              <a class="nav-link" type="button" onclick="openPage('tbapprove',this)"> ทุ่ง 1 อาคาร 9<span class='badge bg-danger text-white sfont' id="notify" type="button" onclick="openPage('tbapprove',this)"></a>     
+              <a class="nav-link" type="button" onclick="openPage('checkcar',this)"> ทุ่ง 1 อาคาร 13</a>
+              <a class="nav-link" type="button" onclick="openPage('cardaily',this)"> ทุ่ง 2 อาคาร 10</a>
+              <a class="nav-link" type="button" onclick="openPage('closestatus',this)"> ทุ่ง 3 อาคาร 1</a>
+              <a class="nav-link" type="button" onclick="openPage('carstatus',this)"> ทุ่ง 3 อาคาร 33</a>
+              <!-- <a class="nav-link" type="button" onclick="openPage('totalcar',this)"> &nbsp&nbspสรุปข้อมูล</a> -->
+              <!-- <a class="nav-link" type="button" onclick="openPage('confirmbook',this)"><i data-feather="minus-circle" ></i> &nbsp&nbspยกเลิกภารกิจ</a> --> 
+              <!-- <a class="nav-link" type="button" onclick="openPage('tbapprove2',this)"><i class="fa-solid fa-check" ></i> &nbsp&nbspทุ่งสีกัน 1 อาคาร 13</a> -->
+              <!-- <a class="nav-link"  id="addcarnew" type="button" data-bs-toggle="modal" data-bs-target="#btnaddca" ><i class="fa-solid fa-gear"></i> &nbsp&nbspตั้งค่า</a> -->  
+
+          </nav>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Sidenav Accordion (Flows)-->
+  <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows2"
+    aria-expanded="false" aria-controls="collapseFlows2" onclick="openPage('chart_2',this)">
+    <div class="nav-link-icon"><i class="fa-solid fa-users"></i></div>
+    กำลังพล
+    <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+  </a>
+  <div class="collapse" id="collapseFlows2" data-bs-parent="#accordionSidenav2">
+    <nav class="sidenav-menu-nested nav">
+      <a class="nav-link" type="button" onclick="openPage('person_1',this)"><i class="fa-solid fa-user"></i> &nbsp&nbspสถานภาพกำลังพล</a>     
+      <a class="nav-link" type="button" onclick="openPage('2',this)"><i class="fa-solid fa-user"></i> &nbsp&nbspกำลังพล1</a>
+      <a class="nav-link" type="button" onclick="openPage('3',this)"><i class="fa-solid fa-user"></i> &nbsp&nbspกำลังพล2</a>
+      <a class="nav-link" type="button" onclick="openPage('4',this)"><i class="fa-solid fa-user"></i> &nbsp&nbspกำลังพล3</a>
+      <a class="nav-link" type="button" onclick="openPage('5',this)"><i class="fa-solid fa-user"></i> &nbsp&nbspกำลังพล4</a>
+      <a class="nav-link" type="button" onclick="openPage('6',this)"><i class="fa-solid fa-check"></i> &nbsp&nbspสรุปข้อมูล</a>
+      <!-- <a class="nav-link" type="button" onclick="openPage('confirmbook',this)"><i data-feather="minus-circle" ></i> &nbsp&nbspยกเลิกภารกิจ</a> --> 
+      <!-- <a class="nav-link" type="button" onclick="openPage('tbapprove2',this)"><i class="fa-solid fa-check" ></i> &nbsp&nbspทุ่งสีกัน 1 อาคาร 13</a> -->
+      <!-- <a class="nav-link"  id="addcarnew" type="button" data-bs-toggle="modal" data-bs-target="#btnaddca" ><i class="fa-solid fa-gear"></i> &nbsp&nbspตั้งค่า</a> -->
+    </nav>
+  </div>
+
+  <!-- Sidenav Accordion (Flows)-->
+  <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows3"
+    aria-expanded="false" aria-controls="collapseFlows3"  onclick="openPage('chart_3',this)">
+    <div class="nav-link-icon"><i class="fa-solid fa-gas-pump"></i></div>
+    สป.3
+    <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+  </a>
+  <div class="collapse" id="collapseFlows3" data-bs-parent="#accordionSidenav3">
+    <nav class="sidenav-menu-nested nav">
+      <a class="nav-link" type="button" onclick="openPage('fule_1',this)"><i class="fa-solid fa-gas-pump"></i> &nbsp&nbspบันทึกข้อมูล</a>     
+      <a class="nav-link" type="button" onclick="openPage('2',this)"><i class="fa-solid fa-gas-pump"></i> &nbsp&nbspอื่นๆ1</a>
+      <a class="nav-link" type="button" onclick="openPage('3',this)"><i class="fa-solid fa-gas-pump"></i> &nbsp&nbspอื่นๆ2</a>
+      <a class="nav-link" type="button" onclick="openPage('4',this)"><i class="fa-solid fa-gas-pump"></i> &nbsp&nbspอื่นๆ3</a>
+      <a class="nav-link" type="button" onclick="openPage('5',this)"><i class="fa-solid fa-gas-pump"></i> &nbsp&nbspอื่นๆ4</a>
+      <a class="nav-link" type="button" onclick="openPage('6',this)"><i class="fa-solid fa-check"></i> &nbsp&nbspสรุปข้อมูล</a>
+      <!-- <a class="nav-link" type="button" onclick="openPage('confirmbook',this)"><i data-feather="minus-circle" ></i> &nbsp&nbspยกเลิกภารกิจ</a> --> 
+      <!-- <a class="nav-link" type="button" onclick="openPage('tbapprove2',this)"><i class="fa-solid fa-check" ></i> &nbsp&nbspทุ่งสีกัน 1 อาคาร 13</a> -->
+      <!-- <a class="nav-link"  id="addcarnew" type="button" data-bs-toggle="modal" data-bs-target="#btnaddca" ><i class="fa-solid fa-gear"></i> &nbsp&nbspตั้งค่า</a> -->
+    </nav>
+  </div>
+
+  <!-- Sidenav Accordion (Flows)-->
+  <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows4"
+    aria-expanded="false" aria-controls="collapseFlows4" onclick="openPage('chart_4',this)">
+    <div class="nav-link-icon"><i class="fa-solid fa-car-side"></i></div>
+    สป.ยานพาหนะ
+    <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+  </a>
+  <div class="collapse" id="collapseFlows4" data-bs-parent="#accordionSidenav4">
+    <nav class="sidenav-menu-nested nav">
+      <a class="nav-link" type="button" onclick="openPage('1',this)"><i class="fa-solid fa-car-side"></i> &nbsp&nbspใน อสอ.<span class='badge bg-danger text-white sfont' id="notify" type="button" onclick="openPage('tbapprove',this)"></a>     
+      <a class="nav-link" type="button" onclick="openPage('2',this)"><i class="fa-solid fa-car-side"></i> &nbsp&nbspนอก อสอ.</a>
+      <a class="nav-link" type="button" onclick="openPage('3',this)"><i class="fa-solid fa-car-side"></i> &nbsp&nbspบัญชีคุมยานพาหนะ</a>
+      <a class="nav-link" type="button" onclick="openPage('4',this)"><i class="fa-solid fa-car-side"></i> &nbsp&nbspบัญชีคุมยาง</a>
+      <a class="nav-link" type="button" onclick="openPage('5',this)"><i class="fa-solid fa-car-side"></i> &nbsp&nbspบัญชีคุมแบตเตอรี่</a>
+      <a class="nav-link" type="button" onclick="openPage('6',this)"><i class="fa-solid fa-check"></i> &nbsp&nbspสรุปข้อมูล</a>
+      <!-- <a class="nav-link" type="button" onclick="openPage('confirmbook',this)"><i data-feather="minus-circle" ></i> &nbsp&nbspยกเลิกภารกิจ</a> --> 
+      <!-- <a class="nav-link" type="button" onclick="openPage('tbapprove2',this)"><i class="fa-solid fa-check" ></i> &nbsp&nbspทุ่งสีกัน 1 อาคาร 13</a> -->
+      <!-- <a class="nav-link"  id="addcarnew" type="button" data-bs-toggle="modal" data-bs-target="#btnaddca" ><i class="fa-solid fa-gear"></i> &nbsp&nbspตั้งค่า</a> -->
+    </nav>
+  </div>
+
+  </div>
+
+
+  <div id="page_user">
+<!-- Sidenav Heading (Addons)-->
+<div class="sidenav-menu-heading" id="user">สำหรับเจ้าหน้าที่</div>
+<a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows_user"
+    aria-expanded="false" aria-controls="collapseFlows" onclick="openPage('home',this)">
+    <div class="nav-link-icon"><i class="fa-solid fa-building"></i></div>
+    อาคารสวัสดิการ
+    <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+  </a>
+  <div class="collapse" id="collapseFlows_user" data-bs-parent="#accordionSidenav">
+    <nav class="sidenav-menu-nested nav">
+
+      <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows_user_1"
+        aria-expanded="false" aria-controls="collapseFlows_user_1" onclick="openPage('user_requirement_dashbroad',this)">
+        ความต้องการเข้าพัก สำหรับเจ้าหน้าที่
+        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+      </a>
+
+       <div class="collapse" id="collapseFlows_user_1" data-bs-parent="#accordionSidenav_user_1_2">
+          <nav class="sidenav-menu-nested nav">
+              <!-- <a class="nav-link" type="button" onclick="openPage('user_requirement_1',this)"> การจัดลำดับ</a>      -->
+              <a class="nav-link" type="button" onclick="openPage('requirement_2',this)"> ผู้เช่าบ้าน</a>     
+              <a class="nav-link" type="button" onclick="openPage('requirement_3',this)"> ส. พักห้อง น.</a>     
+              <a class="nav-link" type="button" onclick="openPage('requirement_4',this)"> ผู้ผ่อนผัน</a>     
+              <a class="nav-link" type="button" onclick="openPage('requirement_5',this)"> ผู้หมดสิทธิ์</a>      
+
+          </nav>
+      </div>
+</div>      
+<!-- Sidenav Link (Charts)-->
+<!-- <a class="nav-link" type="button" id="bookingcaruser" onclick="openPage('booking',this)">
+  <div class="nav-link-icon"><i data-feather="edit-3"></i></div>
+  บันทึกข้อมูล
+</a> -->
+<!-- <a class="nav-link" type="button" onclick="openPage('cardaily',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  ภารกิจวันนี้
+</a>
+<a class="nav-link" type="button" onclick="openPage('cancelcarforuser',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  ยกเลิกภารกิจ
+</a> -->
+<!-- Sidenav Link (Tables)-->
+<!-- <a class="nav-link" type="button" onclick="openPage('search_user_show',this);clickopenPage_edit();">
+  <div class="nav-link-icon"><i data-feather="minus-circle"></i></div>
+ แก้ไขข้อมูล
+</a> -->
+
+<!-- <a class="nav-link" type="button" onclick="openPage('preapprove_user_show',this);clickopenPage();">
+  <div class="nav-link-icon"><i class="fa-solid fa-check"></i></div>
+ รออนุมัติ
+</a> -->
+
+<!-- <a class="nav-link" type="button" onclick="openPage('checkcar',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  อนุมัติแล้ว
+</a> -->
+<!-- <a class="nav-link" type="button" onclick="openPage('mileout',this)">
+  <div class="nav-link-icon"><i data-feather="trending-up"></i></div>
+บันทึกเลขไมล์ ออก
+</a>
+<a class="nav-link" type="button" onclick="openPage('milein',this)">
+  <div class="nav-link-icon"><i data-feather="trending-down"></i></div>
+บันทึกเลขไมล์ เข้า
+</a> -->
+</div>
+
+<div id="page_driver" style="display:none;">
+<!-- Sidenav Heading (Addons)-->
+<div class="sidenav-menu-heading" id="driver_page">สำหรับบุคคลทั่วไป</div>
+
+<!-- <a class="nav-link" type="button" id="diarycheckCar" onclick="openPage('cardaily',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  ภารกิจวันนี้
+</a> -->
+
+<!-- <a class="nav-link" type="button" onclick="openPage('preapprove',this)">
+  <div class="nav-link-icon"><i data-feather="minus-circle"></i></div>
+ รออนุมัติ
+</a> -->
+
+<!-- <a class="nav-link" type="button" onclick="openPage('checkcar',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  อนุมัติแล้ว
+</a> -->
+
+<!-- <a class="nav-link" type="button" onclick="openPage('mileout',this)">
+  <div class="nav-link-icon"><i data-feather="trending-up"></i></div>
+บันทึกเลขไมล์ ออก
+</a>
+<a class="nav-link" type="button" onclick="openPage('milein',this)">
+  <div class="nav-link-icon"><i data-feather="trending-down"></i></div>
+บันทึกเลขไมล์ เข้า
+</a> -->
+</div>
+
+<div id="page_vip" style="display:none;">
+<!-- Sidenav Heading (Addons)-->
+<div class="sidenav-menu-heading" id="vip_page">สำหรับ VIP</div>
+
+<!-- <a class="nav-link" type="button" id="diarycheckCar" onclick="openPage('cardaily',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  ภารกิจวันนี้
+</a> -->
+
+<a class="nav-link" type="button" onclick="openPage('preapprove',this)">
+  <div class="nav-link-icon"><i data-feather="minus-circle"></i></div>
+ รออนุมัติ
+</a>
+
+<a class="nav-link" type="button" onclick="openPage('checkcar',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  อนุมัติแล้ว
+</a>
+
+<a class="nav-link" type="button" onclick="openPage('baseperson',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  ข้อมูลกำลังพล
+</a>
+
+<!-- <a class="nav-link" type="button" onclick="openPage('mileout',this)">
+  <div class="nav-link-icon"><i data-feather="trending-up"></i></div>
+บันทึกเลขไมล์ ออก
+</a>
+<a class="nav-link" type="button" onclick="openPage('milein',this)">
+  <div class="nav-link-icon"><i data-feather="trending-down"></i></div>
+บันทึกเลขไมล์ เข้า
+</a> -->
+</div>
+
+<div id="page_finance" style="display:none;">
+<!-- Sidenav Heading (Addons)-->
+<div class="sidenav-menu-heading" id="finance_page">สำหรับเจ้าหน้าที่การเงิน</div>
+
+<!-- <a class="nav-link" type="button" id="diarycheckCar" onclick="openPage('cardaily',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  ภารกิจวันนี้
+</a> -->
+
+<!-- <a class="nav-link" type="button" onclick="openPage('preapprove',this)">
+  <div class="nav-link-icon"><i data-feather="minus-circle"></i></div>
+ รออนุมัติ
+</a> -->
+
+<a class="nav-link" type="button" onclick="openPage('checkcar',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  อนุมัติแล้ว
+</a>
+
+<a class="nav-link" type="button" onclick="openPage('baseperson',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  ข้อมูลกำลังพล
+</a>
+
+<!-- <a class="nav-link" type="button" onclick="openPage('mileout',this)">
+  <div class="nav-link-icon"><i data-feather="trending-up"></i></div>
+บันทึกเลขไมล์ ออก
+</a>
+<a class="nav-link" type="button" onclick="openPage('milein',this)">
+  <div class="nav-link-icon"><i data-feather="trending-down"></i></div>
+บันทึกเลขไมล์ เข้า
+</a> -->
+</div>
+
+<div id="page_schedule" style="display:none;">
+<!-- Sidenav Heading (Addons)-->
+<div class="sidenav-menu-heading" id="schedule_page">สำหรับเจ้าหน้าที่ ผธก.บก.ชย.ทอ.</div>
+
+<!-- <a class="nav-link" type="button" id="diarycheckCar" onclick="openPage('cardaily',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  ภารกิจวันนี้
+</a> -->
+
+<!-- <a class="nav-link" type="button" onclick="openPage('preapprove',this)">
+  <div class="nav-link-icon"><i data-feather="minus-circle"></i></div>
+ รออนุมัติ
+</a> -->
+
+<!-- <a class="nav-link" type="button" onclick="openPage('checkcar',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  อนุมัติแล้ว
+</a> -->
+
+<a class="nav-link" type="button" onclick="openPage('baseperson',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  ข้อมูลกำลังพล
+</a>
+
+<a class="nav-link" type="button" onclick="openPage('schedule',this)">
+  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+  อัพโหลดตารางเวร
+</a>
+
+<!-- <a class="nav-link" type="button" onclick="openPage('mileout',this)">
+  <div class="nav-link-icon"><i data-feather="trending-up"></i></div>
+บันทึกเลขไมล์ ออก
+</a>
+<a class="nav-link" type="button" onclick="openPage('milein',this)">
+  <div class="nav-link-icon"><i data-feather="trending-down"></i></div>
+บันทึกเลขไมล์ เข้า
+</a> -->
+</div>
+
+</div>
+</div>

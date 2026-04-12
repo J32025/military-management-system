@@ -1,0 +1,202 @@
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+  <!-- Include Thai locale file for FullCalendar -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/th.js"></script>
+  <script src="https://fastly.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://fastly.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
+  <style>
+  /* Add custom CSS to adjust font size */
+  #calendar {
+    font-size: 14px; /* Set your desired font size here */
+  }
+
+  .fc-title,
+  .fc-time {
+    font-size: 10px; /* Set your desired font size for event title and time */
+    font-weight: normal; /* Set font weight to normal (lighter) */
+  }
+
+  .swal-confirm-button-green {
+    background-color: #3fbf2e !important;
+    color: white ;
+    /* คุณสามารถปรับแต่งสีและสไตล์ต่าง ๆ ตามที่ต้องการ */
+}
+
+</style>
+
+<!-- <div class="container"> -->
+  <!-- <h3>ปฏิทินภารกิจ</h3> -->
+       <div id="calendar"></div>
+<!-- </div> -->
+
+  <script>
+
+    
+    $.LoadingOverlaySetup({
+   //image  : "",
+   //background  : "#ffffff",
+  // text        : "ระบบจองรถ",
+  // textColor        : "#0d6efd",
+  // textResizeFactor  : "0.50",
+   size :"20",
+  maxSize :"80",
+  minSize :"20",
+  imageColor : "#0d6efd"
+   
+    
+});
+ $.LoadingOverlay("show");
+
+// Hide it after 3 seconds
+setTimeout(function(){
+    $.LoadingOverlay("hide");
+}, 3000);
+
+ 
+$(document).ready(function () {
+    // เรียกฟังก์ชันแรกครั้งเมื่อหน้าเว็บโหลด
+    google.script.run.withSuccessHandler(loadCalendar).getDataFromSheet();
+
+    // ตั้งค่า interval เพื่อเรียก API ทุก 3 วินาที
+    setInterval(function () {
+        // เรียก API และระบุ onSuccessHandler เป็น loadCalendar
+        google.script.run.withSuccessHandler(loadCalendar).getDataFromSheet();
+    }, 30000);
+
+    // นิยามฟังก์ชัน loadCalendar
+    function loadCalendar(data) {
+        // แปลงข้อมูล JSON ที่ได้รับจาก API
+        data = JSON.parse(data);
+        var events = [];
+
+        // สร้าง events จากข้อมูลที่ได้รับ
+        for (var i = 0; i < data.length; i++) {
+            events.push({
+     
+                title: data[i].title,
+                start: data[i].start + ' ' + data[i].starttime,
+                end: data[i].end + ' ' + data[i].endtime,
+                namebook: data[i].namebook,
+                loca: data[i].loca,
+                drivestatus: data[i].drivestatus,
+                other: data[i].other,
+                status: data[i].status,
+                approve: data[i].approve
+              
+            });
+        }
+
+        // ลบ events ทั้งหมดจาก calendar และเพิ่ม events ใหม่
+        $('#calendar').fullCalendar('removeEvents');
+        $('#calendar').fullCalendar('addEventSource', events);
+    }
+
+    // กำหนดค่า FullCalendar
+    $('#calendar').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month'
+        },
+        height: '200px', // Set your desired height here
+        width: '80%', // Set your desired width here        editable: true,
+        timezone: 'local',
+        locale: 'th',
+        nextDayThreshold: '00:00:00',
+        dayNamesShort: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+        eventRender: function (event, element) {
+            // ฟังก์ชัน render event
+            let formattedEndDate = '';
+            if (moment(event.end).isValid()) {
+                formattedEndDate = moment(event.end).format('DD-MM-YYYY');
+            }
+            element.find('.fc-time').hide();
+            element.find('.fc-title').html(event.title + 'ที่ '+ event.loca + '<br> วันที่ ' + event.start.format('DD-MM-YYYY') + '- วันที่ ' + formattedEndDate);
+
+            // ตัวอย่างการกำหนดสีและสไตล์ต่าง ๆ ตามเงื่อนไข
+            if (event.status === 'รออนุมัติ') {
+                element.css('background-color', 'yellow');
+                element.find('.fc-title').css('color', 'black');
+            } else if (event.status === 'อนุมัติ') {
+                element.css('background-color', 'green');
+            } else if (event.status === 'ไม่อนุมัติ') {
+                element.css('background-color', 'red');
+            } else if (event.status === 'ส่งคืน') {
+                element.css('background-color', 'blue');
+            } else if (event.status === 'กำลังใช้งาน') {
+                element.css('background-color', 'green');
+                 setInterval(function() {
+              element.fadeOut(500, function() {
+                  element.fadeIn(500);
+              });
+              }, 500);
+            }
+        },
+        eventClick: function (event) {
+            // แสดง Popup รายละเอียดเมื่อคลิกที่ event
+            Swal.fire({
+                html: `
+                    <br>
+                    <table class='table table-bordered table-striped table-hover text-start' style="width:100%">
+                        <thead class='bg-success text-white'>
+                            <tr>   
+                                <th colspan='2' class='text-center'>รายละเอียดภารกิจ</th>
+                            </tr> 
+                        </thead>
+
+                        <tr>
+                            <th scope='col'>ประเภท</th>
+                            <td style="color:blue;">${event.title}</td>
+                        </tr>
+                        <tr>
+                            <th scope='col'>วันที่เริ่ม</th>
+                            <td style="color:blue;">${event.start.format('DD-MM-YYYY')}</td>
+                        </tr>
+                        <tr>
+                            <th scope='col'>วันที่สิ้นสุด</th>
+                            <td style="color:blue;">${event.end.format('DD-MM-YYYY')}</td>
+                        </tr>
+                        <tr>
+                            <th scope='col'>ยศ ชื่อ สกุล</th>
+                            <td style="color:blue;">${event.namebook}</td>
+                        </tr>
+                        <tr>
+                            <th scope='col'>สถานที่</th>
+                            <td style="color:blue;">${event.loca}</td>
+                        </tr>
+                        <tr>
+                            <th scope='col'>ผู้บันทึก</th>
+                            <td style="color:blue;">${event.drivestatus}</td>
+                        </tr>
+                        <tr>
+                            <th scope='col'>อื่นๆ</th>
+                            <td style="color:blue;">${event.other}</td>
+                        </tr>
+                         <tr>
+                            <th scope='col'>สถานะ</th>
+                            <td style="color:blue;">${event.status}</td>
+                        </tr>
+                         <tr>
+                            <th scope='col'>ผู้บันทึก</th>
+                            <td style="color:blue;">${event.approve}</td>
+                        </tr>
+                      
+                    </table>
+                `,
+                confirmButtonText: 'Close',
+                showCloseButton: true,
+                customClass: {
+                confirmButton: 'swal-confirm-button-green' // เพิ่ม class สำหรับปุ่ม confirm
+                }
+                
+            });
+        }
+    });
+});
+  
+
+  </script>

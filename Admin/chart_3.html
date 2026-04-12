@@ -1,0 +1,283 @@
+<div class="dashboard-container">
+  <div class="header_2">
+    <h1>สถานภาพการใช้น้ำมันเชื้อเพลิง</h1>
+    <div class="date-display" id="current-date-dashboard_2"></div>
+  </div>
+
+  <div class="chart-grid">
+    <!-- Chart 1: Bar Chart (รายปี) -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">การใช้น้ำมันเชื้อเพลิงรายปี</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="fuelUsageYearlyChart"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+
+    <!-- Chart 2: Bar Chart (รายเดือน) -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">การใช้น้ำมันเชื้อเพลิงรายเดือน</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="fuelUsageMonthlyChart"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+
+    <!-- Chart 3: Bar Chart (รายสัปดาห์) -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">การใช้น้ำมันเชื้อเพลิงรายสัปดาห์</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="fuelUsageWeeklyChart"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+
+    <!-- Chart 4: Bar Chart (รายวัน) -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">การใช้น้ำมันเชื้อเพลิงรายวัน</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="fuelUsageDailyChart"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+
+    <!-- Chart 5: Bar Chart (สรุปรายเดือน) -->
+    <!-- <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">น้ำมันคงเหลือรายเดือน</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="fuelRemainingMonthlyChart"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div> -->
+
+    <!-- Chart 6: Line Chart (สถิติการใช้งานน้ำมัน) -->
+    <!-- <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">สถิติการใช้งานน้ำมัน</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="fuelUsageStatsChart"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div> -->
+  </div>
+</div>
+
+<!-- Set current date in Thai format -->
+<script>
+  document.getElementById('current-date-dashboard_2').textContent = new Date().toLocaleDateString('th-TH', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long'
+  });
+</script>
+
+<!-- Chart.js Scripts -->
+<script>
+  // ข้อมูลตัวอย่างสำหรับกราฟรายปี
+  const fuelUsageYearlyData = {
+    labels: ['2560', '2561', '2562', '2563', '2564', '2565', '2566'],
+    datasets: [
+      {
+        label: 'ดีเซล',
+        data: [1500, 1600, 1700, 1800, 1900, 2000, 2100],
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      },
+      {
+        label: 'แก๊สโซฮอล์',
+        data: [1200, 1300, 1400, 1500, 1600, 1700, 1800],
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }
+    ]
+  };
+
+  // ข้อมูลตัวอย่างสำหรับกราฟรายเดือน
+  const fuelUsageMonthlyData = {
+    labels: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
+    datasets: [
+      {
+        label: 'ดีเซล',
+        data: [150, 180, 160, 200, 170, 190, 210, 220, 200, 190, 180, 230],
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      },
+      {
+        label: 'แก๊สโซฮอล์',
+        data: [120, 140, 130, 160, 150, 170, 180, 190, 170, 160, 150, 200],
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }
+    ]
+  };
+
+  // ข้อมูลตัวอย่างสำหรับกราฟรายสัปดาห์
+  const fuelUsageWeeklyData = {
+    labels: ['สัปดาห์ 1', 'สัปดาห์ 2', 'สัปดาห์ 3', 'สัปดาห์ 4'],
+    datasets: [
+      {
+        label: 'ดีเซล',
+        data: [50, 60, 55, 65],
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      },
+      {
+        label: 'แก๊สโซฮอล์',
+        data: [40, 50, 45, 55],
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }
+    ]
+  };
+
+  // ข้อมูลตัวอย่างสำหรับกราฟรายวัน
+  const fuelUsageDailyData = {
+    labels: ['วันจันทร์', 'วันอังคาร', 'วันพุธ', 'วันพฤหัสบดี', 'วันศุกร์', 'วันเสาร์', 'วันอาทิตย์'],
+    datasets: [
+      {
+        label: 'ดีเซล',
+        data: [20, 22, 21, 23, 24, 20, 18],
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      },
+      {
+        label: 'แก๊สโซฮอล์',
+        data: [15, 17, 16, 18, 19, 15, 14],
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }
+    ]
+  };
+
+  // ฟังก์ชันสำหรับสร้างกราฟแท่ง
+  function createFuelUsageBarChart(ctx, data, title) {
+    return new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: title
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  // ฟังก์ชันสำหรับสร้างกราฟเส้น
+  function createFuelUsageLineChart(ctx, data, title) {
+    return new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: title
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  // สร้างกราฟ
+  const yearlyCtx = document.getElementById('fuelUsageYearlyChart').getContext('2d');
+  const monthlyCtx = document.getElementById('fuelUsageMonthlyChart').getContext('2d');
+  const weeklyCtx = document.getElementById('fuelUsageWeeklyChart').getContext('2d');
+  const dailyCtx = document.getElementById('fuelUsageDailyChart').getContext('2d');
+  const remainingCtx = document.getElementById('fuelRemainingMonthlyChart').getContext('2d');
+  const usageStatsCtx = document.getElementById('fuelUsageStatsChart').getContext('2d');
+
+  createFuelUsageBarChart(yearlyCtx, fuelUsageYearlyData, 'การใช้น้ำมันเชื้อเพลิงรายปี');
+  createFuelUsageBarChart(monthlyCtx, fuelUsageMonthlyData, 'การใช้น้ำมันเชื้อเพลิงรายเดือน');
+  createFuelUsageBarChart(weeklyCtx, fuelUsageWeeklyData, 'การใช้น้ำมันเชื้อเพลิงรายสัปดาห์');
+  createFuelUsageBarChart(dailyCtx, fuelUsageDailyData, 'การใช้น้ำมันเชื้อเพลิงรายวัน');
+
+  // ข้อมูลสำหรับกราฟสรุปรายเดือน
+  const fuelRemainingData = {
+    labels: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
+    datasets: [
+      {
+        label: 'น้ำมันคงเหลือ',
+        data: [100, 120, 110, 130, 140, 150, 160, 170, 180, 190, 200, 210],
+        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 1
+      }
+    ]
+  };
+
+  createFuelUsageBarChart(remainingCtx, fuelRemainingData, 'น้ำมันคงเหลือรายเดือน');
+
+  // ข้อมูลสำหรับกราฟสถิติการใช้งานน้ำมัน
+  const fuelUsageStatsData = {
+    labels: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
+    datasets: [
+      {
+        label: 'ดีเซล',
+        data: [150, 180, 160, 200, 170, 190, 210, 220, 200, 190, 180, 230],
+        borderColor: 'rgba(75, 192, 192, 1)',
+        fill: false
+      },
+      {
+        label: 'แก๊สโซฮอล์',
+        data: [120, 140, 130, 160, 150, 170, 180, 190, 170, 160, 150, 200],
+        borderColor: 'rgba(255, 99, 132, 1)',
+        fill: false
+      }
+    ]
+  };
+
+  createFuelUsageLineChart(usageStatsCtx, fuelUsageStatsData, 'สถิติการใช้งานน้ำมัน');
+</script>

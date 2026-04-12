@@ -1,0 +1,620 @@
+<!-- <style>
+  #cardailytoday td {
+    font-weight: normal;
+    /* ให้เป็นตัวบาง */
+    font-size: 14px;
+    color: #333;
+  }
+  /* จัดข้อความในตารางให้อยู่ตรงกลาง */
+#cardailytoday td, #cardailytoday th {
+    /* text-align: center; จัดข้อความในแนวนอน */
+    vertical-align: middle; /* จัดข้อความในแนวตั้ง */
+}
+  #cardailytoday {
+    table-layout: fixed;
+    width: 100%;
+}
+#cardailytoday tbody tr {
+    height: 50px; /* กำหนดความสูงของแถว */
+}
+
+#cardailytoday tbody td {
+    overflow: hidden; /* ซ่อนเนื้อหาที่เกิน */
+    white-space: nowrap; /* ไม่ให้ข้อความขึ้นบรรทัดใหม่ */
+    text-overflow: ellipsis; /* แสดง ... เมื่อข้อความยาวเกิน */
+}
+#cardailytoday thead th {
+    height: 30px; /* กำหนดความสูงของหัวคอลัมน์ */
+    overflow: hidden; /* ซ่อนเนื้อหาที่เกิน */
+    white-space: nowrap; /* ไม่ให้ข้อความขึ้นบรรทัดใหม่ */
+    text-overflow: ellipsis; /* แสดง ... เมื่อข้อความยาวเกิน */
+    background-color: #add8e6; /* สีพื้นหลัง */
+    border: 1px solid #dee2e6; /* เส้นขอบ */
+}
+
+#cardailytoday thead th:first-child {
+    border-top-left-radius: 10px; /* ขอบมนด้านบนซ้าย */
+    border-bottom-left-radius: 10px; /* ขอบมนด้านล่างซ้าย */
+}
+
+#cardailytoday thead th:last-child {
+    border-top-right-radius: 10px; /* ขอบมนด้านบนขวา */
+    border-bottom-right-radius: 10px; /* ขอบมนด้านล่างขวา */
+}
+
+</style>
+
+<h1 class="mb-2"><i class="fa-solid fa-clock"></i> ทุ่งสีกัน 2 อาคาร 10 สวฝ.ยก.ทหาร รับผิดชอบ (อาคารช้้นประทวน)</h1>
+
+<div class="table-responsive"><br>
+
+    <table id="cardailytoday" class="table table-striped table-sm table table-hover align-middle"
+        style="width:100%; font-size:14px;">
+        <thead class="bg-primary text-white"></thead>
+    </table>
+</div>
+
+<script>
+    google.script.run.withSuccessHandler(cardailyshowData).cardailygetData()
+        
+function cardailyshowData(dataSet){
+    header = dataSet[0]
+    //console.log(header)
+    new DataTable('#cardailytoday', {
+    columns: [
+        { title: header[0] },
+        { title: header[1]},
+        { title: header[2]},
+        { title: header[3] },
+        { title: header[4]},
+        { title: header[5] },
+        { title: header[6]},
+        { title: header[7]},
+        { title: header[8]},
+        { title: header[9]},
+        { title: header[10]},
+        { title: header[11]},
+        { title: header[12]},
+       
+        { title: 'ดูข้อมูล' ,    
+        targets: 13,
+            data: null,
+            defaultContent: '&nbsp&nbsp&nbsp<i class="fa-solid fa-eye fa-xl" style="color: #0000ff;cursor: pointer;" onclick="cardailyeditData(this);"></i>',
+        }, 
+        
+    ],
+    data: dataSet.slice(1),
+    bFilter: true,
+    //responsive: true,
+    oder:false,
+     language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/th.json',
+    },
+     "destroy": true,
+      order: [[0, 'asc']],
+      columnDefs:[
+          {
+          targets: [13],className: 'all',},
+       ],
+      //จำกัดให้แสดงปุ่มหน้าตามจำนวนที่ต้องการ
+         initComplete: function(settings){
+          var api = new $.fn.dataTable.Api( settings );
+          $('.table-filter-container', api.table().container()).append(
+          );
+
+           $('#table-filter select').on('change', function(){
+             table.columns(13).search(this.value).draw();   
+          });
+          }
+      });    
+        //It will show only 4 pager buttons.
+    $.fn.DataTable.ext.pager.numbers_length = 5;
+    }
+
+
+function cardailyeditData(el) {
+    var numid_cardaily = el.parentNode.parentNode.cells[0].innerText;
+    var name_cardaily = el.parentNode.parentNode.cells[1].innerText;
+    var dep_cardaily = el.parentNode.parentNode.cells[2].innerText;
+    var car_cardaily = el.parentNode.parentNode.cells[3].innerText;
+    var loca_cardaily = el.parentNode.parentNode.cells[4].innerText;
+    var startDate_cardaily = el.parentNode.parentNode.cells[5].innerText;
+    var startTime_cardaily = el.parentNode.parentNode.cells[6].innerText;
+    var endDate_cardaily = el.parentNode.parentNode.cells[7].innerText;
+    var endTime_cardaily = el.parentNode.parentNode.cells[8].innerText;
+    var driver_cardaily = el.parentNode.parentNode.cells[9].innerText;
+    var other_cardaily = el.parentNode.parentNode.cells[10].innerText;
+    var preapprove_cardaily = el.parentNode.parentNode.cells[11].innerText;
+    var approve_cardaily = el.parentNode.parentNode.cells[12].innerText;
+
+    // สร้างตาราง HTML
+    var table = `<br>
+        <table class='table table-bordered table-striped table-hover text-start' style="width:100%">
+             <thead  class='bg-primary text-white'>
+                <tr>   
+                <th colspan='2' class='text-center'>ข้อมูลทั้งหมด</th>
+                </tr> 
+              </thead>
+            <tr>
+                <th scope='col'>ไอดี</th>
+                <td style="color:blue;">${numid_cardaily}</td>
+            </tr>
+            <tr>
+                <th scope='col'>ชื่อ สกุล</th>
+                <td style="color:blue;">${name_cardaily}</td>
+            </tr>
+            <tr>
+               <th scope='col'>แผนก</th>
+               <td style="color:blue;">${dep_cardaily}</td>
+            </tr>
+            <tr>
+                <th scope='col'>รถ</th>
+                <td style="color:blue;">${car_cardaily}</td>
+            </tr>
+            <tr>
+                <th scope='col'>สถานที่</th>
+                <td style="color:blue;">${loca_cardaily}</td>
+            </tr>
+            <tr>
+                <th scope='col'>วันที่เริ่ม</th>
+                <td style="color:blue;">${startDate_cardaily}</td>
+            </tr>
+            <tr>
+                <th scope='col'>เวลาเริ่ม</th>
+                <td style="color:blue;">${startTime_cardaily}</td>
+            </tr>
+            <tr>
+                <th scope='col'>วันที่สิ้นสุด</th>
+                <td style="color:blue;">${endDate_cardaily}</td>
+            </tr>
+            <tr>
+                <th scope='col'>เวลาสิ้นสุด</th>
+                <td style="color:blue;">${endTime_cardaily}</td>
+            </tr>
+              <tr>
+                <th scope='col'>สถานะการขับ</th>
+                <td style="color:blue;">${driver_cardaily}</td>
+            </tr>
+            <tr>
+                <th scope='col'>อื่น ๆ</th>
+                <td style="color:blue;">${other_cardaily}</td>
+            </tr>
+              <tr>
+                <th scope='col'>สถานะ</th>
+                <td style="color:blue;">${preapprove_cardaily}</td>
+            </tr>
+             <tr>
+                <th scope='col'>ผู้อนุมัติ</th>
+                <td style="color:blue;">${approve_cardaily}</td>
+            </tr>
+        </table>
+    `;
+
+    // แสดงข้อมูลในรูปแบบของตารางในหน้าต่างแจ้งเตือนของ SweetAlert2
+    Swal.fire({
+        //title: 'ข้อมูลการจองรถ',
+        html: table,
+        confirmButtonText: 'ปิด',
+        showCloseButton: true // เพิ่ม property showCloseButton เพื่อแสดงปุ่มปิดด้านบน
+    });
+}
+
+</script> -->
+
+<style>
+  #cardailytoday td {
+    font-weight: normal;
+    /* ให้เป็นตัวบาง */
+    font-size: 14px;
+    color: #333;
+  }
+  /* จัดข้อความในตารางให้อยู่ตรงกลาง */
+#cardailytoday td, #cardailytoday th {
+    /* text-align: center; จัดข้อความในแนวนอน */
+    vertical-align: middle; /* จัดข้อความในแนวตั้ง */
+}
+  #cardailytoday {
+    table-layout: fixed;
+    width: 100%;
+}
+#cardailytoday tbody tr {
+    height: 50px; /* กำหนดความสูงของแถว */
+}
+
+#cardailytoday tbody td {
+    overflow: hidden; /* ซ่อนเนื้อหาที่เกิน */
+    white-space: nowrap; /* ไม่ให้ข้อความขึ้นบรรทัดใหม่ */
+    text-overflow: ellipsis; /* แสดง ... เมื่อข้อความยาวเกิน */
+}
+#cardailytoday thead th {
+    height: 30px; /* กำหนดความสูงของหัวคอลัมน์ */
+    overflow: hidden; /* ซ่อนเนื้อหาที่เกิน */
+    white-space: nowrap; /* ไม่ให้ข้อความขึ้นบรรทัดใหม่ */
+    text-overflow: ellipsis; /* แสดง ... เมื่อข้อความยาวเกิน */
+    background-color: #add8e6; /* สีพื้นหลัง */
+    border: 1px solid #dee2e6; /* เส้นขอบ */
+}
+
+#cardailytoday thead th:first-child {
+    border-top-left-radius: 10px; /* ขอบมนด้านบนซ้าย */
+    border-bottom-left-radius: 10px; /* ขอบมนด้านล่างซ้าย */
+}
+
+#cardailytoday thead th:last-child {
+    border-top-right-radius: 10px; /* ขอบมนด้านบนขวา */
+    border-bottom-right-radius: 10px; /* ขอบมนด้านล่างขวา */
+}
+</style>
+
+    <h1 class="mb-2"><i class="fa-solid fa-building"></i> ทุ่งสีกัน 2 อาคาร 10 สวฝ.ยก.ทหาร รับผิดชอบ (อาคารช้้นประทวน)</h1>
+
+    <div class="table-responsive">
+        <table id="cardailytoday" class="table table-striped table-sm table table-hover align-middle" style="width:100%; font-size:14px;">
+            <thead class="bg-primary text-black"></thead>
+        </table>
+    </div>
+
+    <!-- <script>
+        // เรียกใช้ฟังก์ชันเพื่อดึงข้อมูลจาก Google Apps Script
+        google.script.run.withSuccessHandler(cardailyshowData).cardailygetData();
+
+        function cardailyshowData(dataSet) {
+            const header = dataSet[0];
+            $('#cardailytoday').DataTable({
+                columns: header.map(title => ({ title })).concat([
+                    {
+                        title: 'ดูข้อมูล',
+                        targets: header.length,
+                        data: null,
+                        defaultContent: '&nbsp&nbsp&nbsp<i class="fa-solid fa-eye fa-xl" style="color: #0000ff;cursor: pointer;" onclick="cardailyeditData(this);"></i>',
+                    }
+                ]),
+                data: dataSet.slice(1),
+                bFilter: true,
+                order: [[0, 'asc']],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/th.json',
+                },
+                destroy: true,
+                columnDefs: [
+                    { targets: [header.length], className: 'all' }
+                ],
+                initComplete: function(settings) {
+                    var api = new $.fn.dataTable.Api(settings);
+                    $('#table-filter select').on('change', function() {
+                        table.columns(header.length).search(this.value).draw();
+                    });
+                }
+            });
+            $.fn.DataTable.ext.pager.numbers_length = 5;
+        }
+
+        function cardailyeditData(el) {
+            const row = el.parentNode.parentNode;
+            const data = Array.from(row.cells).map(cell => cell.innerText);
+
+            const table = `<br>
+                <table class='table table-bordered table-striped table-hover text-start' style="width:100%">
+                    <thead class='bg-primary text-white'>
+                        <tr>
+                            <th colspan='2' class='text-center'>ข้อมูลทั้งหมด</th>
+                        </tr>
+                    </thead>
+                    <tr><th scope='col'>ลำดับ</th><td style="color:blue;">${data[0]}</td></tr>
+                    <tr><th scope='col'>หมายเลขห้อง</th><td style="color:blue;">${data[1]}</td></tr>
+                    <tr><th scope='col'>พื้นที่</th><td style="color:blue;">${data[2]}</td></tr>
+                    <tr><th scope='col'>ชั้น</th><td style="color:blue;">${data[3]}</td></tr>
+                    <tr><th scope='col'>หมายเลขอาคาร</th><td style="color:blue;">${data[4]}</td></tr>
+                    <tr><th scope='col'>ประเภท</th><td style="color:blue;">${data[5]}</td></tr>
+                    <tr><th scope='col'>ยศ</th><td style="color:blue;">${data[6]}</td></tr>
+                    <tr><th scope='col'>ชื่อ</th><td style="color:blue;">${data[7]}</td></tr>
+                    <tr><th scope='col'>นามสกุล</th><td style="color:blue;">${data[8]}</td></tr>
+                    <tr><th scope='col'>ตำแหน่ง</th><td style="color:blue;">${data[9]}</td></tr>
+                    <tr><th scope='col'>สังกัด</th><td style="color:blue;">${data[10]}</td></tr>
+                    <tr><th scope='col'>สถานะการจัด</th><td style="color:blue;">${data[11]}</td></tr>
+                    <tr><th scope='col'>จำนวนผู้พักอาศัยตามทะเบียนบ้าน</th><td style="color:blue;">${data[12]}</td></tr>
+                    <tr><th scope='col'>รายชื่อผู้พักอาศัยในทะเบียนบ้าน</th><td style="color:blue;">${data[13]}</td></tr>
+                    <tr><th scope='col'>เบอร์โทร</th><td style="color:blue;">${data[14]}</td></tr>
+                    <tr><th scope='col'>พักอาศัยเอง</th><td style="color:blue;">${data[15]}</td></tr>
+                    <tr><th scope='col'>ให้ญาติพัก</th><td style="color:blue;">${data[16]}</td></tr>
+                    <tr><th scope='col'>ไม่อยู่บ้าน</th><td style="color:blue;">${data[17]}</td></tr>
+                    <tr><th scope='col'>รายละเอียด</th><td style="color:blue;">${data[18]}</td></tr>
+                </table>`;
+
+            Swal.fire({
+                html: table,
+                confirmButtonText: 'ปิด',
+                showCloseButton: true
+            });
+        }
+    </script> -->
+
+<div class="modal" id="detailsModal_1A">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #add8e6;">
+                <h4 class="modal-title text-black">รายละเอียด</h4>
+                <button type="button" id="closeModalBtn_2B" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="detailsForm_3C" onsubmit="submitDetailsForm(this)" class="row g-2">
+                    <input type="text" id="recordId_8A2B" name="recordId_8A2B" hidden>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspหมายเลขห้อง</label>
+                        <input type="text" class="form-control" id="roomNumber_4D3E" name="roomNumber_4D3E" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspพื้นที่</label>
+                        <input type="text" class="form-control" id="area_5F4G" name="area_5F4G" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspชั้น</label>
+                        <input type="text" class="form-control" id="floor_6H5I" name="floor_6H5I" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspอาคารหมายเลข</label>
+                        <input type="text" class="form-control" id="buildingNumber_7J6K" name="buildingNumber_7J6K" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspประเภท</label>
+                        <input type="text" class="form-control" id="type_8L7M" name="type_8L7M" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspยศ</label>
+                        <input type="text" class="form-control" id="rank_9N8O" name="rank_9N8O" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspชื่อ</label>
+                        <input type="text" class="form-control" id="firstName_1P9Q" name="firstName_1P9Q" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspนามสกุล</label>
+                        <input type="text" class="form-control" id="lastName_2R1S" name="lastName_2R1S" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspตำแหน่ง</label>
+                        <input type="text" class="form-control" id="position_3T2U" name="position_3T2U" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspสังกัด</label>
+                        <input type="text" class="form-control" id="affiliation_4V3W" name="affiliation_4V3W" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspสถานะการจัด</label>
+                        <input type="text" class="form-control" id="status_5X4Y" name="status_5X4Y" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspจำนวนผู้พักอาศัย</label>
+                        <input type="text" class="form-control" id="residentCount_6Z5A" name="residentCount_6Z5A" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-9 mb-2">
+                        <label>&nbspรายชื่อผู้พักอาศัยในทะเบียนบ้าน</label>
+                        <input type="text" class="form-control" id="residentNames_7B6C" name="residentNames_7B6C" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspเบอร์โทร</label>
+                        <input type="text" class="form-control" id="phoneNumber_8D7E" name="phoneNumber_8D7E" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspพักอาศัยเอง</label>
+                        <input type="text" class="form-control" id="livesAlone_9F8G" name="livesAlone_9F8G" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspให้ญาติพัก</label>
+                        <input type="text" class="form-control" id="relativeStay_1H9I" name="relativeStay_1H9I" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspไม่อยู่บ้าน</label>
+                        <input type="text" class="form-control" id="notAtHome_2J1K" name="notAtHome_2J1K" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-12 col-md-3 mb-2">
+                        <div class="form-group">
+                            <label>&nbspชื่อผู้ใช้งาน</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
+                                <input type="text" class="form-control" id="apporve_approve2" name="apporve_approve2" style="color:blue;" readonly required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="additionalNotes_4N3O" class="form-label">*บันทึกข้อความเพิ่มเติม</label>
+                        <textarea id="additionalNotes_4N3O" name="additionalNotes_4N3O" class="form-control"></textarea>
+                    </div>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    google.script.run.withSuccessHandler(cardailyshowData).cardailygetData()
+
+    function cardailyshowData(dataSet) {
+    // เพิ่มคอลัมน์ว่างใน dataSet ถ้าจำนวนคอลัมน์ไม่ตรงกับที่ต้องการ
+    dataSet = dataSet.map(row => {
+        while (row.length < 19) { // 19 คือจำนวนคอลัมน์ที่ต้องการ (0-18)
+            row.push(''); // เพิ่มคอลัมน์ว่าง
+        }
+        return row;
+    });
+
+    table = new DataTable('#cardailytoday', {
+        columns: [
+            { title: 'ลำดับ', width: '3%' }, // กำหนดความกว้าง 3%
+            { title: 'หมายเลขห้อง', width: '5%' }, // กำหนดความกว้าง 5%
+            { title: 'พื้นที่', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'ชั้น', width: '5%' }, // กำหนดความกว้าง 5%
+            { title: 'หมายเลขอาคาร', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'ประเภท', width: '5%' }, // กำหนดความกว้าง 5%
+            { title: 'ยศ', width: '5%' }, // กำหนดความกว้าง 5%
+            { title: 'ชื่อ', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'นามสกุล', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'ตำแหน่ง', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'สังกัด', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'สถานะการจัด', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'จำนวนผู้พักอาศัยตามทะเบียนบ้าน', width: '10%' }, // กำหนดความกว้าง 10%
+            { title: 'รายชื่อผู้พักอาศัยในทะเบียนบ้าน', width: '10%' }, // กำหนดความกว้าง 10%
+            { title: 'เบอร์โทร', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'พักอาศัยเอง', width: '5%' }, // กำหนดความกว้าง 5%
+            { title: 'ให้ญาติพัก', width: '5%' }, // กำหนดความกว้าง 5%
+            { title: 'ไม่อยู่บ้าน', width: '5%' }, // กำหนดความกว้าง 5%
+            {
+                title: 'รายละเอียด', // ย้ายคอลัมน์ "รายละเอียด" ไปไว้ที่ตำแหน่งสุดท้าย
+                width: '7%', // กำหนดความกว้าง 7%
+                render: function (data) {
+                    if (data === "Active") {
+                        return `<span class='badge bg-success text-white sfont'
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#detailsModal_1A" type="button"
+                                    onclick="cardailytoday_edit(this);"></i>ดูข้อมูล</span>`;
+                    } else if (data === "InActive") {
+                        data = "<span class='badge bg-danger text-white sfont'>ว่าง</span>";
+                    } else if (data === "ไม่อนุมัติ") {
+                        data = "<span class='badge bg-danger text-white sfont'>ไม่อนุมัติ</span>";
+                    } else if (data === "ยกเลิกการจองรถ") {
+                        data = "<span class='badge bg-danger text-white sfont'>ยกเลิกการจองรถ</span>";
+                    } else if (data === "ส่งคืน") {
+                        data = "<span class='badge bg-info text-white sfont'>ส่งคืน</span>";
+                    } else if (data === "กำลังใช้งาน") {
+                        data = "<span class='badge bg-primary text-white sfont'>กำลังใช้งาน</span>";
+                    }
+                    return data;
+                }
+            }
+        ],
+        data: dataSet.slice(1),
+        bFilter: true,
+        responsive: true, // เปิดใช้งาน responsive
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/th.json',
+        },
+        "destroy": true,
+        order: [[0, 'asc']],
+        columnDefs: [
+            // {
+            //     targets: '_all', // กำหนดให้ทุกคอลัมน์มีความกว้างเท่ากัน
+            //     className: 'dt-center', // จัดข้อความตรงกลาง
+            // },
+            {
+                targets: [1, 6, 7, 18], // คอลัมน์ที่ต้องการแสดงบนหน้าจอขนาดเล็ก (ลำดับ, หมายเลขห้อง, ยศ, ชื่อ, สกุล, สังกัด, ปุ่มดูข้อมูล)
+                className: 'all', // แสดงบนหน้าจอทุกขนาด
+            },
+            {
+                targets: [0, 2, 3, 4,5,8,9,10,11,12,13,14,15,16], // คอลัมน์ที่ 8 (เริ่มนับจาก 0)
+                className: 'dt-left', // ใช้คลาสที่กำหนดให้ข้อความชิดซ้าย
+            },
+        ],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            $('.table-filter-container', api.table().container()).append(
+            );
+
+            $('#table-filter select').on('change', function () {
+                table.columns(18).search(this.value).draw();
+            });
+        }
+    });
+    //It will show only 4 pager buttons.
+    $.fn.DataTable.ext.pager.numbers_length = 5;
+}
+
+function cardailytoday_edit(el) {
+    var row = el.parentNode.parentNode;
+    var recordId_8A2B = row.cells[0].innerText || '';
+    var roomNumber_4D3E = row.cells[1].innerText || '';
+    var area_5F4G = row.cells[2].innerText || '';
+    var floor_6H5I = row.cells[3].innerText || '';
+    var buildingNumber_7J6K = row.cells[4].innerText || '';
+    var type_8L7M = row.cells[5].innerText || '';
+    var rank_9N8O = row.cells[6].innerText || '';
+    var firstName_1P9Q = row.cells[7].innerText || '';
+    var lastName_2R1S = row.cells[8].innerText || '';
+    var position_3T2U = row.cells[9].innerText || '';
+    var affiliation_4V3W = row.cells[10].innerText || '';
+    var status_5X4Y = row.cells[11].innerText || '';
+    var residentCount_6Z5A = row.cells[12].innerText || '';
+    var residentNames_7B6C = row.cells[13].innerText || '';
+    var phoneNumber_8D7E = row.cells[14].innerText || '';
+    var livesAlone_9F8G = row.cells[15].innerText || '';
+    var relativeStay_1H9I = row.cells[16].innerText || '';
+    var notAtHome_2J1K = row.cells[17].innerText || '';
+
+    if (recordId_8A2B) {
+        document.getElementById('recordId_8A2B').value = recordId_8A2B;
+    }
+    if (roomNumber_4D3E) {
+        document.getElementById('roomNumber_4D3E').value = roomNumber_4D3E;
+    }
+    if (area_5F4G) {
+        document.getElementById('area_5F4G').value = area_5F4G;
+    }
+    if (floor_6H5I) {
+        document.getElementById('floor_6H5I').value = floor_6H5I;
+    }
+    if (buildingNumber_7J6K) {
+        document.getElementById('buildingNumber_7J6K').value = buildingNumber_7J6K;
+    }
+    if (type_8L7M) {
+        document.getElementById('type_8L7M').value = type_8L7M;
+    }
+    if (rank_9N8O) {
+        document.getElementById('rank_9N8O').value = rank_9N8O;
+    }
+    if (firstName_1P9Q) {
+        document.getElementById('firstName_1P9Q').value = firstName_1P9Q;
+    }
+    if (lastName_2R1S) {
+        document.getElementById('lastName_2R1S').value = lastName_2R1S;
+    }
+    if (position_3T2U) {
+        document.getElementById('position_3T2U').value = position_3T2U;
+    }
+    if (affiliation_4V3W) {
+        document.getElementById('affiliation_4V3W').value = affiliation_4V3W;
+    }
+    if (status_5X4Y) {
+        document.getElementById('status_5X4Y').value = status_5X4Y;
+    }
+    if (residentCount_6Z5A) {
+        document.getElementById('residentCount_6Z5A').value = residentCount_6Z5A;
+    }
+    if (residentNames_7B6C) {
+        document.getElementById('residentNames_7B6C').value = residentNames_7B6C;
+    }
+    if (phoneNumber_8D7E) {
+        document.getElementById('phoneNumber_8D7E').value = phoneNumber_8D7E;
+    }
+    if (livesAlone_9F8G) {
+        document.getElementById('livesAlone_9F8G').value = livesAlone_9F8G;
+    }
+    if (relativeStay_1H9I) {
+        document.getElementById('relativeStay_1H9I').value = relativeStay_1H9I;
+    }
+    if (notAtHome_2J1K) {
+        document.getElementById('notAtHome_2J1K').value = notAtHome_2J1K;
+    }
+}
+
+
+</script>

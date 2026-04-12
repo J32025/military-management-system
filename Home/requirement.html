@@ -1,0 +1,983 @@
+<style>
+.dashboard-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.summary-card {
+  flex: 1;
+  min-width: 200px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.summary-card.blue {
+  border-left: 4px solid #4e73df;
+}
+
+.summary-card.green {
+  border-left: 4px solid #1cc88a;
+}
+
+.summary-card.orange {
+  border-left: 4px solid #f6c23e;
+}
+
+.summary-card.purple {
+  border-left: 4px solid #8a63d2;
+}
+
+.summary-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.summary-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.summary-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 28px;
+  opacity: 0.2;
+  color: #333;
+}
+
+.summary-footer {
+  margin-top: auto;
+  font-size: 13px;
+  color: #666;
+  display: flex;
+  align-items: center;
+}
+
+.summary-progress {
+  height: 5px;
+  background-color: #eaecf4;
+  border-radius: 10px;
+  margin-top: 15px;
+  overflow: hidden;
+}
+
+.summary-progress-bar {
+  height: 100%;
+  border-radius: 10px;
+}
+
+.blue .summary-progress-bar {
+  background-color: #4e73df;
+}
+
+.green .summary-progress-bar {
+  background-color: #1cc88a;
+}
+
+.orange .summary-progress-bar {
+  background-color: #f6c23e;
+}
+
+.purple .summary-progress-bar {
+  background-color: #8a63d2;
+}
+
+@media screen and (max-width: 768px) {
+  .dashboard-summary {
+    flex-direction: column;
+  }
+  
+  .summary-card {
+    min-width: 100%;
+  }
+}
+</style>
+
+<h1 class="mb-2" id="titlerequirment"><i class="fa-solid fa-building"></i> สรุปข้อมูลความต้องการอาคารที่พักสวัสดิการ</h1>
+
+<div class="dashboard-summary">
+  <!-- Card สัญญาบัตร -->
+  <div class="summary-card blue">
+    <div class="summary-icon">
+      <i class="fa-solid fa-user-tie"></i>
+    </div>
+    <div class="summary-title">สัญญาบัตร</div>
+    <div class="summary-value" id="officer-count">1</div>
+    <div class="summary-footer">
+      <!-- <small><i class="fa-solid fa-calendar-days me-1"></i> <span id="last-updated">วันนี้</span></small> -->
+    </div>
+    <div class="summary-progress">
+      <div class="summary-progress-bar" style="width: 6%;"></div>
+    </div>
+  </div>
+  
+  <!-- Card ประทวน -->
+  <div class="summary-card green">
+    <div class="summary-icon">
+      <i class="fa-solid fa-user-shield"></i>
+    </div>
+    <div class="summary-title">ประทวน</div>
+    <div class="summary-value" id="nco-count">5</div>
+    <div class="summary-footer">
+      <!-- <small><i class="fa-solid fa-calendar-days me-1"></i>  <span id="last-updated-nco">วันนี้</span></small> -->
+    </div>
+    <div class="summary-progress">
+      <div class="summary-progress-bar" style="width: 31%;"></div>
+    </div>
+  </div>
+  
+  <!-- Card พนักงานราชการ -->
+  <div class="summary-card orange">
+    <div class="summary-icon">
+      <i class="fa-solid fa-user"></i>
+    </div>
+    <div class="summary-title">พนักงานราชการ</div>
+    <div class="summary-value" id="staff-count">10</div>
+    <div class="summary-footer">
+      <!-- <small><i class="fa-solid fa-calendar-days me-1"></i>  <span id="last-updated-staff">วันนี้</span></small> -->
+    </div>
+    <div class="summary-progress">
+      <div class="summary-progress-bar" style="width: 63%;"></div>
+    </div>
+  </div>
+  
+  <!-- Card รวมทั้งหมด -->
+  <div class="summary-card purple">
+    <div class="summary-icon">
+      <i class="fa-solid fa-users"></i>
+    </div>
+    <div class="summary-title">รวมทั้งหมด</div>
+    <div class="summary-value" id="total-count">16</div>
+    <div class="summary-footer">
+      <!-- <small><i class="fa-solid fa-calendar-days me-1"></i>  <span id="last-updated-total">วันนี้</span></small> -->
+    </div>
+    <div class="summary-progress">
+      <div class="summary-progress-bar" style="width: 100%;"></div>
+    </div>
+  </div>
+</div>
+
+    <style>
+        .dashboard_requir {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 15px;
+            margin-bottom: 20px;
+        }
+        .filter-panel {
+            grid-column: span 4;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 15px;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+        }
+        .panel {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .panel-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .panel-value {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        .filter-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .chart {
+            width: 100%;
+            height: 150px;
+        }
+        .gender-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        }
+        .male-icon, .female-icon {
+            text-align: center;
+            margin: 0 20px;
+        }
+        .male-icon svg {
+            fill: #4CAF50;
+        }
+        .female-icon svg {
+            fill: #F44336;
+        }
+        .gender-percentage {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .donut-chart {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+        .bar-chart-container {
+            height: 120px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+        }
+        .bar {
+            width: 30px;
+            background-color: #4CAF50;
+            margin: 0 5px;
+        }
+        .red-bar {
+            background-color: #F44336;
+        }
+        .bar-label {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .meter-chart {
+            position: relative;
+            width: 150px;
+            height: 75px;
+            margin: 0 auto;
+            overflow: hidden;
+            background-color: #f5f5f5;
+            border-radius: 150px 150px 0 0;
+        }
+        .meter-value {
+            position: absolute;
+            width: 150px;
+            height: 75px;
+            background-color: transparent;
+            border-radius: 150px 150px 0 0;
+            clip-path: polygon(50% 50%, 0 0, 100% 0);
+            transform-origin: 50% 100%;
+        }
+        .meter-needle {
+            position: absolute;
+            bottom: 0;
+            left: 75px;
+            width: 2px;
+            background-color: #000;
+            transform-origin: bottom center;
+        }
+        .area-chart {
+            height: 120px;
+            display: flex;
+            align-items: flex-end;
+        }
+        .stacked-bar {
+            width: 100%;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+        }
+        .stacked-segment {
+            width: 100%;
+        }
+        .pie-chart {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background: conic-gradient(
+                #ffcdd2 0% 10%, 
+                #F44336 10% 35%, 
+                #81c784 35% 50%,
+                #4CAF50 50% 100%
+            );
+            position: relative;
+        }
+        .pie-center {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            top: 30px;
+            left: 30px;
+        }
+        .mountain-chart {
+            height: 120px;
+            position: relative;
+        }
+        .mountain-point {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .mountain-label {
+            position: absolute;
+            font-size: 12px;
+            bottom: 0;
+            transform: translateX(-50%);
+        }
+        .mountain-value {
+            position: absolute;
+            font-size: 12px;
+            transform: translateX(-50%);
+        }
+        .note {
+            grid-column: span 4;
+            text-align: center;
+            font-style: italic;
+            color: #666;
+        }
+    </style>
+    
+    <div class="dashboard_requir">
+        <!-- Filter Panel -->
+        <div class="filter-panel">
+            <div>
+                <div class="panel-title">Filter</div>
+                <div class="filter-label">All Customer For August 2018</div>
+            </div>
+            <div>
+                <div class="filter-label">Year</div>
+                <select id="year-filter" onchange="updateDashboard()">
+                    <option value="2018" selected>2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                </select>
+            </div>
+            <div>
+                <div class="filter-label">Month</div>
+                <select id="month-filter" onchange="updateDashboard()">
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August" selected>August</option>
+                </select>
+            </div>
+            <div>
+                <div class="filter-label">Customer</div>
+                <select id="customer-filter" onchange="updateDashboard()">
+                    <option value="All Customer" selected>All Customer</option>
+                    <option value="Customer A">Customer A</option>
+                    <option value="Customer B">Customer B</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Number of Employee -->
+        <div class="panel">
+            <div class="panel-title">Number of Employee</div>
+            <div class="panel-value" id="employee-count">665</div>
+            <div class="bar-chart-container">
+                <div class="bar" style="height: 70px;"></div>
+                <div class="bar" style="height: 100px;"></div>
+                <div class="bar" style="height: 75px;"></div>
+                <div class="bar" style="height: 65px;"></div>
+                <div class="bar red-bar" style="height: 55px;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-around;">
+                <div class="bar-label">Mar</div>
+                <div class="bar-label">Apr</div>
+                <div class="bar-label">May</div>
+                <div class="bar-label">Jun</div>
+                <div class="bar-label">Jul</div>
+            </div>
+        </div>
+        
+        <!-- Employee Structure -->
+        <div class="panel">
+            <div class="panel-title">Employee Structure</div>
+            <div class="gender-icons">
+                <div class="male-icon">
+                    <svg height="60" width="30" viewBox="0 0 24 24">
+                        <path d="M12 2C9.24 2 7 4.24 7 7c0 2.38 1.67 4.38 3.9 4.87v2.13h-2v2h2v3h2v-3h2v-2h-2V11.87c2.23-.49 3.9-2.49 3.9-4.87 0-2.76-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
+                    </svg>
+                    <div class="gender-percentage">75%</div>
+                </div>
+                <div class="female-icon">
+                    <svg height="60" width="30" viewBox="0 0 24 24">
+                        <path d="M12 2C9.24 2 7 4.24 7 7c0 2.38 1.67 4.38 3.9 4.87v2.13h-3v2h3v3h2v-3h3v-2h-3V11.87c2.23-.49 3.9-2.49 3.9-4.87 0-2.76-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
+                    </svg>
+                    <div class="gender-percentage">35%</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Overhead Ratio -->
+        <div class="panel">
+            <div class="panel-title">Overhead Ratio</div>
+            <div class="panel-value" id="overhead-ratio">20.5%</div>
+            <div class="donut-chart">
+                <svg width="120" height="120" viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="50" fill="transparent" stroke="#4CAF50" stroke-width="20" />
+                    <circle cx="60" cy="60" r="50" fill="transparent" stroke="#F44336" stroke-width="20" stroke-dasharray="62.83 251.33" />
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Salary -->
+        <div class="panel">
+            <div class="panel-title">Salary</div>
+            <div class="panel-value" id="salary">$ 85,520</div>
+            <div class="bar-chart-container" style="height: 80px;">
+                <div class="bar" style="height: 80%;">
+                    <div style="text-align: center; color: white; padding-top: 10px;">80%</div>
+                </div>
+                <div class="bar" style="height: 82%;">
+                    <div style="text-align: center; color: white; padding-top: 10px;">82%</div>
+                </div>
+                <div class="bar" style="height: 84%;">
+                    <div style="text-align: center; color: white; padding-top: 10px;">84%</div>
+                </div>
+                <div class="bar" style="height: 86%;">
+                    <div style="text-align: center; color: white; padding-top: 10px;">86%</div>
+                </div>
+                <div class="bar" style="height: 88%;">
+                    <div style="text-align: center; color: white; padding-top: 10px;">88%</div>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-around;">
+                <div class="bar-label">Mar</div>
+                <div class="bar-label">Apr</div>
+                <div class="bar-label">May</div>
+                <div class="bar-label">Jun</div>
+                <div class="bar-label">Jul</div>
+            </div>
+        </div>
+        
+        <!-- Revenue Per Staff -->
+        <div class="panel">
+            <div class="panel-title">Revenue Per Staff</div>
+            <div class="panel-value" id="revenue-per-staff">$ 520,250</div>
+            <div class="meter-chart">
+                <div class="meter-value" style="background: linear-gradient(90deg, #F44336, #FFEB3B, #4CAF50);"></div>
+                <div class="meter-needle" style="height: 60px; transform: rotate(30deg);"></div>
+            </div>
+            <div style="margin-top: 15px; display: flex; justify-content: space-between; font-size: 12px;">
+                <div>0%</div>
+                <div>25%</div>
+                <div>50%</div>
+                <div>75%</div>
+                <div>100%</div>
+            </div>
+        </div>
+        
+        <!-- Education Spending -->
+        <div class="panel">
+            <div class="panel-title">Education Spending</div>
+            <div class="panel-value" id="education-spending">$ 120,250</div>
+            <div class="area-chart">
+                <svg width="100%" height="100%">
+                    <polyline
+                        points="10,60 40,45 70,25 100,15 130,30"
+                        style="fill:none;stroke:#4CAF50;stroke-width:2"
+                    />
+                    <text x="10" y="80" style="font-size: 10px;">Mar</text>
+                    <text x="40" y="80" style="font-size: 10px;">Apr</text>
+                    <text x="70" y="80" style="font-size: 10px;">May</text>
+                    <text x="100" y="80" style="font-size: 10px;">Jun</text>
+                    <text x="130" y="80" style="font-size: 10px;">Jul</text>
+                    
+                    <text x="10" y="65" style="font-size: 10px;">70%</text>
+                    <text x="40" y="50" style="font-size: 10px;">65%</text>
+                    <text x="70" y="30" style="font-size: 10px;">80%</text>
+                    <text x="100" y="20" style="font-size: 10px;">90%</text>
+                    <text x="130" y="35" style="font-size: 10px;">75%</text>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Education / Head -->
+        <div class="panel">
+            <div class="panel-title">Education / Head</div>
+            <div class="panel-value" id="education-per-head">$ 250</div>
+            <div class="mountain-chart">
+                <div class="mountain-point" style="left: 20%; top: 65%;"></div>
+                <div class="mountain-point" style="left: 35%; top: 75%;"></div>
+                <div class="mountain-point" style="left: 50%; top: 40%;"></div>
+                <div class="mountain-point" style="left: 65%; top: 30%;"></div>
+                <div class="mountain-point" style="left: 80%; top: 65%;"></div>
+                
+                <div class="mountain-label" style="left: 20%;">MAR</div>
+                <div class="mountain-label" style="left: 35%;">APR</div>
+                <div class="mountain-label" style="left: 50%;">MAY</div>
+                <div class="mountain-label" style="left: 65%;">JUN</div>
+                <div class="mountain-label" style="left: 80%;">JUL</div>
+                
+                <div class="mountain-value" style="left: 20%; top: 60%;">195</div>
+                <div class="mountain-value" style="left: 35%; top: 70%;">155</div>
+                <div class="mountain-value" style="left: 50%; top: 35%;">275</div>
+                <div class="mountain-value" style="left: 65%; top: 25%;">255</div>
+                <div class="mountain-value" style="left: 80%; top: 60%;">185</div>
+                
+                <svg width="100%" height="100%">
+                    <polyline
+                        points="20%,65% 35%,75% 50%,40% 65%,30% 80%,65%"
+                        style="fill:none;stroke:#4CAF50;stroke-width:2"
+                    />
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Avg Salary -->
+        <div class="panel">
+            <div class="panel-title">Avg Salary</div>
+            <div class="panel-value" id="avg-salary">$ 630</div>
+            <div class="bar-chart-container">
+                <div class="bar red-bar" style="height: 30px;"></div>
+                <div class="bar red-bar" style="height: 40px;"></div>
+                <div class="bar red-bar" style="height: 50px;"></div>
+                <div class="bar red-bar" style="height: 60px;"></div>
+                <div class="bar red-bar" style="height: 70px;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-around;">
+                <div class="bar-label">Mar</div>
+                <div class="bar-label">Apr</div>
+                <div class="bar-label">May</div>
+                <div class="bar-label">Jun</div>
+                <div class="bar-label">Jul</div>
+            </div>
+        </div>
+        
+        <!-- Stick Leave -->
+        <div class="panel">
+            <div class="panel-title">Stick Leave</div>
+            <div class="panel-value" id="stick-leave">10.8%</div>
+            <div class="donut-chart">
+                <svg width="120" height="120" viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="50" fill="transparent" stroke="#4CAF50" stroke-width="20" />
+                    <circle cx="60" cy="60" r="50" fill="transparent" stroke="#F44336" stroke-width="20" stroke-dasharray="31.42 282.74" />
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Overtime Ratio -->
+        <div class="panel">
+            <div class="panel-title">Overtime Ratio</div>
+            <div class="panel-value" id="overtime-ratio">10.5</div>
+            <div class="stacked-bar">
+                <div class="stacked-segment" style="height: 20%; background-color: #F44336;"></div>
+                <div class="stacked-segment" style="height: 80%; background-color: #4CAF50;"></div>
+            </div>
+        </div>
+        
+        <!-- Regional Split -->
+        <div class="panel">
+            <div class="panel-title">Regional Split</div>
+            <div class="pie-chart">
+                <div class="pie-center"></div>
+            </div>
+            <div style="margin-top: 10px; font-size: 12px;">
+                <div style="display: flex; align-items: center; margin-bottom: 2px;">
+                    <div style="width: 10px; height: 10px; background-color: #ffcdd2; margin-right: 5px;"></div>
+                    <div>North - 10%</div>
+                </div>
+                <div style="display: flex; align-items: center; margin-bottom: 2px;">
+                    <div style="width: 10px; height: 10px; background-color: #F44336; margin-right: 5px;"></div>
+                    <div>South - 25%</div>
+                </div>
+                <div style="display: flex; align-items: center; margin-bottom: 2px;">
+                    <div style="width: 10px; height: 10px; background-color: #81c784; margin-right: 5px;"></div>
+                    <div>East - 15%</div>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 10px; height: 10px; background-color: #4CAF50; margin-right: 5px;"></div>
+                    <div>West - 50%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="note">
+            This graph/chart is linked to excel, and changes automatically based on data. Just left click on it and select "Edit Data".
+        </div>
+    </div>
+
+    <script>
+        // Sample data for different months and years
+        const dashboardData = {
+            "2018": {
+                "March": {
+                    "All Customer": {
+                        employeeCount: 620,
+                        malePercentage: 72,
+                        femalePercentage: 28,
+                        overheadRatio: 19.5,
+                        salary: 82000,
+                        revenuePerStaff: 490250,
+                        educationSpending: 110250,
+                        educationPerHead: 195,
+                        avgSalary: 580,
+                        stickLeave: 9.8,
+                        overtimeRatio: 9.5,
+                        regionalSplit: {north: 12, south: 23, east: 15, west: 50}
+                    }
+                },
+                "April": {
+                    "All Customer": {
+                        employeeCount: 640,
+                        malePercentage: 73,
+                        femalePercentage: 27,
+                        overheadRatio: 20.0,
+                        salary: 83500,
+                        revenuePerStaff: 500250,
+                        educationSpending: 112250,
+                        educationPerHead: 155,
+                        avgSalary: 600,
+                        stickLeave: 10.2,
+                        overtimeRatio: 10.0,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                },
+                "May": {
+                    "All Customer": {
+                        employeeCount: 650,
+                        malePercentage: 74,
+                        femalePercentage: 26,
+                        overheadRatio: 20.2,
+                        salary: 84000,
+                        revenuePerStaff: 505250,
+                        educationSpending: 115250,
+                        educationPerHead: 275,
+                        avgSalary: 610,
+                        stickLeave: 10.5,
+                        overtimeRatio: 10.2,
+                        regionalSplit: {north: 10, south: 24, east: 16, west: 50}
+                    }
+                },
+                "June": {
+                    "All Customer": {
+                        employeeCount: 660,
+                        malePercentage: 74,
+                        femalePercentage: 26,
+                        overheadRatio: 20.4,
+                        salary: 85000,
+                        revenuePerStaff: 510250,
+                        educationSpending: 118250,
+                        educationPerHead: 255,
+                        avgSalary: 620,
+                        stickLeave: 10.6,
+                        overtimeRatio: 10.3,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                },
+                "July": {
+                    "All Customer": {
+                        employeeCount: 662,
+                        malePercentage: 75,
+                        femalePercentage: 25,
+                        overheadRatio: 20.5,
+                        salary: 85200,
+                        revenuePerStaff: 515250,
+                        educationSpending: 119250,
+                        educationPerHead: 185,
+                        avgSalary: 625,
+                        stickLeave: 10.7,
+                        overtimeRatio: 10.4,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                },
+                "August": {
+                    "All Customer": {
+                        employeeCount: 665,
+                        malePercentage: 75,
+                        femalePercentage: 35,
+                        overheadRatio: 20.5,
+                        salary: 85520,
+                        revenuePerStaff: 520250,
+                        educationSpending: 120250,
+                        educationPerHead: 250,
+                        avgSalary: 630,
+                        stickLeave: 10.8,
+                        overtimeRatio: 10.5,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    },
+                    "Customer A": {
+                        employeeCount: 325,
+                        malePercentage: 70,
+                        femalePercentage: 30,
+                        overheadRatio: 19.5,
+                        salary: 83520,
+                        revenuePerStaff: 480250,
+                        educationSpending: 115250,
+                        educationPerHead: 240,
+                        avgSalary: 615,
+                        stickLeave: 10.3,
+                        overtimeRatio: 10.0,
+                        regionalSplit: {north: 12, south: 28, east: 10, west: 50}
+                    },
+                    "Customer B": {
+                        employeeCount: 340,
+                        malePercentage: 80,
+                        femalePercentage: 20,
+                        overheadRatio: 21.5,
+                        salary: 87520,
+                        revenuePerStaff: 560250,
+                        educationSpending: 125250,
+                        educationPerHead: 260,
+                        avgSalary: 645,
+                        stickLeave: 11.2,
+                        overtimeRatio: 11.0,
+                        regionalSplit: {north: 8, south: 22, east: 20, west: 50}
+                    }
+                }
+            },
+            "2019": {
+                "March": {
+                    "All Customer": {
+                        employeeCount: 670,
+                        malePercentage: 76,
+                        femalePercentage: 24,
+                        overheadRatio: 20.8,
+                        salary: 86000,
+                        revenuePerStaff: 525250,
+                        educationSpending: 122250,
+                        educationPerHead: 260,
+                        avgSalary: 635,
+                        stickLeave: 11.0,
+                        overtimeRatio: 10.6,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                },
+                "April": {
+                    "All Customer": {
+                        employeeCount: 675,
+                        malePercentage: 76,
+                        femalePercentage: 24,
+                        overheadRatio: 21.0,
+                        salary: 86500,
+                        revenuePerStaff: 530250,
+                        educationSpending: 123250,
+                        educationPerHead: 265,
+                        avgSalary: 640,
+                        stickLeave: 11.2,
+                        overtimeRatio: 10.7,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                },
+                "May": {
+                    "All Customer": {
+                        employeeCount: 680,
+                        malePercentage: 75,
+                        femalePercentage: 25,
+                        overheadRatio: 21.2,
+                        salary: 87000,
+                        revenuePerStaff: 535250,
+                        educationSpending: 124250,
+                        educationPerHead: 270,
+                        avgSalary: 645,
+                        stickLeave: 11.4,
+                        overtimeRatio: 10.8,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                },
+                "June": {
+                    "All Customer": {
+                        employeeCount: 685,
+                        malePercentage: 74,
+                        femalePercentage: 26,
+                        overheadRatio: 21.4,
+                        salary: 87500,
+                        revenuePerStaff: 540250,
+                        educationSpending: 125250,
+                        educationPerHead: 275,
+                        avgSalary: 650,
+                        stickLeave: 11.6,
+                        overtimeRatio: 11.0,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                },
+                "July": {
+                    "All Customer": {
+                        employeeCount: 690,
+                        malePercentage: 73,
+                        femalePercentage: 27,
+                        overheadRatio: 21.6,
+                        salary: 88000,
+                        revenuePerStaff: 545250,
+                        educationSpending: 126250,
+                        educationPerHead: 280,
+                        avgSalary: 655,
+                        stickLeave: 11.8,
+                        overtimeRatio: 11.2,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                },
+                "August": {
+                    "All Customer": {
+                        employeeCount: 695,
+                        malePercentage: 72,
+                        femalePercentage: 28,
+                        overheadRatio: 21.8,
+                        salary: 88500,
+                        revenuePerStaff: 550250,
+                        educationSpending: 127250,
+
+
+                        educationPerHead: 285,
+                        avgSalary: 660,
+                        stickLeave: 12.0,
+                        overtimeRatio: 11.4,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                }
+            },
+            "2020": {
+                "March": {
+                    "All Customer": {
+                        employeeCount: 700,
+                        malePercentage: 71,
+                        femalePercentage: 29,
+                        overheadRatio: 22.0,
+                        salary: 89000,
+                        revenuePerStaff: 555250,
+                        educationSpending: 128250,
+                        educationPerHead: 290,
+                        avgSalary: 665,
+                        stickLeave: 12.2,
+                        overtimeRatio: 11.6,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                },
+                "April": {
+                    "All Customer": {
+                        employeeCount: 705,
+                        malePercentage: 70,
+                        femalePercentage: 30,
+                        overheadRatio: 22.2,
+                        salary: 89500,
+                        revenuePerStaff: 560250,
+                        educationSpending: 129250,
+                        educationPerHead: 295,
+                        avgSalary: 670,
+                        stickLeave: 12.4,
+                        overtimeRatio: 11.8,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                },
+                "May": {
+                    "All Customer": {
+                        employeeCount: 710,
+                        malePercentage: 69,
+                        femalePercentage: 31,
+                        overheadRatio: 22.4,
+                        salary: 90000,
+                        revenuePerStaff: 565250,
+                        educationSpending: 130250,
+                        educationPerHead: 300,
+                        avgSalary: 675,
+                        stickLeave: 12.6,
+                        overtimeRatio: 12.0,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                },
+                "June": {
+                    "All Customer": {
+                        employeeCount: 715,
+                        malePercentage: 68,
+                        femalePercentage: 32,
+                        overheadRatio: 22.6,
+                        salary: 90500,
+                        revenuePerStaff: 570250,
+                        educationSpending: 131250,
+                        educationPerHead: 305,
+                        avgSalary: 680,
+                        stickLeave: 12.8,
+                        overtimeRatio: 12.2,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                },
+                "July": {
+                    "All Customer": {
+                        employeeCount: 720,
+                        malePercentage: 67,
+                        femalePercentage: 33,
+                        overheadRatio: 22.8,
+                        salary: 91000,
+                        revenuePerStaff: 575250,
+                        educationSpending: 132250,
+                        educationPerHead: 310,
+                        avgSalary: 685,
+                        stickLeave: 13.0,
+                        overtimeRatio: 12.4,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                },
+                "August": {
+                    "All Customer": {
+                        employeeCount: 725,
+                        malePercentage: 66,
+                        femalePercentage: 34,
+                        overheadRatio: 23.0,
+                        salary: 91500,
+                        revenuePerStaff: 580250,
+                        educationSpending: 133250,
+                        educationPerHead: 315,
+                        avgSalary: 690,
+                        stickLeave: 13.2,
+                        overtimeRatio: 12.6,
+                        regionalSplit: {north: 10, south: 25, east: 15, west: 50}
+                    }
+                }
+            }
+        };
+
+        function updateDashboard() {
+            const year = document.getElementById('year-filter').value;
+            const month = document.getElementById('month-filter').value;
+            const customer = document.getElementById('customer-filter').value;
+
+            const data = dashboardData[year][month][customer];
+
+            document.getElementById('employee-count').innerText = data.employeeCount;
+            document.querySelector('.male-icon .gender-percentage').innerText = data.malePercentage + '%';
+            document.querySelector('.female-icon .gender-percentage').innerText = data.femalePercentage + '%';
+            document.getElementById('overhead-ratio').innerText = data.overheadRatio + '%';
+            document.getElementById('salary').innerText = '$ ' + data.salary;
+            document.getElementById('revenue-per-staff').innerText = '$ ' + data.revenuePerStaff;
+            document.getElementById('education-spending').innerText = '$ ' + data.educationSpending;
+            document.getElementById('education-per-head').innerText = '$ ' + data.educationPerHead;
+            document.getElementById('avg-salary').innerText = '$ ' + data.avgSalary;
+            document.getElementById('stick-leave').innerText = data.stickLeave + '%';
+            document.getElementById('overtime-ratio').innerText = data.overtimeRatio;
+
+            // Update charts and other visual elements based on the new data
+            // For example, update the bar heights, pie chart segments, etc.
+        }
+    </script>
+
+

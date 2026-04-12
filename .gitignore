@@ -1,0 +1,8 @@
+# ไม่ต้องการอัปโหลดไฟล์เหล่านี้
+*.xlsx
+*.xls
+*.csv
+*.log
+.DS_Store
+Thumbs.db
+node_modules/

@@ -1,0 +1,953 @@
+<!-- <style>
+  .chart-container {
+    display: grid;
+    gap: 16px;
+    padding-top: 20px; /* เพิ่มระยะห่างจากแถบสีขาว */
+  }
+
+  .chart-container > div {
+    width: 100%;
+    height: auto;
+  }
+
+  .header-bar {
+    background-color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    display: flex; /* เปลี่ยนเป็น Flexbox */
+    justify-content: center; /* จัดให้ข้อความอยู่ตรงกลาง */
+    align-items: center; /* จัดให้ข้อความอยู่ตรงกลางแนวตั้ง */
+    /* position: absolute; ทำให้แถบอยู่เหนือเนื้อหาอื่น */
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* z-index: 10; ให้แถบอยู่เหนือเนื้อหาอื่น */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* เพิ่มเงาเพื่อแยกแถบออกจากเนื้อหา */
+  }
+
+  @media (max-width: 575.98px) {
+    .chart-container {
+      grid-template-columns: 1fr;
+    }
+
+    .chart-container > div:not(#bar-chart-container) {
+      display: none;
+    }
+  }
+
+  @media (min-width: 576px) {
+    .chart-container {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .chart-container > div {
+      height: 150px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .chart-container > div {
+      height: 200px;
+    }
+  }
+</style>
+
+<div class="chart-container">
+  <div class="header-bar">
+    อาคารสวัสดิการ
+  </div>
+
+  <div id="bar-chart-container" class="card card-header-actions h-100">
+    <div class="card-body">
+      <div class="chart-bar"><canvas id="Chart-Car"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card card-header-actions h-100">
+    <div class="card-body">
+      <div class="chart-bar"><canvas id="Chart-Pie"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card card-header-actions h-100">
+    <div class="card-body">
+      <div class="chart-bar"><canvas id="Chart-Line2"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card card-header-actions h-100">
+    <div class="card-body">
+      <div class="chart-bar"><canvas id="Chart-Line"></canvas></div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://fastly.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    google.script.run.withSuccessHandler((dataFromGetdata) => {
+      showDataInCharts(dataFromGetdata);
+    }).getData_ChartBar();
+  });
+
+  function showDataInCharts(dataarray) {
+    const xValues = dataarray.map(r => r[1]);
+    const yValues = dataarray.map(r => r[2]);
+
+    // กราฟแท่ง
+    const ctxCar = document.getElementById('Chart-Car').getContext('2d');
+    new Chart(ctxCar, {
+      type: 'bar',
+      data: {
+        labels: xValues,
+        datasets: [{
+          label: 'ทั้งหมด/ครั้ง',
+          data: yValues,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        legend: { display: false }
+      }
+    });
+
+    // กราฟวงกลม
+    if (window.innerWidth > 575.98) {
+      const ctxPie = document.getElementById('Chart-Pie').getContext('2d');
+      new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+          labels: xValues,
+          datasets: [{
+            label: 'สัดส่วน',
+            data: yValues,
+            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+            borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
+    }
+
+    // กราฟเส้น
+    if (window.innerWidth > 575.98) {
+      const ctxLine = document.getElementById('Chart-Line').getContext('2d');
+      new Chart(ctxLine, {
+        type: 'line',
+        data: {
+          labels: xValues,
+          datasets: [{
+            label: 'แนวโน้ม',
+            data: yValues,
+            borderColor: 'rgba(255, 205, 86, 1)',
+            backgroundColor: 'rgba(255, 205, 86, 0.2)',
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
+    }
+
+    // กราฟเส้นที่สอง
+    if (window.innerWidth > 575.98) {
+      const ctxLine2 = document.getElementById('Chart-Line2').getContext('2d');
+      new Chart(ctxLine2, {
+        type: 'line',
+        data: {
+          labels: xValues,
+          datasets: [{
+            label: 'แนวโน้ม',
+            data: yValues,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
+    }
+  }
+</script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script> -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- <style>
+  :root {
+    --primary: #4361ee;
+    --secondary: #3f37c9;
+    --success: #4cc9f0;
+    --info: #4895ef;
+    --warning: #f72585;
+    --danger: #e63946;
+    --light: #f8f9fa;
+    --dark: #212529;
+    --gray: #6c757d;
+    --gray-light: #f1f3f5;
+    --body-bg: #f5f7fa;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .header_2 {
+    background: linear-gradient(50deg, #ADD8E6, #ADD8E6);
+    color: black;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header_2 h1 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .header_3 {
+    background: linear-gradient(50deg, #ADD8E6, #ADD8E6);
+    color: black;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header_3 h1 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .date-display {
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .chart-grid_2 {
+    display: grid;
+    /* grid-template-columns: repeat(2, 1fr); */
+    gap: 20px;
+  }
+
+  .chart-card {
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.15);
+    border: 1px solid #ddd;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .chart-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25), 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .chart-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--gray-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .chart-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark);
+  }
+
+  .chart-body {
+    padding: 20px;
+    height: 250px;
+    position: relative;
+  }
+
+  .chart-footer {
+    padding: 10px 20px;
+    border-top: 1px solid var(--gray-light);
+    font-size: 12px;
+    color: var(--gray);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .stat-change {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .stat-change.positive {
+    color: #2ecc71;
+  }
+
+  .stat-change.negative {
+    color: #e74c3c;
+  }
+
+  @media (max-width: 768px) {
+    .chart-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .header_2 {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .chart-body {
+      height: 220px;
+    }
+
+    .reset {
+      all: revert;
+      border-radius: 5px;
+      /* color: teal; */
+      border: 0px solid teal;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+
+  }
+</style> -->
+
+<style>
+  :root {
+    --primary: #4361ee;
+    --secondary: #3f37c9;
+    --success: #4cc9f0;
+    --info: #4895ef;
+    --warning: #f72585;
+    --danger: #e63946;
+    --light: #f8f9fa;
+    --dark: #212529;
+    --gray: #6c757d;
+    --gray-light: #f1f3f5;
+    --body-bg: #f5f7fa;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .dashboard-container {
+    max-width: auto;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  .header_2 {
+    background: linear-gradient(50deg, #ADD8E6, #ADD8E6);
+    color: black;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header_2 h1 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .header_3 {
+    background: linear-gradient(50deg, #ADD8E6, #ADD8E6);
+    color: black;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header_3 h1 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .date-display {
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .chart-grid_2 {
+    display: grid;
+    /* grid-template-columns: repeat(2, 1fr); */
+    gap: 20px;
+  }
+
+  .chart-card {
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.15);
+    border: 1px solid #ddd;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .chart-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25), 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .chart-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--gray-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .chart-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark);
+  }
+
+  .chart-body {
+    padding: 20px;
+    height: 300px;
+    position: relative;
+    width: 100%;
+  }
+
+  .chart-footer {
+    padding: 10px 20px;
+    border-top: 1px solid var(--gray-light);
+    font-size: 12px;
+    color: var(--gray);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .stat-change {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .stat-change.positive {
+    color: #2ecc71;
+  }
+
+  .stat-change.negative {
+    color: #e74c3c;
+  }
+
+  /* แก้ไขส่วนการตอบสนองต่อขนาดหน้าจอ */
+  @media (max-width: 992px) {
+    .chart-grid, .chart-grid_2 {
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .chart-body {
+      height: 280px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .chart-grid, .chart-grid_2 {
+      grid-template-columns: 1fr;
+    }
+
+    .header_2, .header_3 {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .chart-body {
+      height: 260px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .chart-body {
+      height: 240px;
+      padding: 10px;
+    }
+    
+    .chart-header {
+      padding: 10px 15px;
+    }
+    
+    .chart-title {
+      font-size: 14px;
+    }
+  }
+</style>
+
+<div class="dashboard-container">
+  <div class="header_2">
+    <h1>อาคารสวัสดิการที่อยู่ในความรับผิดชอบของ ยก.ทหาร บก.ทท.</h1>
+    <!-- <div class="date-display" id="current-date"></div> -->
+  </div>
+
+  <div class="chart-grid">
+
+    <!-- Chart 1: Bar Chart -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">จำนวนห้องพักแบ่งตามอาคาร</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="roomsChart"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+        <!-- <div class="stat-change positive">
+            <span>+12.5%</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          </div> -->
+      </div>
+    </div>
+
+    <!-- Chart 2: Gender Bar Chart -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">จำนวนชายหญิงที่เข้าพักแบ่งตามอาคาร</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="genderChart"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+        <!-- <div class="stat-change positive">
+            <span>+5.2%</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          </div> -->
+      </div>
+    </div>
+
+    <!-- Chart 3: Pie Chart -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">จำนวนกำลังพลที่พักแต่ละหน่วย</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+        <!-- <div class="stat-change positive">
+            <span>+8.3%</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          </div> -->
+      </div>
+    </div>
+
+    <!-- Chart 4: Housing Needs by Position -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">ความต้องการห้องพักแบ่งตามระดับ</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="housingNeedsChart"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+</div>
+
+  <!-- <div class="header_3">
+    <h1>สถานภาพกำลังพล ยก.ทหาร บก.ทท.</h1>
+  </div>
+
+   <div class="chart-grid_2">
+    
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">จำนวนกำลังพลแยกตามหน่วย</div>
+      </div>
+      <div class="chart-body">
+        <div id="chart1"></div>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">จำนวนกำลังพลแยกตามหน่วย</div>
+      </div>
+      <div class="chart-body">
+        <div id="chart2"></div>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">จำนวนกำลังพลแยกตามหน่วย</div>
+      </div>
+      <div class="chart-body">
+        <div id="chart3"></div>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">จำนวนกำลังพลแยกตามหน่วย</div>
+      </div>
+      <div class="chart-body">
+        <div id="chart4"></div>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">จำนวนกำลังพลแยกตามหน่วย</div>
+      </div>
+      <div class="chart-body">
+        <div id="chart5"></div>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+
+  </div> -->
+</div>
+
+<!-- Set current date in Thai format -->
+<!-- <script>
+  document.getElementById('current-date').textContent = new Date().toLocaleDateString('th-TH', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long'
+    });
+</script> -->
+
+<!-- Rooms Availability Chart -->
+<script>
+  const roomsCtx = document.getElementById('roomsChart').getContext('2d');
+    const roomsChart = new Chart(roomsCtx, {
+      type: 'bar',
+      data: {
+        labels: ['ทุ่ง 1 อาคาร 9', 'ทุ่ง 1 อาคาร 13', 'ทุ่ง 2 อาคาร 10', 'ทุ่ง 3 อาคาร 1', 'ทุ่ง 3 อาคาร 33'],
+        datasets: [
+          {
+            label: 'จำนวนห้องทั้งหมด',
+            data: [32, 24, 32, 16, 24],
+            backgroundColor: 'rgba(0, 51, 102, 0.7)',
+            borderColor: 'rgba(0, 51, 102, 1)',
+            borderWidth: 1,
+            borderRadius: 5
+          },
+          {
+            label: 'จำนวนห้องว่าง',
+            data: [0, 0, 0, 0, 6],
+            backgroundColor: 'rgba(76, 175, 80, 0.7)', // สีเขียว
+            borderColor: 'rgba(76, 175, 80, 1)', // สีเขียว
+            borderWidth: 1,
+            borderRadius: 5
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              boxWidth: 12,
+              padding: 15,
+              font: {
+                size: 11
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              display: true,
+              color: 'rgba(0, 0, 0, 0.05)'
+            },
+            title: {
+              display: true,
+              text: 'จำนวนห้อง'
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+</script>
+
+<!-- Gender Bar Chart -->
+<script>
+  const genderCtx = document.getElementById('genderChart').getContext('2d');
+    const genderChart = new Chart(genderCtx, {
+      type: 'bar',
+      data: {
+        labels: ['ทุ่ง 1 อาคาร 9', 'ทุ่ง 1 อาคาร 13', 'ทุ่ง 2 อาคาร 10', 'ทุ่ง 3 อาคาร 1', 'ทุ่ง 3 อาคาร 33'],
+        datasets: [
+          {
+            label: 'ชาย',
+            data: [26, 15, 19, 13, 9],
+            backgroundColor: 'rgba(72, 149, 239, 0.7)',
+            borderColor: 'rgba(72, 149, 239, 1)',
+            borderWidth: 1,
+            borderRadius: 5
+          },
+          {
+            label: 'หญิง',
+            data: [6, 9, 13, 3, 9],
+            backgroundColor: 'rgba(247, 37, 133, 0.7)',
+            borderColor: 'rgba(247, 37, 133, 1)',
+            borderWidth: 1,
+            borderRadius: 5
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              boxWidth: 12,
+              padding: 15,
+              font: {
+                size: 11
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              display: true,
+              color: 'rgba(0, 0, 0, 0.05)'
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            },
+            ticks: {
+              callback: function(value, index, values) {
+                // ชั้นที่ 1: ชื่ออาคาร
+                const layer1 = ['ทุ่ง 1 อาคาร 9', 'ทุ่ง 1 อาคาร 13', 'ทุ่ง 2 อาคาร 10', 'ทุ่ง 3 อาคาร 1', 'ทุ่ง 3 อาคาร 33'][index];
+                // ชั้นที่ 2: กกก, ขขข, คคค, ...
+                const layer2 = ['สนผ.', 'สปก.', 'สวฝ.', 'ศสภ.', 'กกล.'][index];
+                return `${layer1}\n${layer2}`;
+              },
+              font: {
+                size: 11
+              }
+            }
+          }
+        }
+      }
+    });
+</script>
+
+<!-- Pie Chart Data -->
+<script>
+  const data = [
+      { label: 'ยก.ทหาร', value: 24 },
+      { label: 'นทพ.', value: 21 },
+      { label: 'สน.บก.บก.ทท.', value: 10 },
+      { label: 'ผท.ทหาร', value: 8 },
+      { label: 'กพ.ทหาร', value: 7 },
+      { label: 'สส.ทหาร', value: 7 },
+      { label: 'กร.ทหาร', value: 6 },
+      { label: 'สปช.ทหาร', value: 5 },
+      { label: 'สตน.ทหาร', value: 5 },
+      { label: 'ขว.ทหาร', value: 4 },
+      { label: 'สสก.ทหาร', value: 4 },
+      { label: 'ยบ.ทหาร', value: 3 },
+      { label: 'สลก.บก.ทท.', value: 3 },
+      { label: 'สบ.ทหาร', value: 3 },
+      { label: 'ศซบ.ทหาร', value: 3 },
+      { label: 'กบ.ทหาร', value: 2 },
+      { label: 'สปท.', value: 2 },
+      { label: 'ชด.ทหาร', value: 2 },
+      { label: 'ศรภ.', value: 1 },
+      { label: 'กกส.กห.', value: 1 },
+      { label: 'ศตก.', value: 1 },
+      { label: 'สจร.ทหาร', value: 1 }
+    ];
+
+    // Calculate total
+    const total = data.reduce((sum, item) => sum + item.value, 0);
+
+    // Calculate percentages
+    const labels = data.map(item => `${item.label} ${((item.value / total) * 100).toFixed(1)}%`);
+    const values = data.map(item => item.value);
+
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(pieCtx, {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: values,
+          backgroundColor: [
+            'rgba(67, 97, 238, 0.7)', 'rgba(72, 149, 239, 0.7)', 'rgba(76, 201, 240, 0.7)',
+            'rgba(247, 37, 133, 0.7)', 'rgba(240, 98, 146, 0.7)', 'rgba(132, 60, 12, 0.7)',
+            'rgba(123, 104, 238, 0.7)', 'rgba(139, 0, 0, 0.7)', 'rgba(0, 100, 0, 0.7)',
+            'rgba(255, 165, 0, 0.7)', 'rgba(186, 85, 211, 0.7)', 'rgba(255, 215, 0, 0.7)',
+            'rgba(0, 191, 255, 0.7)', 'rgba(138, 43, 226, 0.7)', 'rgba(255, 127, 80, 0.7)',
+            'rgba(112, 128, 144, 0.7)', 'rgba(47, 79, 79, 0.7)', 'rgba(255, 20, 147, 0.7)',
+            'rgba(0, 255, 255, 0.7)', 'rgba(210, 105, 30, 0.7)', 'rgba(255, 228, 196, 0.7)',
+            'rgba(0, 0, 139, 0.7)'
+          ],
+          borderColor: [
+            'rgba(67, 97, 238, 1)', 'rgba(72, 149, 239, 1)', 'rgba(76, 201, 240, 1)',
+            'rgba(247, 37, 133, 1)', 'rgba(240, 98, 146, 1)', 'rgba(132, 60, 12, 1)',
+            'rgba(123, 104, 238, 1)', 'rgba(139, 0, 0, 1)', 'rgba(0, 100, 0, 1)',
+            'rgba(255, 165, 0, 1)', 'rgba(186, 85, 211, 1)', 'rgba(255, 215, 0, 1)',
+            'rgba(0, 191, 255, 1)', 'rgba(138, 43, 226, 1)', 'rgba(255, 127, 80, 1)',
+            'rgba(112, 128, 144, 1)', 'rgba(47, 79, 79, 1)', 'rgba(255, 20, 147, 1)',
+            'rgba(0, 255, 255, 1)', 'rgba(210, 105, 30, 1)', 'rgba(255, 228, 196, 1)',
+            'rgba(0, 0, 139, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              boxWidth: 12,
+              padding: 15,
+              font: {
+                size: 11
+              }
+            }
+          }
+        }
+      }
+    });
+</script>
+
+<!-- Housing Needs Bar Chart -->
+<script>
+  const housingNeedsCtx = document.getElementById('housingNeedsChart').getContext('2d');
+  const housingNeedsChart = new Chart(housingNeedsCtx, {
+    type: 'bar',
+    data: {
+      labels: ['น.สัญญาบัตร', 'น.ประทวน', 'พนักงานราชการ'],
+      datasets: [
+        {
+          label: 'ชาย',
+          data: [2, 16, 0],
+          backgroundColor: 'rgba(72, 149, 239, 0.7)',
+          borderColor: 'rgba(72, 149, 239, 1)',
+          borderWidth: 1,
+          borderRadius: 5
+        },
+        {
+          label: 'หญิง',
+          data: [1, 6, 8],
+          backgroundColor: 'rgba(247, 37, 133, 0.7)',
+          borderColor: 'rgba(247, 37, 133, 1)',
+          borderWidth: 1,
+          borderRadius: 5
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: {
+            boxWidth: 12,
+            padding: 15,
+            font: {
+              size: 11
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            display: true,
+            color: 'rgba(0, 0, 0, 0.05)'
+          }
+        },
+        x: {
+          grid: {
+            display: false
+          }
+        }
+      }
+    }
+  });
+</script>

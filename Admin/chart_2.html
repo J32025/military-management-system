@@ -1,0 +1,615 @@
+<div class="dashboard-container">
+
+<div class="header_2">
+    <h1>สถานภาพกำลังพล ยก.ทหาร บก.ทท.</h1>
+    <div class="date-display" id="current-date-dashboard"></div>
+  </div>
+
+
+   <div class="dashboard">
+              
+        <div class="stats-container">
+            <div class="stat-card employees">
+                <h2 id="total-employees">--</h2>
+                <p>อัตรากำลังพล</p>
+                <div class="icon-container">👥</div>
+            </div>
+
+            <div class="stat-card vacancies">
+                <h2 id="total-vacancies">--</h2>
+                <p>บรรจุจริง</p>
+                <div class="icon-container">📋</div>
+            </div>
+
+            <div class="stat-card retiring">
+                <h2 id="total-retiring">--</h2>
+                <p>อัตราว่าง</p>
+                <div class="icon-container">📩</div>
+            </div>
+
+            <div class="stat-card closed">
+                <h2 id="total-others">--</h2>
+                <p>อัตราปิด</p>
+                <div class="icon-container">🔒</div>
+            </div>
+
+            <!-- <div class="stat-card acting">
+                <h2 id="total-acting">--</h2>
+                <p>ทำหน้าที่โดยตำแหน่ง ต.</p>
+                <div class="icon-container">👨‍💼</div>
+            </div>
+
+            <div class="stat-card regular">
+                <h2 id="total-regular">--</h2>
+                <p>รรก.</p>
+                <div class="icon-container">📝</div>
+            </div> -->
+        </div>
+        
+    </div>
+
+  <div class="chart-grid">
+    <!-- Chart 1: Bar Chart -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">จำนวนกำลังพลทั้งหมด</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="chart-personnel-by-unit"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+
+        <!-- Chart 1: Bar Chart -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">จำนวนกำลังพลทั้งหมด2</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="chart-personnel-by-unit_person"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+
+    <!-- Chart 2: Gender Bar Chart -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">จำนวนกำลังพลแยกตามเพศ</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="chart-personnel-by-gender"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+
+    <!-- Doughnut Chart 1 -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">จำนวนกำลังพลแยกตามหน่วย</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="chart-personnel-by-rank-1"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+
+    <!-- Doughnut Chart 2 -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">จำนวนกำลังพลแยกตามชั้นยศ</div>
+      </div>
+      <div class="chart-body">
+        <canvas id="chart-personnel-by-rank-2"></canvas>
+      </div>
+      <div class="chart-footer">
+        <span>อัปเดตล่าสุด: วันนี้</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Set current date in Thai format -->
+<script>
+  document.getElementById('current-date-dashboard').textContent = new Date().toLocaleDateString('th-TH', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long'
+  });
+</script>
+
+<script>
+
+  // ฟังก์ชันสำหรับสร้างกราฟโดยใช้ข้อมูลจาก Google Sheets
+async function createPersonnelChart() {
+  try {
+    // เรียกใช้ฟังก์ชัน Google Apps Script
+    const chartData = await google.script.run.getChartDataPersonnel();
+    console.log("Chart data received:", chartData);
+    
+    // สร้างกราฟ
+    const personnelByUnitCtx = document.getElementById('chart-personnel-by-unit_person').getContext('2d');
+    const personnelByUnitChart = createBarChart(
+      personnelByUnitCtx,
+      chartData.labels,
+      chartData.datasets,
+      'จำนวนอัตรา'
+    );
+    
+    console.log("Chart created successfully");
+    return personnelByUnitChart;
+    
+  } catch (error) {
+    console.error("Error creating chart:", error);
+    
+    // ใช้ข้อมูล fallback หากเกิดข้อผิดพลาด
+    const fallbackData = {
+      labels: ['นายพล', 'น.5', 'น.4', 'น.3', 'น.2', 'น.1', 'ป.2', 'ป.1', "อื่นๆ"],
+      datasets: [
+        {
+          label: 'บรรจุจริง',
+          data: [32, 24, 32, 16, 24, 50, 10, 40, 120],
+          backgroundColor: 'rgba(0, 51, 102, 0.7)',
+          borderColor: 'rgba(0, 51, 102, 1)',
+          borderWidth: 1,
+          borderRadius: 5
+        },
+        {
+          label: 'อัตราว่าง',
+          data: [4, 10, 8, 24, 6, 10, 50, 10, 40],
+          backgroundColor: 'rgba(76, 175, 80, 0.7)',
+          borderColor: 'rgba(76, 175, 80, 1)',
+          borderWidth: 1,
+          borderRadius: 5
+        }
+      ]
+    };
+    
+    const personnelByUnitCtx = document.getElementById('chart-personnel-by-unit').getContext('2d');
+    const personnelByUnitChart = createBarChart(
+      personnelByUnitCtx,
+      fallbackData.labels,
+      fallbackData.datasets,
+      'จำนวนอัตรา'
+    );
+    
+    console.log("Fallback chart created");
+    return personnelByUnitChart;
+  }
+}
+
+// เรียกใช้ฟังก์ชันเมื่อโหลดหน้าเว็บ
+document.addEventListener('DOMContentLoaded', function() {
+  createPersonnelChart();
+});
+
+
+  // Function to create bar chart
+  function createBarChart(ctx, labels, datasets, title) {
+    return new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              boxWidth: 12,
+              padding: 15,
+              font: {
+                size: 11
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              display: true,
+              color: 'rgba(0, 0, 0, 0.05)'
+            },
+            title: {
+              display: true,
+              text: title
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+  }
+
+        //   new Chart(ctx, {
+        //   type: 'bar',
+        //   data: {
+        //     labels: data.labels,
+        //     datasets: data.datasets
+        //   },
+        //   options: {
+        //     responsive: true,
+        //     maintainAspectRatio: false,
+        //     plugins: {
+        //       legend: {
+        //         position: 'top',
+        //         labels: {
+        //           boxWidth: 12,
+        //           padding: 15,
+        //           font: {
+        //             size: 11
+        //           }
+        //         }
+        //       }
+        //     },
+        //     scales: {
+        //       y: {
+        //         beginAtZero: true,
+        //         grid: {
+        //           display: true,
+        //           color: 'rgba(0, 0, 0, 0.05)'
+        //         },
+        //         title: {
+        //           display: true,
+        //           text: 'จำนวนอัตรา'
+        //         }
+        //       },
+        //       x: {
+        //         grid: {
+        //           display: false
+        //         }
+        //       }
+        //     }
+        //   }
+        // });
+      
+
+  // Chart 1: Personnel by Unit
+  const personnelByUnitCtx = document.getElementById('chart-personnel-by-unit').getContext('2d');
+  const personnelByUnitChart = createBarChart(personnelByUnitCtx,
+    ['นายพล', 'น.5', 'น.4', 'น.3', 'น.2' , 'น.1' , 'ป.2' , 'ป.1', "อื่นๆ"],
+    [
+      {
+        label: 'บรรจุจริง',
+        data: [32, 24, 32, 16, 24, 50 , 10 , 40 , 120],
+        backgroundColor: 'rgba(0, 51, 102, 0.7)',
+        borderColor: 'rgba(0, 51, 102, 1)',
+        borderWidth: 1,
+        borderRadius: 5
+      },
+      {
+        label: 'อัตราว่าง',
+        data: [4, 10, 8, 24, 6 ,10 , 50 ,10 , 40 ],
+        backgroundColor: 'rgba(76, 175, 80, 0.7)',
+        borderColor: 'rgba(76, 175, 80, 1)',
+        borderWidth: 1,
+        borderRadius: 5
+      }
+    ],
+    'จำนวนอัตรา'
+  );
+
+  // Chart 2: Personnel by Gender
+  const personnelByGenderCtx = document.getElementById('chart-personnel-by-gender').getContext('2d');
+  const personnelByGenderChart = createBarChart(personnelByGenderCtx,
+    ['1', '2', '3', '4', '5'],
+    [
+      {
+        label: 'ชาย',
+        data: [26, 15, 19, 13, 9],
+        backgroundColor: 'rgba(72, 149, 239, 0.7)',
+        borderColor: 'rgba(72, 149, 239, 1)',
+        borderWidth: 1,
+        borderRadius: 5
+      },
+      {
+        label: 'หญิง',
+        data: [6, 9, 13, 3, 9],
+        backgroundColor: 'rgba(247, 37, 133, 0.7)',
+        borderColor: 'rgba(247, 37, 133, 1)',
+        borderWidth: 1,
+        borderRadius: 5
+      }
+    ],
+    ''
+  );
+
+  // Function to create doughnut chart
+  function createDoughnutChart(ctx, labels, data, colors) {
+    return new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: data,
+          backgroundColor: colors.background,
+          borderColor: colors.border,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              boxWidth: 12,
+              padding: 15,
+              font: {
+                size: 11
+              }
+            }
+          }
+        },
+        cutout: '60%'
+      }
+    });
+  }
+
+  // Doughnut Chart 1
+  const data1 = [
+    { label: 'นายพล', value: 15 },
+    { label: 'พันเอก', value: 25 },
+    { label: 'พันโท', value: 20 },
+    { label: 'พันตรี', value: 18 },
+    { label: 'ร้อยเอก', value: 30 }
+  ];
+  const total1 = data1.reduce((sum, item) => sum + item.value, 0);
+  const labels1 = data1.map(item => `${item.label} (${((item.value / total1) * 100).toFixed(1)}%)`);
+  const values1 = data1.map(item => item.value);
+
+  const personnelByRankCtx1 = document.getElementById('chart-personnel-by-rank-1').getContext('2d');
+  const personnelByRankChart1 = createDoughnutChart(personnelByRankCtx1, labels1, values1, {
+    background: ['rgba(255, 99, 132, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(255, 206, 86, 0.7)', 'rgba(75, 192, 192, 0.7)', 'rgba(153, 102, 255, 0.7)'],
+    border: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)']
+  });
+
+  // Doughnut Chart 2
+  const data2 = [
+    { label: 'ร้อยโท', value: 22 },
+    { label: 'ร้อยตรี', value: 10 },
+    { label: 'สิบเอก', value: 35 },
+    { label: 'สิบโท', value: 28 },
+    { label: 'สิบตรี', value: 12 },
+    { label: 'พลทหาร', value: 50 }
+  ];
+  const total2 = data2.reduce((sum, item) => sum + item.value, 0);
+  const labels2 = data2.map(item => `${item.label} (${((item.value / total2) * 100).toFixed(1)}%)`);
+  const values2 = data2.map(item => item.value);
+
+  const personnelByRankCtx2 = document.getElementById('chart-personnel-by-rank-2').getContext('2d');
+  const personnelByRankChart2 = createDoughnutChart(personnelByRankCtx2, labels2, values2, {
+    background: ['rgba(255, 159, 64, 0.7)', 'rgba(199, 199, 199, 0.7)', 'rgba(83, 102, 255, 0.7)', 'rgba(40, 167, 69, 0.7)', 'rgba(220, 53, 69, 0.7)', 'rgba(253, 126, 20, 0.7)'],
+    border: ['rgba(255, 159, 64, 1)', 'rgba(199, 199, 199, 1)', 'rgba(83, 102, 255, 1)', 'rgba(40, 167, 69, 1)', 'rgba(220, 53, 69, 1)', 'rgba(253, 126, 20, 1)']
+  });
+</script>
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Prompt', sans-serif;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 160px;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+        
+        .icon-container {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.2;
+            font-size: 40px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover .icon-container {
+            opacity: 0.3;
+            transform: scale(1.1);
+        }
+        
+        .stat-card h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .stat-card p {
+            color: #666;
+            font-size: 18px;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+            margin-top: auto;
+        }
+        
+        .employees {
+            background: linear-gradient(135deg, #ffffff, #f0f7ff);
+            border-top: 5px solid #4361EE;
+        }
+        
+        .employees .icon-container {
+            background-color: #4361EE;
+        }
+        
+        .employees h2 {
+            color: #4361EE;
+        }
+        
+        .vacancies {
+            background: linear-gradient(135deg, #ffffff, #fff0f8);
+            border-top: 5px solid #F72585;
+        }
+        
+        .vacancies .icon-container {
+            background-color: #F72585;
+        }
+        
+        .vacancies h2 {
+            color: #F72585;
+        }
+        
+        .retiring {
+            background: linear-gradient(135deg, #ffffff, #fffbf0);
+            border-top: 5px solid #FFB100;
+        }
+        
+        .retiring .icon-container {
+            background-color: #FFB100;
+        }
+        
+        .retiring h2 {
+            color: #FFB100;
+        }
+        
+        .closed {
+            background: linear-gradient(135deg, #ffffff, #f0fffc);
+            border-top: 5px solid #2EC4B6;
+        }
+        
+        .closed .icon-container {
+            background-color: #2EC4B6;
+        }
+        
+        .closed h2 {
+            color: #2EC4B6;
+        }
+        
+        .acting {
+            background: linear-gradient(135deg, #ffffff, #f0f1ff);
+            border-top: 5px solid #7850C0;
+        }
+        
+        .acting .icon-container {
+            background-color: #7850C0;
+        }
+        
+        .acting h2 {
+            color: #7850C0;
+        }
+        
+        .regular {
+            background: linear-gradient(135deg, #ffffff, #f2fff0);
+            border-top: 5px solid #48C06A;
+        }
+        
+        .regular .icon-container {
+            background-color: #48C06A;
+        }
+        
+        .regular h2 {
+            color: #48C06A;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        /* Animation */
+        @keyframes fadeNumber {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .stat-card h2 {
+            animation: fadeNumber 1s forwards;
+        }
+        
+        .stat-card:nth-child(1) h2 { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) h2 { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) h2 { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) h2 { animation-delay: 0.4s; }
+        .stat-card:nth-child(5) h2 { animation-delay: 0.5s; }
+        .stat-card:nth-child(6) h2 { animation-delay: 0.6s; }
+    </style>
+
+
+
+    <script>
+        // เมื่อเอกสารโหลดเสร็จ
+        document.addEventListener('DOMContentLoaded', function() {
+            // เรียกใช้ฟังก์ชัน getPersonData จาก Google Apps Script
+            try {
+                google.script.run.withSuccessHandler(updateDashboardData).getPersonData();
+            } catch (e) {
+                // หากไม่มี Google Apps Script (เช่นเมื่อทดสอบในสภาพแวดล้อมอื่น)
+                // ใช้ข้อมูลจำลองเพื่อแสดงตัวอย่าง
+                setTimeout(() => {
+                    updateDashboardData({
+                        totalEmployees: 999,
+                        permanent: 999,
+                        vacancies: 999,
+                        acting: 999,
+                        retiring: 999,
+                        closed: 999
+                    });
+                }, 500);
+            }
+        });
+
+        // ฟังก์ชันสำหรับอัปเดตข้อมูลบนหน้า dashboard
+        function updateDashboardData(data) {
+            // อัปเดตค่าในแต่ละการ์ด
+            document.getElementById('total-employees').textContent = data.totalEmployees || '--';
+            document.getElementById('total-vacancies').textContent = data.permanent || '--';
+            document.getElementById('total-retiring').textContent = data.vacancies || '--';
+            document.getElementById('total-others').textContent = data.closed || '--';
+            document.getElementById('total-acting').textContent = data.acting || '--';
+            document.getElementById('total-regular').textContent = data.retiring || '--';
+        }
+    </script>

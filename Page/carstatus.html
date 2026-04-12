@@ -1,0 +1,535 @@
+<style>
+  #checkcarstatus td {
+    font-weight: normal;
+    /* ให้เป็นตัวบาง */
+    font-size: 14px;
+    color: #333;
+  }
+  /* จัดข้อความในตารางให้อยู่ตรงกลาง */
+#checkcarstatus td, #checkcarstatus th {
+    /* text-align: center; จัดข้อความในแนวนอน */
+    vertical-align: middle; /* จัดข้อความในแนวตั้ง */
+}
+  #checkcarstatus {
+    table-layout: fixed;
+    width: 100%;
+}
+#checkcarstatus tbody tr {
+    height: 50px; /* กำหนดความสูงของแถว */
+}
+
+#checkcarstatus tbody td {
+    overflow: hidden; /* ซ่อนเนื้อหาที่เกิน */
+    white-space: nowrap; /* ไม่ให้ข้อความขึ้นบรรทัดใหม่ */
+    text-overflow: ellipsis; /* แสดง ... เมื่อข้อความยาวเกิน */
+}
+#checkcarstatus thead th {
+    height: 30px; /* กำหนดความสูงของหัวคอลัมน์ */
+    overflow: hidden; /* ซ่อนเนื้อหาที่เกิน */
+    white-space: nowrap; /* ไม่ให้ข้อความขึ้นบรรทัดใหม่ */
+    text-overflow: ellipsis; /* แสดง ... เมื่อข้อความยาวเกิน */
+    background-color: #add8e6; /* สีพื้นหลัง */
+    border: 1px solid #dee2e6; /* เส้นขอบ */
+}
+
+#checkcarstatus thead th:first-child {
+    border-top-left-radius: 10px; /* ขอบมนด้านบนซ้าย */
+    border-bottom-left-radius: 10px; /* ขอบมนด้านล่างซ้าย */
+}
+
+#checkcarstatus thead th:last-child {
+    border-top-right-radius: 10px; /* ขอบมนด้านบนขวา */
+    border-bottom-right-radius: 10px; /* ขอบมนด้านล่างขวา */
+}
+</style>
+
+<h1 class="mb-2"><i class="fa-solid fa-building"></i> ทุ่งสีกัน 3 อาคาร 33 กกล.ยก.ทหาร รับผิดชอบ (อาคารชั้นนายร้อย)</h1>
+
+<!-- ************************************เริ่มDataTable*********************************************** -->
+
+
+               <div class="table-responsive">
+             
+                      <table id="checkcarstatus" class="table table-striped table-sm table table-hover align-middle" style="width:100%; font-size:14px;">
+                           <thead class="bg-primary text-black"></thead>
+                      </table>
+                  </div>
+         
+<!-- ************************************จบDataTable*********************************************** -->
+
+
+<div class="modal" id="detailsModal_1A8CD">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #add8e6;">
+                <h4 class="modal-title text-black">รายละเอียด</h4>
+                <button type="button" id="closeModalBtn_2B8CD" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="detailsForm_3C8CD" onsubmit="submitDetailsForm(this)" class="row g-2">
+                    <input type="text" id="recordId_8A8CD" name="recordId_8A8CD" hidden>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspหมายเลขห้อง</label>
+                        <input type="text" class="form-control" id="roomNumber_4D8CD" name="roomNumber_4D8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspพื้นที่</label>
+                        <input type="text" class="form-control" id="area_5F8CD" name="area_5F8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspชั้น</label>
+                        <input type="text" class="form-control" id="floor_6H8CD" name="floor_6H8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspอาคารหมายเลข</label>
+                        <input type="text" class="form-control" id="buildingNumber_7J8CD" name="buildingNumber_7J8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspประเภท</label>
+                        <input type="text" class="form-control" id="type_8L8CD" name="type_8L8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspยศ</label>
+                        <input type="text" class="form-control" id="rank_9N8CD" name="rank_9N8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspชื่อ</label>
+                        <input type="text" class="form-control" id="firstName_1P8CD" name="firstName_1P8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspนามสกุล</label>
+                        <input type="text" class="form-control" id="lastName_2R8CD" name="lastName_2R8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspตำแหน่ง</label>
+                        <input type="text" class="form-control" id="position_3T8CD" name="position_3T8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspสังกัด</label>
+                        <input type="text" class="form-control" id="affiliation_4V8CD" name="affiliation_4V8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspสถานะการจัด</label>
+                        <input type="text" class="form-control" id="status_5X8CD" name="status_5X8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspจำนวนผู้พักอาศัย</label>
+                        <input type="text" class="form-control" id="residentCount_6Z8CD" name="residentCount_6Z8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-9 mb-2">
+                        <label>&nbspรายชื่อผู้พักอาศัยในทะเบียนบ้าน</label>
+                        <input type="text" class="form-control" id="residentNames_7B8CD" name="residentNames_7B8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspเบอร์โทร</label>
+                        <input type="text" class="form-control" id="phoneNumber_8D8CD" name="phoneNumber_8D8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspพักอาศัยเอง</label>
+                        <input type="text" class="form-control" id="livesAlone_9F8CD" name="livesAlone_9F8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspให้ญาติพัก</label>
+                        <input type="text" class="form-control" id="relativeStay_1H8CD" name="relativeStay_1H8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-2">
+                        <label>&nbspไม่อยู่บ้าน</label>
+                        <input type="text" class="form-control" id="notAtHome_2J8CD" name="notAtHome_2J8CD" style="color:blue; border:none; background:none;" readonly>
+                    </div>
+
+                    <div class="col-12 col-md-3 mb-2">
+                        <div class="form-group">
+                            <label>&nbspชื่อผู้ใช้งาน</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
+                                <input type="text" class="form-control" id="apporve_approve4" name="apporve_approve4" style="color:blue;" readonly required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="additionalNotes_4N8CD" class="form-label">*บันทึกข้อความเพิ่มเติม</label>
+                        <textarea id="additionalNotes_4N8CD" name="additionalNotes_4N8CD" class="form-control"></textarea>
+                    </div>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+google.script.run.withSuccessHandler(checkcarstatusshowData).checkcarstatusgetdata()
+
+    function checkcarstatusshowData(dataSet) {
+    // เพิ่มคอลัมน์ว่างใน dataSet ถ้าจำนวนคอลัมน์ไม่ตรงกับที่ต้องการ
+    dataSet = dataSet.map(row => {
+        while (row.length < 19) { // 19 คือจำนวนคอลัมน์ที่ต้องการ (0-18)
+            row.push(''); // เพิ่มคอลัมน์ว่าง
+        }
+        return row;
+    });
+
+    table = new DataTable('#checkcarstatus', {
+        columns: [
+            { title: 'ลำดับ', width: '3%' }, // กำหนดความกว้าง 3%
+            { title: 'หมายเลขห้อง', width: '5%' }, // กำหนดความกว้าง 5%
+            { title: 'พื้นที่', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'ชั้น', width: '5%' }, // กำหนดความกว้าง 5%
+            { title: 'หมายเลขอาคาร', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'ประเภท', width: '5%' }, // กำหนดความกว้าง 5%
+            { title: 'ยศ', width: '5%' }, // กำหนดความกว้าง 5%
+            { title: 'ชื่อ', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'นามสกุล', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'ตำแหน่ง', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'สังกัด', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'สถานะการจัด', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'จำนวนผู้พักอาศัยตามทะเบียนบ้าน', width: '10%' }, // กำหนดความกว้าง 10%
+            { title: 'รายชื่อผู้พักอาศัยในทะเบียนบ้าน', width: '10%' }, // กำหนดความกว้าง 10%
+            { title: 'เบอร์โทร', width: '7%' }, // กำหนดความกว้าง 7%
+            { title: 'พักอาศัยเอง', width: '5%' }, // กำหนดความกว้าง 5%
+            { title: 'ให้ญาติพัก', width: '5%' }, // กำหนดความกว้าง 5%
+            { title: 'ไม่อยู่บ้าน', width: '5%' }, // กำหนดความกว้าง 5%
+            {
+                title: 'รายละเอียด', // ย้ายคอลัมน์ "รายละเอียด" ไปไว้ที่ตำแหน่งสุดท้าย
+                width: '7%', // กำหนดความกว้าง 7%
+                render: function (data) {
+                    if (data === "Active") {
+                        return `<span class='badge bg-success text-white sfont'
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#detailsModal_1A8CD" type="button"
+                                    onclick="checkcarstatuseditData(this);"></i>ดูข้อมูล</span>`;
+                    } else if (data === "InActive") {
+                        data = "<span class='badge bg-danger text-white sfont'>ว่าง</span>";
+                    } else if (data === "ไม่อนุมัติ") {
+                        data = "<span class='badge bg-danger text-white sfont'>ไม่อนุมัติ</span>";
+                    } else if (data === "ยกเลิกการจองรถ") {
+                        data = "<span class='badge bg-danger text-white sfont'>ยกเลิกการจองรถ</span>";
+                    } else if (data === "ส่งคืน") {
+                        data = "<span class='badge bg-info text-white sfont'>ส่งคืน</span>";
+                    } else if (data === "กำลังใช้งาน") {
+                        data = "<span class='badge bg-primary text-white sfont'>กำลังใช้งาน</span>";
+                    }
+                    return data;
+                }
+            }
+        ],
+        data: dataSet.slice(1),
+        bFilter: true,
+        responsive: true, // เปิดใช้งาน responsive
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/th.json',
+        },
+        "destroy": true,
+        order: [[0, 'asc']],
+        columnDefs: [
+            // {
+            //     targets: '_all', // กำหนดให้ทุกคอลัมน์มีความกว้างเท่ากัน
+            //     className: 'dt-center', // จัดข้อความตรงกลาง
+            // },
+            {
+                targets: [1, 6, 7, 18], // คอลัมน์ที่ต้องการแสดงบนหน้าจอขนาดเล็ก (ลำดับ, หมายเลขห้อง, ยศ, ชื่อ, สกุล, สังกัด, ปุ่มดูข้อมูล)
+                className: 'all', // แสดงบนหน้าจอทุกขนาด
+            },
+            {
+                targets: [0, 2, 3, 4,5,8,9,10,11,12,13,14,15,16], // คอลัมน์ที่ 8 (เริ่มนับจาก 0)
+                className: 'dt-left', // ใช้คลาสที่กำหนดให้ข้อความชิดซ้าย
+            },
+        ],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            $('.table-filter-container', api.table().container()).append(
+            );
+
+            $('#table-filter select').on('change', function () {
+                table.columns(18).search(this.value).draw();
+            });
+        }
+    });
+    //It will show only 4 pager buttons.
+    $.fn.DataTable.ext.pager.numbers_length = 5;
+}
+
+function checkcarstatuseditData(el) {
+    var row = el.parentNode.parentNode;
+    var recordId_8A8CD = row.cells[0].innerText || '';
+    var roomNumber_4D8CD = row.cells[1].innerText || '';
+    var area_5F8CD = row.cells[2].innerText || '';
+    var floor_6H8CD = row.cells[3].innerText || '';
+    var buildingNumber_7J8CD = row.cells[4].innerText || '';
+    var type_8L8CD = row.cells[5].innerText || '';
+    var rank_9N8CD = row.cells[6].innerText || '';
+    var firstName_1P8CD = row.cells[7].innerText || '';
+    var lastName_2R8CD = row.cells[8].innerText || '';
+    var position_3T8CD = row.cells[9].innerText || '';
+    var affiliation_4V8CD = row.cells[10].innerText || '';
+    var status_5X8CD = row.cells[11].innerText || '';
+    var residentCount_6Z8CD = row.cells[12].innerText || '';
+    var residentNames_7B8CD = row.cells[13].innerText || '';
+    var phoneNumber_8D8CD = row.cells[14].innerText || '';
+    var livesAlone_9F8CD = row.cells[15].innerText || '';
+    var relativeStay_1H8CD = row.cells[16].innerText || '';
+    var notAtHome_2J8CD = row.cells[17].innerText || '';
+
+    if (recordId_8A8CD) {
+        document.getElementById('recordId_8A8CD').value = recordId_8A8CD;
+    }
+    if (roomNumber_4D8CD) {
+        document.getElementById('roomNumber_4D8CD').value = roomNumber_4D8CD;
+    }
+    if (area_5F8CD) {
+        document.getElementById('area_5F8CD').value = area_5F8CD;
+    }
+    if (floor_6H8CD) {
+        document.getElementById('floor_6H8CD').value = floor_6H8CD;
+    }
+    if (buildingNumber_7J8CD) {
+        document.getElementById('buildingNumber_7J8CD').value = buildingNumber_7J8CD;
+    }
+    if (type_8L8CD) {
+        document.getElementById('type_8L8CD').value = type_8L8CD;
+    }
+    if (rank_9N8CD) {
+        document.getElementById('rank_9N8CD').value = rank_9N8CD;
+    }
+    if (firstName_1P8CD) {
+        document.getElementById('firstName_1P8CD').value = firstName_1P8CD;
+    }
+    if (lastName_2R8CD) {
+        document.getElementById('lastName_2R8CD').value = lastName_2R8CD;
+    }
+    if (position_3T8CD) {
+        document.getElementById('position_3T8CD').value = position_3T8CD;
+    }
+    if (affiliation_4V8CD) {
+        document.getElementById('affiliation_4V8CD').value = affiliation_4V8CD;
+    }
+    if (status_5X8CD) {
+        document.getElementById('status_5X8CD').value = status_5X8CD;
+    }
+    if (residentCount_6Z8CD) {
+        document.getElementById('residentCount_6Z8CD').value = residentCount_6Z8CD;
+    }
+    if (residentNames_7B8CD) {
+        document.getElementById('residentNames_7B8CD').value = residentNames_7B8CD;
+    }
+    if (phoneNumber_8D8CD) {
+        document.getElementById('phoneNumber_8D8CD').value = phoneNumber_8D8CD;
+    }
+    if (livesAlone_9F8CD) {
+        document.getElementById('livesAlone_9F8CD').value = livesAlone_9F8CD;
+    }
+    if (relativeStay_1H8CD) {
+        document.getElementById('relativeStay_1H8CD').value = relativeStay_1H8CD;
+    }
+    if (notAtHome_2J8CD) {
+        document.getElementById('notAtHome_2J8CD').value = notAtHome_2J8CD;
+    }
+}
+
+</script>
+
+<!-- <script>
+
+         google.script.run.withSuccessHandler(checkcarstatusshowData).checkcarstatusgetdata()
+        
+        function checkcarstatusshowData(dataSet){
+   // header = dataSet[0]
+    //console.log(header)
+  new DataTable('#checkcarstatus', {
+    columns: [
+        { title: 'ไอดี' },
+        { title: 'ชื่อผู้จอง'},
+        { title: 'แผนก'},
+        { title: 'รถ' },
+        { title: 'สถานที่ๆไปติดต่อ'},
+        { title: 'วันที่ออก' },
+        { title: 'เวลาออก'},
+        { title: 'วันที่เข้า'},
+        { title: 'เวลาเข้า'},
+        { title: 'คนขับ'},
+        { title: 'อื่นๆ'},
+         { title: 'สถานะ' ,    
+        targets: 11,
+           render: function (data) {    
+        if(data ==="รออนุมัติ"){
+        data = "<span class='badge bg-warning text-white sfont'>รออนุมัติ</span>";
+        }else if(data ==="อนุมัติ") {
+        data = "<span class='badge bg-success text-white sfont'><i class='fa-regular fa-circle-check fa-beat-fade'></i>อนุมัติ</span>";
+        }else if(data ==="ไม่อนุมัติ") {
+        data = "<span class='badge bg-danger text-white sfont'>ไม่อนุมัติ</span>";
+        }else if(data ==="ยกเลิกการจองรถ") {
+        data = "<span class='badge bg-danger text-white sfont'>ยกเลิกการจองรถ</span>";
+        }else if(data ==="ส่งคืน") {
+        data = "<span class='badge bg-info text-white sfont'>ส่งคืน</span>";
+        }else if(data ==="กำลังใช้งาน") {
+        data = "<span class='badge bg-primary text-white sfont'>กำลังใช้งาน</span>";
+        }
+        return data;
+        }
+        }, 
+        { title: 'ผู้อนุมัติ'},
+        { title: 'วันที่ออก'},
+        { title: 'เวลาออก'},
+        { title: 'เลขไมล์ออก'},
+        { title: 'คนขับ'},
+       
+        { title: 'ดูข้อมูล' ,    
+        targets: 17,
+            data: null,
+            defaultContent: '&nbsp&nbsp&nbsp<i class="fa-solid fa-eye fa-xl" style="color: #0000ff;cursor: pointer;" onclick="checkcarstatuseditData(this);"></i>',
+        }, 
+        
+    ],
+    data: dataSet.slice(1),
+    bFilter: true,
+    responsive: true,
+    oder:false,
+     language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/th.json',
+    },
+     "destroy": true,
+      order: [[0, 'asc']],
+      columnDefs:[
+          {
+          targets: [17],className: 'all',},
+       ],
+      //จำกัดให้แสดงปุ่มหน้าตามจำนวนที่ต้องการ
+         initComplete: function(settings){
+          var api = new $.fn.dataTable.Api( settings );
+          $('.table-filter-container', api.table().container()).append(
+          );
+
+           $('#table-filter select').on('change', function(){
+             table.columns(17).search(this.value).draw();   
+          });
+          }
+      });    
+        //It will show only 4 pager buttons.
+    $.fn.DataTable.ext.pager.numbers_length = 5;
+    }
+
+function checkcarstatuseditData(el) {
+    var numidstatus = el.parentNode.parentNode.cells[0].innerText;
+    var namestatus = el.parentNode.parentNode.cells[1].innerText;
+    var depstatus = el.parentNode.parentNode.cells[2].innerText;
+    var carstatus = el.parentNode.parentNode.cells[3].innerText;
+    var locastatus = el.parentNode.parentNode.cells[4].innerText;
+    var startDatestatus = el.parentNode.parentNode.cells[5].innerText;
+    var startTimestatus = el.parentNode.parentNode.cells[6].innerText;
+    var endDatestatus = el.parentNode.parentNode.cells[7].innerText;
+    var endTimestatus = el.parentNode.parentNode.cells[8].innerText;
+    //var drivestatus = el.parentNode.parentNode.cells[9].innerText;
+    var otherstatus = el.parentNode.parentNode.cells[10].innerText;
+    var preapprovestatus = el.parentNode.parentNode.cells[11].innerText;
+    var approvestatus = el.parentNode.parentNode.cells[12].innerText;
+    var dateoutstatus = el.parentNode.parentNode.cells[13].innerText;
+    var timeoutstatus = el.parentNode.parentNode.cells[14].innerText;
+    var mileoutstatus = el.parentNode.parentNode.cells[15].innerText;
+    var drivestatus = el.parentNode.parentNode.cells[9].innerText;
+
+    // สร้างตาราง HTML
+    var table = `<br>
+        <table class='table table-bordered table-striped table-hover text-start' style="width:100%">
+             <thead  class='bg-primary text-white'>
+                <tr>   
+                <th colspan='2' class='text-center'>ข้อมูลทั้งหมด</th>
+                </tr> 
+              </thead>
+            <tr>
+                <th scope='col'>ไอดี</th>
+                <td style="color:blue;">${numidstatus}</td>
+            </tr>
+            <tr>
+                <th scope='col'>ชื่อ สกุล</th>
+                <td style="color:blue;">${namestatus}</td>
+            </tr>
+            <tr>
+               <th scope='col'>แผนก</th>
+               <td style="color:blue;">${depstatus}</td>
+            </tr>
+            <tr>
+                <th scope='col'>รถ</th>
+                <td style="color:blue;">${carstatus}</td>
+            </tr>
+            <tr>
+                <th scope='col'>สถานที่</th>
+                <td style="color:blue;">${locastatus}</td>
+            </tr>
+            <tr>
+                <th scope='col'>วันที่เริ่ม</th>
+                <td style="color:blue;">${startDatestatus}</td>
+            </tr>
+            <tr>
+                <th scope='col'>เวลาเริ่ม</th>
+                <td style="color:blue;">${startTimestatus}</td>
+            </tr>
+            <tr>
+                <th scope='col'>วันที่สิ้นสุด</th>
+                <td style="color:blue;">${endDatestatus}</td>
+            </tr>
+            <tr>
+                <th scope='col'>เวลาสิ้นสุด</th>
+                <td style="color:blue;">${endTimestatus}</td>
+            </tr>
+
+            <tr>
+                <th scope='col'>อื่น ๆ</th>
+                <td style="color:blue;">${otherstatus}</td>
+            </tr>
+              <tr>
+                <th scope='col'>สถานะ</th>
+                <td style="color:blue;">${preapprovestatus}</td>
+            </tr>
+             <tr>
+                <th scope='col'>ผู้อนุมัติ</th>
+                <td style="color:blue;">${approvestatus}</td>
+            </tr>
+              <tr>
+                <th scope='col'>วันที่ออก</th>
+                <td style="color:blue;">${dateoutstatus}</td>
+            </tr>
+              <tr>
+                <th scope='col'>เวลาออก</th>
+                <td style="color:blue;">${timeoutstatus}</td>
+            </tr>
+              <tr>
+                <th scope='col'>เลขไมล์ออก</th>
+                <td style="color:blue;">${mileoutstatus}</td>
+            </tr>
+              <tr>
+                <th scope='col'>คนขับรถ</th>
+                <td style="color:blue;">${drivestatus}</td>
+            </tr>
+        </table>
+    `;
+
+    // แสดงข้อมูลในรูปแบบของตารางในหน้าต่างแจ้งเตือนของ SweetAlert2
+    Swal.fire({
+        //title: 'ข้อมูลการจองรถ',
+        html: table,
+        confirmButtonText: 'ปิด',
+        showCloseButton: true // เพิ่ม property showCloseButton เพื่อแสดงปุ่มปิดด้านบน
+    });
+}
+
+</script> -->
+

@@ -1,0 +1,241 @@
+
+    <!-- <style>
+        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Prompt', sans-serif;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 160px;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+        
+        .icon-container {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.2;
+            font-size: 40px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover .icon-container {
+            opacity: 0.3;
+            transform: scale(1.1);
+        }
+        
+        .stat-card h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .stat-card p {
+            color: #666;
+            font-size: 18px;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+            margin-top: auto;
+        }
+        
+        .employees {
+            background: linear-gradient(135deg, #ffffff, #f0f7ff);
+            border-top: 5px solid #4361EE;
+        }
+        
+        .employees .icon-container {
+            background-color: #4361EE;
+        }
+        
+        .employees h2 {
+            color: #4361EE;
+        }
+        
+        .vacancies {
+            background: linear-gradient(135deg, #ffffff, #fff0f8);
+            border-top: 5px solid #F72585;
+        }
+        
+        .vacancies .icon-container {
+            background-color: #F72585;
+        }
+        
+        .vacancies h2 {
+            color: #F72585;
+        }
+        
+        .retiring {
+            background: linear-gradient(135deg, #ffffff, #fffbf0);
+            border-top: 5px solid #FFB100;
+        }
+        
+        .retiring .icon-container {
+            background-color: #FFB100;
+        }
+        
+        .retiring h2 {
+            color: #FFB100;
+        }
+        
+        .closed {
+            background: linear-gradient(135deg, #ffffff, #f0fffc);
+            border-top: 5px solid #2EC4B6;
+        }
+        
+        .closed .icon-container {
+            background-color: #2EC4B6;
+        }
+        
+        .closed h2 {
+            color: #2EC4B6;
+        }
+        
+        .acting {
+            background: linear-gradient(135deg, #ffffff, #f0f1ff);
+            border-top: 5px solid #7850C0;
+        }
+        
+        .acting .icon-container {
+            background-color: #7850C0;
+        }
+        
+        .acting h2 {
+            color: #7850C0;
+        }
+        
+        .regular {
+            background: linear-gradient(135deg, #ffffff, #f2fff0);
+            border-top: 5px solid #48C06A;
+        }
+        
+        .regular .icon-container {
+            background-color: #48C06A;
+        }
+        
+        .regular h2 {
+            color: #48C06A;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        /* Animation */
+        @keyframes fadeNumber {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .stat-card h2 {
+            animation: fadeNumber 1s forwards;
+        }
+        
+        .stat-card:nth-child(1) h2 { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) h2 { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) h2 { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) h2 { animation-delay: 0.4s; }
+        .stat-card:nth-child(5) h2 { animation-delay: 0.5s; }
+        .stat-card:nth-child(6) h2 { animation-delay: 0.6s; }
+    </style> -->
+
+    <!-- <div class="dashboard">
+              
+        <div class="stats-container">
+            <div class="stat-card employees">
+                <h2 id="total-employees">--</h2>
+                <p>อัตรากำลังพล</p>
+                <div class="icon-container">👥</div>
+            </div>
+
+            <div class="stat-card vacancies">
+                <h2 id="total-vacancies">--</h2>
+                <p>บรรจุจริง</p>
+                <div class="icon-container">📋</div>
+            </div>
+
+            <div class="stat-card retiring">
+                <h2 id="total-retiring">--</h2>
+                <p>อัตราว่าง</p>
+                <div class="icon-container">📩</div>
+            </div>
+
+            <div class="stat-card closed">
+                <h2 id="total-others">--</h2>
+                <p>อัตราปิด</p>
+                <div class="icon-container">🔒</div>
+            </div>
+
+        </div>
+        
+    </div> -->
+
+    <!-- <script>
+        // เมื่อเอกสารโหลดเสร็จ
+        document.addEventListener('DOMContentLoaded', function() {
+            // เรียกใช้ฟังก์ชัน getPersonData จาก Google Apps Script
+            try {
+                google.script.run.withSuccessHandler(updateDashboardData).getPersonData();
+            } catch (e) {
+                // หากไม่มี Google Apps Script (เช่นเมื่อทดสอบในสภาพแวดล้อมอื่น)
+                // ใช้ข้อมูลจำลองเพื่อแสดงตัวอย่าง
+                setTimeout(() => {
+                    updateDashboardData({
+                        totalEmployees: 999,
+                        permanent: 999,
+                        vacancies: 999,
+                        acting: 999,
+                        retiring: 999,
+                        closed: 999
+                    });
+                }, 500);
+            }
+        });
+
+        // ฟังก์ชันสำหรับอัปเดตข้อมูลบนหน้า dashboard
+        function updateDashboardData(data) {
+            // อัปเดตค่าในแต่ละการ์ด
+            document.getElementById('total-employees').textContent = data.totalEmployees || '--';
+            document.getElementById('total-vacancies').textContent = data.permanent || '--';
+            document.getElementById('total-retiring').textContent = data.vacancies || '--';
+            document.getElementById('total-others').textContent = data.closed || '--';
+            document.getElementById('total-acting').textContent = data.acting || '--';
+            document.getElementById('total-regular').textContent = data.retiring || '--';
+        }
+    </script> -->

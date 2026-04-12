@@ -1,0 +1,707 @@
+<script>
+
+  function login(obj) {
+      event.preventDefault()
+      Swal.fire({
+      position: 'center',
+      title: '<h4>กำลังตรวจสอบข้อมูล...</h4>',
+      showConfirmButton: false,
+      })
+      Swal.showLoading()
+      // google.script.run.withSuccessHandler(checkLoginStatus).checkLogin(obj);
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+      google.script.run.withSuccessHandler(checkLoginStatus).authenticateUser(username ,password);
+    
+    }
+
+    function checkLoginStatus(data) {
+      // console.log(data)
+      if(data != null){
+      var idmember = data[0][0];
+      var user = data[0][1];
+      var pass = data[0][2];
+      var status = data[0][3];
+      var fname = data[0][4];
+      var section = data[0][5];
+      var profile = data[0][6];
+      
+      if (status === 'admin') {
+        sessionStorage.setItem('permission', status);
+        sessionStorage.setItem('fname', fname);
+        sessionStorage.setItem('section', section);
+        sessionStorage.setItem('profile', profile);
+        sessionStorage.setItem('user', user);
+        showLoad()
+        Swal.fire({
+          position: 'top',
+          icon: 'success',
+          title: '<h4>เข้าสู่ระบบสำเร็จ</h4>',
+          showConfirmButton: false,
+          timer: 2500
+          })
+
+      $('#loginpage').hide()
+      $('#showsession').show()
+      $('#menu_admin').show()
+      $('#userlogin').html(permission)
+      $('#showuser').html(fname)
+      $("#searchname_in").prop("readonly", false);
+      $("#searchname_out").prop("readonly", false);
+      $("#searchname_name").prop("readonly", false);
+      $("#searchname_preapprove").prop("readonly", false);
+      $("#pageinput").prop("hidden", false);
+      $("#pageinput2").prop("hidden", false);
+      document.getElementById('profile').src = profile 
+      document.getElementById('profile2').src = profile   
+      document.getElementById('name_book').value = fname
+      document.getElementById('dropdown_dep').value = section
+      document.getElementById('apporve_approve').value = fname
+      document.getElementById('apporve_approve1').value = fname
+      document.getElementById('searchname_name').value = fname
+      document.getElementById('searchname_preapprove').value = fname
+      document.getElementById('searchname_cancel').value = fname
+      document.getElementById('namecancel_car').value = fname
+      document.getElementById('searchname_out').value = fname
+      document.getElementById('searchname_in').value = fname
+      document.getElementById('driver_mileout').value = fname
+      document.getElementById('driver_milein').value = fname
+      document.getElementById('uname').value = user
+      
+      
+    
+      $('#openchangtoken').show()
+      //reLoad()
+
+
+      } else if (status === 'user') {
+        sessionStorage.setItem('permission', status);
+        sessionStorage.setItem('fname', fname);
+        sessionStorage.setItem('section', section);
+        sessionStorage.setItem('profile', profile);
+        sessionStorage.setItem('user', user);
+        showLoad()
+        Swal.fire({
+          position: 'top',
+          icon: 'success',
+          title: '<h4>เข้าสู่ระบบสำเร็จ</h4>',
+          showConfirmButton: false,
+          timer: 2500
+          })
+
+        $('#loginpage').hide()
+        $('#menu_admin').hide()
+        $('#openchangtoken').hide()
+        $('#bookingcaruser').click()
+        $('#showsession').show()
+        $('#userlogin').html(permission)
+        $('#showuser').html(fname)
+        document.getElementById('profile').src = profile 
+        document.getElementById('profile2').src = profile   
+        document.getElementById('dropdown_dep').value = section
+        document.getElementById('name_book').value = fname
+        document.getElementById('apporve_approve').value = fname 
+        document.getElementById('apporve_approve1').value = fname 
+        document.getElementById('apporve_approve2').value = fname 
+        document.getElementById('apporve_approve3').value = fname 
+        document.getElementById('apporve_approve4').value = fname 
+        document.getElementById('searchname_name').value = fname
+        document.getElementById('searchname_preapprove').value = fname
+        document.getElementById('searchname_cancel').value = fname
+        document.getElementById('namecancel_car').value = fname
+        document.getElementById('searchname_out').value = fname
+        document.getElementById('searchname_in').value = fname
+        document.getElementById('driver_mileout').value = fname
+        document.getElementById('driver_milein').value = fname
+        document.getElementById('uname').value = user
+        $('#shoapprove').hide()
+        $('#openchangtoken').hide()
+        $('#titleapprove').html('<i class="fa-solid fa-triangle-exclamation fa-beat-fade text-danger"></i> <span class="text-danger">หน้านี้ถูกจำกัดสิทธิ์การใช้งาน สำหรับเจ้าหน้าที่เท่านั้น!</span>');
+        
+
+        
+} else if (status === 'general') {
+        sessionStorage.setItem('permission', status);
+        sessionStorage.setItem('fname', fname);
+        sessionStorage.setItem('section', section);
+        sessionStorage.setItem('profile', profile);
+        sessionStorage.setItem('user', user);
+        showLoad()
+        Swal.fire({
+          position: 'top',
+          icon: 'success',
+          title: '<h4>เข้าสู่ระบบสำเร็จ</h4>',
+          showConfirmButton: false,
+          timer: 2500
+          })
+
+        $('#loginpage').hide()
+        $('#menu_admin').hide()
+        $('#openchangtoken').hide()
+        $('#diarycheckCar').click()
+        $('#showsession').show()
+        $('#page_driver').show()
+        $('#admin_page').hide()
+        $('#page_user').hide()
+        $('#userlogin').html(permission)
+        $('#showuser').html(fname)
+        document.getElementById('profile').src = profile 
+        document.getElementById('profile2').src = profile   
+        document.getElementById('searchname_out').value = fname
+        document.getElementById('searchname_in').value = fname
+        document.getElementById('driver_mileout').value = fname
+        document.getElementById('driver_milein').value = fname
+        document.getElementById('uname').value = user
+        $('#shoapprove').hide()
+        $('#openchangtoken').hide()
+        $('#titleapprove').html('<i class="fa-solid fa-triangle-exclamation fa-beat-fade text-danger"></i> <span class="text-danger">หน้านี้ถูกจำกัดสิทธิ์การใช้งาน สำหรับเจ้าหน้าที่เท่านั้น!</span>');
+        
+} else if (status === 'vip') {
+        sessionStorage.setItem('permission', status);
+        sessionStorage.setItem('fname', fname);
+        sessionStorage.setItem('section', section);
+        sessionStorage.setItem('profile', profile);
+        sessionStorage.setItem('user', user);
+        showLoad()
+        Swal.fire({
+          position: 'top',
+          icon: 'success',
+          title: '<h4>เข้าสู่ระบบสำเร็จ</h4>',
+          showConfirmButton: false,
+          timer: 2500
+          })
+
+        $('#loginpage').hide()
+        $('#menu_admin').hide()
+        $('#openchangtoken').hide()
+        $('#diarycheckCar').click()
+        $('#showsession').show()
+        $('#page_driver').hide()
+        $('#page_vip').show()
+        $('#admin_page').hide()
+        $('#page_user').hide()
+        $('#userlogin').html(permission)
+        $('#showuser').html(fname)
+        document.getElementById('profile').src = profile 
+        document.getElementById('profile2').src = profile   
+        document.getElementById('searchname_out').value = fname
+        document.getElementById('searchname_in').value = fname
+        document.getElementById('driver_mileout').value = fname
+        document.getElementById('driver_milein').value = fname
+        document.getElementById('uname').value = user
+        $('#shoapprove').hide()
+        $('#openchangtoken').hide()
+        $('#titleapprove').html('<i class="fa-solid fa-triangle-exclamation fa-beat-fade text-danger"></i> <span class="text-danger">หน้านี้ถูกจำกัดสิทธิ์การใช้งาน สำหรับเจ้าหน้าที่เท่านั้น!</span>');
+
+        
+} else if (status === 'finance') {
+        sessionStorage.setItem('permission', status);
+        sessionStorage.setItem('fname', fname);
+        sessionStorage.setItem('section', section);
+        sessionStorage.setItem('profile', profile);
+        sessionStorage.setItem('user', user);
+        showLoad()
+        Swal.fire({
+          position: 'top',
+          icon: 'success',
+          title: '<h4>เข้าสู่ระบบสำเร็จ</h4>',
+          showConfirmButton: false,
+          timer: 2500
+          })
+
+        $('#loginpage').hide()
+        $('#menu_admin').hide()
+        $('#openchangtoken').hide()
+        $('#diarycheckCar').click()
+        $('#showsession').show()
+        $('#page_driver').hide()
+        $('#page_vip').hide()
+        $('#page_finance').show()
+        $('#admin_page').hide()
+        $('#page_user').hide()
+        $('#userlogin').html(permission)
+        $('#showuser').html(fname)
+        document.getElementById('profile').src = profile 
+        document.getElementById('profile2').src = profile   
+        document.getElementById('searchname_out').value = fname
+        document.getElementById('searchname_in').value = fname
+        document.getElementById('driver_mileout').value = fname
+        document.getElementById('driver_milein').value = fname
+        document.getElementById('uname').value = user
+        $('#shoapprove').hide()
+        $('#openchangtoken').hide()
+        $('#titleapprove').html('<i class="fa-solid fa-triangle-exclamation fa-beat-fade text-danger"></i> <span class="text-danger">หน้านี้ถูกจำกัดสิทธิ์การใช้งาน สำหรับเจ้าหน้าที่เท่านั้น!</span>');
+
+        
+} else if (status === 'schedule') {
+        sessionStorage.setItem('permission', status);
+        sessionStorage.setItem('fname', fname);
+        sessionStorage.setItem('section', section);
+        sessionStorage.setItem('profile', profile);
+        sessionStorage.setItem('user', user);
+        showLoad()
+        Swal.fire({
+          position: 'top',
+          icon: 'success',
+          title: '<h4>เข้าสู่ระบบสำเร็จ</h4>',
+          showConfirmButton: false,
+          timer: 2500
+          })
+
+        $('#loginpage').hide()
+        $('#menu_admin').hide()
+        $('#openchangtoken').hide()
+        $('#diarycheckCar').click()
+        $('#showsession').show()
+        $('#page_driver').hide()
+        $('#page_vip').hide()
+        $('#page_finance').hide()
+        $('#page_schedule').show()
+        $('#admin_page').hide()
+        $('#page_user').hide()
+        $('#userlogin').html(permission)
+        $('#showuser').html(fname)
+        document.getElementById('profile').src = profile 
+        document.getElementById('profile2').src = profile   
+        document.getElementById('searchname_out').value = fname
+        document.getElementById('searchname_in').value = fname
+        document.getElementById('driver_mileout').value = fname
+        document.getElementById('driver_milein').value = fname
+        document.getElementById('uname').value = user
+        $('#shoapprove').hide()
+        $('#openchangtoken').hide()
+        $('#titleapprove').html('<i class="fa-solid fa-triangle-exclamation fa-beat-fade text-danger"></i> <span class="text-danger">หน้านี้ถูกจำกัดสิทธิ์การใช้งาน สำหรับเจ้าหน้าที่เท่านั้น!</span>');
+
+        
+} else if (status === 'ระงับการใช้งาน' ) {
+      // console.log('bbb');
+      Swal.fire({
+      position: 'top-center',
+      icon: 'error',
+      title: 'ชื่อผู้ใช้นี้ถูกระงับการใช้งานแล้ว',
+      showConfirmButton: false,
+      timer: 1500
+      });
+      $('#loginpage')[0].reset();
+
+
+}
+
+
+//หากไม่ตรงตามเงื่อนไขใดๆ ให้มีข้อความแจ้งเตือน
+}else{
+    document.getElementById("username").value = "" 
+    document.getElementById("password").value = "" 
+    Swal.fire({
+    position: 'center',
+    icon: 'error',
+    title: '<h4>กรุณาตรวจสอบชื่อผู้ใช้หรือรหัสผ่านของท่าน</h4>',
+    showConfirmButton: true,
+    confirmButtonText: 'Close',
+    })
+  }
+}
+
+
+  // อ่านค่าสิทธิ์จาก session Storage
+  var permission = sessionStorage.getItem('permission');
+  var fname = sessionStorage.getItem('fname');
+  var section = sessionStorage.getItem('section');
+  var profile = sessionStorage.getItem('profile');
+  var user = sessionStorage.getItem('user');
+  // ตรวจสอบสิทธิ์และดำเนินการตามต้องการ
+  if (permission === 'admin') {
+    // ทำสิทธิ์ของผู้ใช้ที่เป็น admin
+      $('#loginpage').hide()
+      $('#showsession').show()
+      $('#menu_admin').show()
+      $('#userlogin').html( permission)
+      $('#showuser').html(fname)
+      $('#openchangtoken').show()
+      $("#searchname_in").prop("readonly", false);
+      $("#searchname_out").prop("readonly", false);
+      $("#searchname_name").prop("readonly", false);
+      $("#searchname_preapprove").prop("readonly", false);
+      $("#pageinput").prop("hidden", false);
+      $("#pageinput2").prop("hidden", false);
+      document.getElementById('profile').src = profile 
+      document.getElementById('profile2').src = profile   
+      document.getElementById('name_book').value = fname
+      document.getElementById('dropdown_dep').value = section
+      document.getElementById('apporve_approve').value = fname
+      document.getElementById('apporve_approve1').value = fname
+      document.getElementById('apporve_approve2').value = fname
+      document.getElementById('apporve_approve3').value = fname
+      document.getElementById('apporve_approve4').value = fname
+      document.getElementById('searchname_name').value = fname
+      document.getElementById('searchname_preapprove').value = fname
+      document.getElementById('searchname_cancel').value = fname
+      document.getElementById('namecancel_car').value = fname
+      document.getElementById('searchname_out').value = fname
+      document.getElementById('searchname_in').value = fname
+      document.getElementById('driver_mileout').value = fname
+      document.getElementById('driver_milein').value = fname
+      document.getElementById('uname').value = user
+      document.getElementById("ipusershow").innerText = sessionStorage.getItem('ipCheck');      
+
+  } else if (permission === 'user') {
+    // ทำสิทธิ์ของผู้ใช้ที่เป็น user
+      $('#userlogin').html(permission)
+      $('#showuser').html(fname)
+      $('#bookingcaruser').click()
+      $('#menu_admin').hide()
+      $('#loginpage').hide()
+      $('#showsession').show()
+      $('#shoapprove').hide()
+      $('#openchangtoken').hide()
+$('#titleapprove').html('<i class="fa-solid fa-triangle-exclamation fa-beat-fade text-danger"></i> <span class="text-danger">หน้านี้ถูกจำกัดสิทธิ์การใช้งาน สำหรับเจ้าหน้าที่เท่านั้น!</span>');
+      document.getElementById('profile').src = profile 
+      document.getElementById('profile2').src = profile   
+      document.getElementById('name_book').value = fname
+      document.getElementById('dropdown_dep').value = section
+      document.getElementById('searchname_name').value = fname 
+      document.getElementById('searchname_preapprove').value = fname 
+      document.getElementById('searchname_cancel').value = fname
+      document.getElementById('namecancel_car').value = fname
+      document.getElementById('searchname_out').value = fname
+      document.getElementById('searchname_in').value = fname
+      document.getElementById('driver_mileout').value = fname
+      document.getElementById('driver_milein').value = fname
+      document.getElementById('uname').value = user
+      document.getElementById("ipusershow").innerText = sessionStorage.getItem('ipCheck');      
+
+
+
+  } else if (permission === 'general') {
+    // ทำสิทธิ์ของผู้ใช้ที่เป็น user
+      $('#userlogin').html(permission)
+      $('#showuser').html(fname)
+      $('#menu_admin').hide()
+      $('#diarycheckCar').click()
+      $('#showsession').show()
+      $('#page_driver').show()
+      $('#admin_page').hide()
+      $('#page_user').hide()
+      $('#loginpage').hide()
+      $('#shoapprove').hide()
+      $('#openchangtoken').hide()
+$('#titleapprove').html('<i class="fa-solid fa-triangle-exclamation fa-beat-fade text-danger"></i> <span class="text-danger">หน้านี้ถูกจำกัดสิทธิ์การใช้งาน สำหรับเจ้าหน้าที่เท่านั้น!</span>');
+      document.getElementById('profile').src = profile 
+      document.getElementById('profile2').src = profile   
+      document.getElementById('searchname_out').value = fname
+      document.getElementById('searchname_in').value = fname
+      document.getElementById('driver_mileout').value = fname
+      document.getElementById('driver_milein').value = fname
+      document.getElementById('uname').value = user
+      document.getElementById("ipusershow").innerText = sessionStorage.getItem('ipCheck');      
+
+
+
+  } else if (permission === 'vip') {
+    // ทำสิทธิ์ของผู้ใช้ที่เป็น user
+      $('#userlogin').html(permission)
+      $('#showuser').html(fname)
+      $('#menu_admin').hide()
+      $('#diarycheckCar').click()
+      $('#showsession').show()
+      $('#page_driver').hide()
+      $('#page_vip').show()
+      $('#admin_page').hide()
+      $('#page_user').hide()
+      $('#loginpage').hide()
+      $('#shoapprove').hide()
+      $('#openchangtoken').hide()
+$('#titleapprove').html('<i class="fa-solid fa-triangle-exclamation fa-beat-fade text-danger"></i> <span class="text-danger">หน้านี้ถูกจำกัดสิทธิ์การใช้งาน สำหรับเจ้าหน้าที่เท่านั้น!</span>');
+      document.getElementById('profile').src = profile 
+      document.getElementById('profile2').src = profile   
+      document.getElementById('searchname_out').value = fname
+      document.getElementById('searchname_in').value = fname
+      document.getElementById('driver_mileout').value = fname
+      document.getElementById('driver_milein').value = fname
+      document.getElementById('uname').value = user
+      document.getElementById("ipusershow").innerText = sessionStorage.getItem('ipCheck');      
+
+
+  } else if (permission === 'finance') {
+    // ทำสิทธิ์ของผู้ใช้ที่เป็น user
+      $('#userlogin').html(permission)
+      $('#showuser').html(fname)
+      $('#menu_admin').hide()
+      $('#diarycheckCar').click()
+      $('#showsession').show()
+      $('#page_driver').hide()
+      $('#page_vip').hide()
+      $('#page_finance').show()
+      $('#admin_page').hide()
+      $('#page_user').hide()
+      $('#loginpage').hide()
+      $('#shoapprove').hide()
+      $('#openchangtoken').hide()
+$('#titleapprove').html('<i class="fa-solid fa-triangle-exclamation fa-beat-fade text-danger"></i> <span class="text-danger">หน้านี้ถูกจำกัดสิทธิ์การใช้งาน สำหรับเจ้าหน้าที่เท่านั้น!</span>');
+      document.getElementById('profile').src = profile 
+      document.getElementById('profile2').src = profile   
+      document.getElementById('searchname_out').value = fname
+      document.getElementById('searchname_in').value = fname
+      document.getElementById('driver_mileout').value = fname
+      document.getElementById('driver_milein').value = fname
+      document.getElementById('uname').value = user
+      document.getElementById("ipusershow").innerText = sessionStorage.getItem('ipCheck');      
+
+
+  } else if (permission === 'schedule') {
+    // ทำสิทธิ์ของผู้ใช้ที่เป็น user
+      $('#userlogin').html(permission)
+      $('#showuser').html(fname)
+      $('#menu_admin').hide()
+      $('#diarycheckCar').click()
+      $('#showsession').show()
+      $('#page_driver').hide()
+      $('#page_vip').hide()
+      $('#page_finance').hide()
+      $('#page_schedule').show()
+      $('#admin_page').hide()
+      $('#page_user').hide()
+      $('#loginpage').hide()
+      $('#shoapprove').hide()
+      $('#openchangtoken').hide()
+$('#titleapprove').html('<i class="fa-solid fa-triangle-exclamation fa-beat-fade text-danger"></i> <span class="text-danger">หน้านี้ถูกจำกัดสิทธิ์การใช้งาน สำหรับเจ้าหน้าที่เท่านั้น!</span>');
+      document.getElementById('profile').src = profile 
+      document.getElementById('profile2').src = profile   
+      document.getElementById('searchname_out').value = fname
+      document.getElementById('searchname_in').value = fname
+      document.getElementById('driver_mileout').value = fname
+      document.getElementById('driver_milein').value = fname
+      document.getElementById('uname').value = user
+      document.getElementById("ipusershow").innerText = sessionStorage.getItem('ipCheck');      
+
+
+  } else if (permission === 'viewer') 
+  
+  {
+  //   // ทำสิทธิ์ของผู้ใช้ที่เป็น viewer
+  } else {
+    // ทำสิทธิ์สำหรับผู้ใช้ที่ไม่ได้ล็อกอิน
+    $('#loginpage').show()
+  }
+
+
+// function logout() {
+//   Swal.fire({
+//   title: 'ยืนยันการออกจากระบบ?',
+//   text: "ท่านแน่ใจหรือว่าจะออกจากระบบตอนนี้",
+//   icon: 'question',
+//   showCancelButton: true,
+//   confirmButtonColor: '#3085d6',
+//   cancelButtonColor: '#d33',
+//   confirmButtonText: 'ตกลง',
+//   cancelButtonText:'ยกเลิก'
+// }).then((result) => {
+//   if (result.isConfirmed) {
+//      // ล้างค่าทั้งหมดที่เก็บใน session Storage
+//       sessionStorage.clear();
+//       showLoad()
+//       // ทำการเปลี่ยนเส้นทางหรือส่งไปยังหน้าอื่นหลังจาก logout (ตามความต้องการ)
+//       $('#loginpage').show()
+//       $('#showsession').hide()
+//       $('#loginpage')[0].reset();
+//       //$('#loginsuccess').html('Login Form') 
+//       }
+//     })
+//   reLoad()  
+// }
+
+function logout() {
+ Swal.fire({
+ title: 'ยืนยันการออกจากระบบ?',
+ text: "ท่านแน่ใจหรือว่าจะออกจากระบบตอนนี้",
+ icon: 'question',
+ showCancelButton: true,
+ confirmButtonColor: '#3085d6',
+ cancelButtonColor: '#d33',
+ confirmButtonText: 'ตกลง',
+ cancelButtonText:'ยกเลิก'
+}).then((result) => {
+ if (result.isConfirmed) {
+ // ล้างค่าทั้งหมดที่เก็บใน session Storage
+ sessionStorage.clear();
+ // ทำการเปลี่ยนเส้นทางหรือส่งไปยังหน้าอื่นหลังจาก logout (ตามความต้องการ)
+ $('#loginpage')[0].reset();
+ $('#loginpage').show()
+ $('#showsession').hide()
+ }
+ });
+ // เพิ่ม event listener ให้กับ modal
+ $('.swal2-confirm').click(function() {
+ // เรียกใช้ reload() เมื่อกดปุ่มยืนยัน
+ showLoad()
+ reLoad();
+ });
+}
+
+
+
+ function openPage(pageName,elmnt) {
+  var i, content;
+  content = $(".content");
+  for (i = 0; i < content.length; i++) {
+    content[i].style.display = "none";
+  }
+    $("#" + pageName).css("display", "block");
+    // $('#sidebarToggle').click()
+}
+$('#homepage').click()
+
+
+function reLoad() {
+    google.script.run.withSuccessHandler(function(url){
+        window.open(url,'_top');
+    })
+    .getURL();
+
+    // Call loginCheck() after the above asynchronous operation
+    // loginCheck();
+} 
+
+document.addEventListener('DOMContentLoaded', function () {
+    // โค้ดที่ต้องการให้ทำงานหลังจาก DOM โหลดเสร็จสมบูรณ์
+
+    async function getIPAddress() {
+        const ipAPI = "//api.ipify.org?format=json";
+        const response = await fetch(ipAPI);
+        const data = await response.json();
+        const inputValue = data.ip;
+        return inputValue;
+    }
+
+    async function loginCheck() {
+        // รับค่า username จาก input element
+        var username = document.getElementById('username').value;
+
+        const ipCheck = await getIPAddress();
+        // เก็บค่า ipCheck ใน sessionStorage
+        sessionStorage.setItem('ipCheck', ipCheck);
+
+        const userAgent = navigator.userAgent;
+
+        google.script.run.loginCheckip(username, ipCheck, userAgent);
+
+        // document.getElementById("ipusershow").innerText = `${ipCheck}`;
+        // ดึงค่า ipCheck จาก sessionStorage และแสดงผลที่ 'ipusershow'
+        document.getElementById("ipusershow").innerText = sessionStorage.getItem('ipCheck');
+    }
+
+    // เพิ่ม event listener สำหรับทำงานหลังจากผู้ใช้กรอก username
+    document.getElementById('username').addEventListener('change', loginCheck);
+});
+
+
+$(document).ready(function() { 
+    google.script.run.withSuccessHandler(data=>{
+      $('#countPage').text(data)
+    }).countPage()
+
+   })
+
+ //ดึงค่าไปแสดงผล
+  document.addEventListener('DOMContentLoaded',function(){
+  setInterval(function(){
+//ทำใฟ้กราฟแสดงข้อมูลล่าสุดเมื่อมีการเพิ่มข้อมูลการจองใหม่
+google.script.run.withSuccessHandler((r)=>{
+          let xValues = r.map(r=>{return r[1]})
+          let yValues = r.map(r=>{return r[2]})
+              // myChartCar.data.datasets[0].data = yValues  //เพิ่มค่าอาเรย์ลงในออปเจกต์ ส่วน data  มีการเขียนเพื่อเข้าถึงออปเจกต์ต่างๆ 
+              // myChartCar.data.labels = xValues //เพิ่มค่าอาเรย์ลงในออปเจกต์ ส่วน labels มีการเขียนเพื่อเข้าถึงออปเจกต์ต่างๆ 
+              // myChartCar.update()
+              hidenotify()
+          }).getData_ChartBar()
+ //ดึงข้อมูลสถานะมาแสดงอัตโนมัติ เมื่อมีการ update         
+    let totalpreapproval = document.getElementById('totalpreapproval')
+    let totalpreapproval_1 = document.getElementById('totalpreapproval_1')
+    let totalpreapproval_2 = document.getElementById('totalpreapproval_2')
+    let total_approval = document.getElementById('total_approval')
+    let total_unapproval = document.getElementById('total_unapproval')
+    let total_cancelbook = document.getElementById('total_cancelbook')
+google.script.run.withSuccessHandler(data=>{
+      totalpreapproval.innerHTML = data[0]
+      totalpreapproval_1.innerHTML = data[1]
+      totalpreapproval_2.innerHTML = data[2]
+      total_approval.innerHTML = data[3]
+      total_unapproval.innerHTML = data[4]
+      total_cancelbook.innerHTML = data[5]
+     
+ }).getSummary()
+ 
+  },2000)
+})
+
+//สร้างตัวแจ้งเตือนกระดิ่งเมื่อมีการจองรถเข้ามา
+function hidenotify(){
+  // ถ้ามีค่าน้อยกว่า1ให้ตัว Notification หายไป"
+let totalpreapproval_1 = document.getElementById('totalpreapproval_1');
+let notifyElement = document.getElementById('notify');
+let notifyElement1 = document.getElementById('notify1');
+// ตรวจสอบว่าค่าเท่ากับหรือไม่ 0
+if (totalpreapproval_1.textContent.trim() === '0') {
+  // หากเท่ากับ 0 ให้ซ่อนปุ่มแจ้งเตือนสถานะ
+  totalpreapproval_1.style.display = 'none';
+  notifyElement.style.display = 'none';
+  notifyElement1.style.display = 'block';
+  hidenotifyButton.click();
+} else {
+  // หากไม่เท่ากับ 0 ให้แสดงปุ่มแจ้งเตือนสถานะ
+  totalpreapproval_1.style.display = 'block';
+  notifyElement.style.display = 'block';
+  notifyElement1.style.display = 'none';
+  hidenotifyButton.click();
+}
+
+}
+
+
+
+//ตัวเลขวิ่งตอนโหลด
+let done = [];
+function isComing(el) {
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top <= (window.innerHeight || document.documentElement.clientHeight)
+  );
+}
+
+function s_counters() {
+  const s_counters = document.querySelectorAll(".s-counter");
+  s_counters.forEach(function (cntr) {
+    if (isComing(cntr)) {
+      var cntr_id = cntr.id;
+      if (!done[cntr_id]) {
+        var cntr_val = cntr.dataset.value;
+        var cntr_run = new countUp.CountUp(cntr_id, cntr_val);
+        cntr_run.start();
+        done[cntr_id] = true;
+      }
+    }
+  });
+}
+document.addEventListener("DOMContentLoaded", s_counters);
+window.addEventListener("scroll", s_counters, { passive: true });
+
+
+function showLoad(){
+$.LoadingOverlaySetup({
+    background      : "rgba(0, 0, 0, 0.5)",
+    image           : "https://img2.pic.in.th/pic/Untitled-designa64a7773ec4d81e9.png",
+    imageAnimation  : "1.5s fadein",
+    imageColor      : "#ffcc00"
+});
+// Show full page LoadingOverlay
+$.LoadingOverlay("show");
+
+// Hide it after 3 seconds
+setTimeout(function(){
+    $.LoadingOverlay("hide");
+}, 3000);
+}
+
+
+
+</script>

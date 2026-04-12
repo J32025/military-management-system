@@ -1,0 +1,79 @@
+<div class="container-fluid px-4">
+  <form class="row g-3" id="myForm" onsubmit="submitForm(this)">
+    <h4 class="text-primary text-center">อัปโหลดตารางเวร</h4>
+
+    <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+      <label for="formFile" class="form-label">ตารางเวรประจำเดือน</label>
+      <input id="file_schedule" class="form-control" type="file" onchange="saveFile(this)" required />
+    </div>
+
+    <!-- Other form fields -->
+
+    <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+      <button type="submit" class="btn btn-primary w-100">อัพโหลดตารางเวร</button>
+    </div>
+    
+<!-- <section style="display:none;">
+    <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+      <label for="fname" class="form-label">ยศ ชื่อ สกุล</label>
+      <input type="text" class="form-control" id="fname" name="fname" required />
+    </div>
+
+    <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+      <label for="sname" class="form-label">ตำแหน่ง</label>
+      <input type="text" class="form-control" id="sname" name="sname" required />
+    </div>
+</section> -->
+
+  </form>
+
+</div>
+
+<div class="table-responsive" id="show_searchname">
+  <table id="schedule_table" class="table table-striped table-sm table table-hover align-middle"
+    style="width:100%; font-size:14px;">
+    <thead class="bg-red text-white"></thead>
+  </table>
+</div>
+
+  <script>
+    
+let obj = {}; // A global object to hold the form data
+
+function saveFile(f) {
+  const file_schedule = f.files[0];
+  const fr = new FileReader();
+  fr.onload = function (e) {
+    // Include fname and email in the object to be passed to Google Script
+    obj.filename = file.name;
+    obj.mimeType = file.type;
+    obj.bytes = [...new Int8Array(e.target.result)];
+  };
+  fr.readAsArrayBuffer(file_schedule);
+}
+
+function submitForm(form){
+  event.preventDefault();
+  Swal.fire({title:"กำลังอัพโหลดตารางเวร..."});
+  Swal.showLoading();
+
+  // Add fname and email to the obj
+  // obj.fname = form.fname.value;
+  // obj.sname = form.sname.value;
+
+  // Call the Google Script function with the global object
+  google.script.run.withSuccessHandler(()=>{
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "อัพโหลดตารางเวรเรียบร้อย",
+      showConfirmButton: false,
+      timer: 1500
+    });
+    document.getElementById('myForm').reset();
+  }).saveFile(obj); 
+}
+
+  </script>
+
+  <script src="https://fastly.jsdelivr.net/npm/sweetalert2@11"></script>

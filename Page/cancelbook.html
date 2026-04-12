@@ -1,0 +1,249 @@
+<!-- The Modal -->
+<div class="modal" id="cancel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header bg-danger text-white">
+        <h4 class="modal-title text-white">แบบฟอร์มยกเลิกการจองรถ</h4>
+        <button type="button" id="cancelbtn-close" class="btn-close text-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="cancelmyForm" onsubmit="cancelForm(this)" class="row g-2">
+
+          <input type="text" id="numid_cancel" name="numid_cancel" hidden>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspชื่อผู้จอง</label>
+            <input type="text" class="form-control" id="name_cancel" name="name_cancel" style="color:blue; border:none; background:none;" readonly>
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspแผนก</label>
+            <input type="text" class="form-control" id="dep_cancel" name="dep_cancel" style="color:blue; border:none; background:none;" readonly>
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspรถคันที่จอง</label>
+            <input type="text" class="form-control" id="car_cancel" name="car_cancel" style="color:blue; border:none;" >
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspสถานที่ๆไปติดต่อ</label>
+            <input type="text" class="form-control" id="loca_cancel" name="loca_cancel" style="color:blue; border:none; background:none;" readonly>
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspวันที่จองไว้</label>
+            <input type="text" class="form-control" id="startDate_cancel" name="startDate_cancel" style="color:blue; border:none; background:none;"readonly>
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspเวลาออก</label>
+            <input type="text" class="form-control" id="startTime_cancel" name="startTime_cancel" style="color:blue; border:none; background:none;"readonly>
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspกำหนดคืนรถวันที่</label>
+            <input type="text" class="form-control" id="endDate_cancel" name="endDate_cancel" style="color:blue;border:none; background:none;"readonly>
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspกำหนดคืนรถเวลา</label>
+            <input type="text" class="form-control" id="endTime_cancel" name="endTime_cancel" style="color:blue;border:none; background:none;"readonly>
+          </div>
+           
+           <input type="text" class="form-control" id="drive_cancel" name="drive_cancel" style="color:blue;display:none;" readonly>
+
+          <input type="text" class="form-control" id="other_cancel" name="other_cancel" style="color:blue;display:none;" readonly>
+
+
+          <div class="col-12 col-md-6 mb-2">
+            <div class="form-group"> <label>&nbspสถานะ</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-house-chimney-user"></i></span>
+                <select class="form-select" id="preapporved_cancel" name="preapporved_cancel" aria-label="Default select example" style="color:blue;">
+                      <option value="ยกเลิกการจองรถ">ยกเลิกการจองรถ</option>
+
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 mb-2">
+            <div class="form-group"> <label>&nbspชื่อผู้ยกเลิก</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                <input type="text" class="form-control" id="namecancel_car" name="namecancel_car" style="color:blue;" required readonly>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="d-flex justify-content-center mt-4">
+            <button type="submit" class="btn bg-danger col-12 text-white"><i class="fas fa-paper-plane"></i> ยืนยันยกเลิกการจองรถ</button>
+          </div>
+        </form>
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<h1 class="mb-2"><i class="fa-solid fa-circle-xmark"></i> ยกเลิกข้อมูลการจองรถ</h1>
+<div class="table-responsive">
+
+  <table id="cancle" class="table table-striped table-sm table table-hover align-middle" style="width:100%; font-size:14px;">
+ <thead class="bg-danger text-white"></thead>
+  </table>
+</div>
+
+
+
+<script>
+  function cancelForm(obj){
+        event.preventDefault()
+          Swal.fire({
+            position: 'center',
+            title: '<i class="fa-solid fa-download fa-bounce me-2"></i><h4><br>กำลังบันทึกข้อมูล...</h4>',
+            showConfirmButton: false,
+          })
+           Swal.showLoading()
+
+       google.script.run.withSuccessHandler(canceladdSuccess).cancelRecord(obj)
+       }
+      function canceladdSuccess(result){
+       if(result == true){
+  
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+           
+            text: 'ยกเลิกการจองรถเรียบร้อยแล้ว',
+            //showConfirmButton: true,
+            showConfirmButton: false,
+            timer: 2500
+           })
+           document.getElementById("cancelbtn-close").click(); 
+           google.script.run.withSuccessHandler(cancelshowData).cancelgetdata()
+      }
+       }
+       
+
+   
+         google.script.run.withSuccessHandler(cancelshowData).cancelgetdata()
+        
+  function cancelshowData(dataSet){
+    header = dataSet[0]
+    //console.log(header)
+  new DataTable('#cancle', {
+    columns: [
+        { title: header[0] },
+        { title: header[1]},
+        { title: header[2]},
+        { title: header[3] },
+        { title: header[4]},
+        { title: header[5] },
+        { title: header[6]},
+        { title: header[7]},
+        { title: header[8]},
+        { title: header[9]},
+         { title: header[10]},
+         { title: 'สถานะ' ,    
+        targets: 11,
+           render: function (data) {    
+        if(data ==="รออนุมัติ"){
+        data = "<span class='badge bg-warning text-white sfont'>รออนุมัติ</span>";
+        }else if(data ==="อนุมัติ") {
+       return `<span class='badge bg-success text-white sfont' 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#cancel"  
+                    type="button"
+                    onclick="canceleditData(this);"><i class="fa-regular fa-circle-check fa-beat-fade"></i>อนุมัติ</span>`;
+        }else if(data ==="ไม่อนุมัติ") {
+        data = "<span class='badge bg-danger text-white sfont'>ไม่อนุมัติ</span>";
+        }else if(data ==="ยกเลิกการจองรถ") {
+        data = "<span class='badge bg-danger text-white sfont'>ยกเลิกการจองรถ</span>";
+        }else if(data ==="ส่งคืน") {
+        data = "<span class='badge bg-info text-white sfont'>ส่งคืน</span>";
+        }else if(data ==="กำลังใช้งาน") {
+        data = "<span class='badge bg-primary text-white sfont'>กำลังใช้งาน</span>";
+        }
+        return data;
+        }
+        }, 
+       
+     
+    ],
+    data: dataSet.slice(1),
+    bFilter: true,
+    responsive: true,
+    oder:false,
+     language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/th.json',
+    },
+     "destroy": true,
+      order: [[0, 'asc']],
+      columnDefs:[
+          {
+          targets: [11],className: 'all',},
+       ],
+      //จำกัดให้แสดงปุ่มหน้าตามจำนวนที่ต้องการ
+         initComplete: function(settings){
+          var api = new $.fn.dataTable.Api( settings );
+          $('.table-filter-container', api.table().container()).append(
+          );
+
+           $('#table-filter select').on('change', function(){
+             table.columns(11).search(this.value).draw();   
+          });
+          }
+      });    
+        //It will show only 4 pager buttons.
+    $.fn.DataTable.ext.pager.numbers_length = 5;
+    }
+
+
+
+
+ function canceleditData(el){
+  var numid_cancel = el.parentNode.parentNode.cells[0].innerText
+  var name_cancel = el.parentNode.parentNode.cells[1].innerText
+  var dep_cancel = el.parentNode.parentNode.cells[2].innerText
+  var car_cancel = el.parentNode.parentNode.cells[3].innerText
+  var loca_cancel = el.parentNode.parentNode.cells[4].innerText
+  var startDate_cancel = el.parentNode.parentNode.cells[5].innerText
+  var startTime_cancel = el.parentNode.parentNode.cells[6].innerText
+  var endDate_cancel = el.parentNode.parentNode.cells[7].innerText
+  var endTime_cancel = el.parentNode.parentNode.cells[8].innerText
+  var drive_cancel = el.parentNode.parentNode.cells[9].innerText
+  var other_cancel = el.parentNode.parentNode.cells[10].innerText
+ 
+  
+
+ 
+  
+    
+// console.log(record)
+    document.getElementById('numid_cancel').value = numid_cancel
+    document.getElementById('name_cancel').value = name_cancel
+    document.getElementById('dep_cancel').value = dep_cancel
+    document.getElementById('car_cancel').value = car_cancel
+    document.getElementById('loca_cancel').value = loca_cancel
+    document.getElementById('startDate_cancel').value = startDate_cancel
+    document.getElementById('startTime_cancel').value = startTime_cancel
+    document.getElementById('endDate_cancel').value = endDate_cancel
+    document.getElementById('endTime_cancel').value = endTime_cancel
+    document.getElementById('drive_cancel').value = drive_cancel
+    document.getElementById('other_cancel').value = other_cancel
+
+
+  }
+  
+</script>

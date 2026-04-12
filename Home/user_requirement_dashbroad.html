@@ -1,0 +1,780 @@
+<!-- Set current date in Thai format -->
+<script>
+  document.getElementById('chart-personnel-by-rank-2_xx').textContent = new Date().toLocaleDateString('th-TH', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long'
+  });
+</script>
+
+   <script>
+
+        // Add click event to stat cards
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const type = this.dataset.type;
+                showPersonCards(type);
+            });
+        });
+
+        // Function to show person cards
+        function showPersonCards(type) {
+            const container = document.getElementById('person-cards-container');
+            
+            // Clear previous cards
+            container.innerHTML = '<div class="loading-indicator">กำลังโหลดข้อมูล...</div>';
+
+            // Call Google Apps Script function to get person data
+            google.script.run
+                .withSuccessHandler(function(persons) {
+                    // Clear loading indicator
+                    container.innerHTML = '';
+
+                    // Filter persons based on the selected type
+                    const filteredPersons = filterPersonsByType(persons, type);
+
+                    // Create and append person cards
+                    filteredPersons.forEach(person => {
+                        const personCard = document.createElement('div');
+                        personCard.classList.add('person-card');
+                        personCard.innerHTML = `
+                            <img src="${person.imageUrl || ''}" alt="${person.name}" class="person-card-image">
+                            <div class="person-card-info">
+                                <h3>${person.name}</h3>
+                                <p><strong>ตำแหน่ง:</strong> ${person.position || 'ไม่ระบุ'}</p>
+                                <p><strong>แผนก:</strong> ${person.department || 'ไม่ระบุ'}</p>
+                                <p><strong>อีเมล:</strong> ${person.email || 'ไม่มีข้อมูล'}</p>
+                                <p><strong>โทรศัพท์:</strong> ${person.phone || 'ไม่มีข้อมูล'}</p>
+                            </div>
+                        `;
+                        container.appendChild(personCard);
+                    });
+
+                    // Show message if no persons found
+                    if (filteredPersons.length === 0) {
+                        container.innerHTML = '<div class="loading-indicator">ไม่พบข้อมูลสำหรับประเภทนี้</div>';
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    container.innerHTML = `<div class="loading-indicator">เกิดข้อผิดพลาด: ${error}</div>`;
+                })
+                .getPersonData_3();
+        }
+
+        // Function to filter persons by type
+        function filterPersonsByType(persons, type) {
+            switch(type) {
+                case 'contract':
+                    return persons.filter(p => p.employeeType === 'สัญญาบัตร');
+                case 'intern':
+                    return persons.filter(p => p.employeeType === 'ประทวน');
+                case 'civilServant':
+                    return persons.filter(p => p.employeeType === 'พนักงานราชการ');
+                case 'total':
+                default:
+                    return persons;
+            }
+        }
+
+        // Mock data loading function
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                google.script.run.withSuccessHandler(updateDashboardData_2).getPersonData_2();
+            } catch (e) {
+                // Use mock data for testing
+                setTimeout(() => {
+                    updateDashboardData_2({
+                        totalEmployees: 999,
+                        contract: 999,
+                        intern: 999,
+                        civilServant: 999
+                    });
+                }, 500);
+            }
+        });
+
+        // Function to update dashboard data
+        function updateDashboardData_2(data) {
+            document.getElementById('total-employees_2').textContent = data.totalEmployees || '--';
+            document.getElementById('total-contract_2').textContent = data.contract || '--';
+            document.getElementById('total-retiring_2').textContent = data.intern || '--';
+            document.getElementById('total-others_2').textContent = data.civilServant || '--';
+        }
+    </script>
+
+<style>
+  /* สไตล์หลักสำหรับ DataTable */
+#requirment {
+  width: 100% !important;
+  margin-bottom: 1.5rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ส่วนหัวตาราง */
+#requirment thead th {
+  background: linear-gradient(135deg, #add8e6 0%, #add8e6 100%);
+  color: black;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px 15px;
+  vertical-align: middle;
+  border: none;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ส่วนเนื้อหาตาราง */
+#requirment tbody td {
+  padding: 12px 15px;
+  vertical-align: middle;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 14px;
+  color: #444;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* การ hover บนแถว */
+#requirment tbody tr:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* แถวเว้นแถว (สีสลับ) */
+#requirment tbody tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+/* ปุ่มดูข้อมูล */
+#requirment .badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#requirment .badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#requirment .bg-success {
+  background: linear-gradient(to right, #00b09b, #96c93d) !important;
+  border: none;
+}
+
+/* รูปภาพ */
+#requirment img {
+  border-radius: 8px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 50%;
+  height: 50%;
+}
+
+#requirment img:hover {
+  transform: scale(1.05);
+}
+
+#requirment img.profile-image {
+    width: 100px; /* กำหนดความกว้างคงที่ */
+    height: auto; /* ปรับความสูงตามอัตราส่วน */
+    object-fit: contain; /* ป้องกันไม่ให้รูปภาพถูกตัด */
+}
+
+/* ปรับแต่งตัวเลือกการแสดงจำนวนแถว */
+
+/* .dataTables_length select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 14px;
+} */
+
+/* ปรับแต่งช่องค้นหา */
+/* .dataTables_filter input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  width: 250px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+} */
+
+/* .dataTables_filter input:focus {
+  outline: none;
+  border-color: #4b6cb7;
+  box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.25);
+} */
+
+/* ปรับแต่งปุ่ม Pagination */
+/* .dataTables_paginate .paginate_button {
+  padding: 6px 12px !important;
+  margin: 0 2px;
+  border-radius: 8px !important;
+  border: 1px solid #ddd !important;
+  background: white !important;
+  color: #444 !important;
+  font-size: 14px;
+  transition: all 0.3s ease;
+} */
+
+/* .dataTables_paginate .paginate_button:hover {
+  background: #f8f9fa !important;
+  border-color: #4b6cb7 !important;
+  color: #4b6cb7 !important;
+} */
+
+/* .dataTables_paginate .paginate_button.current {
+  background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%) !important;
+  border-color: #4b6cb7 !important;
+  color: white !important;
+  font-weight: 600;
+} */
+
+/* การแสดงข้อมูล */
+/* .dataTables_info {
+  padding-top: 10px;
+  font-size: 14px;
+  color: #666;
+} */
+
+/* Loading overlay */
+#loading_1_1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.loading_1_1-spinner {
+  border: 5px solid rgba(75, 108, 183, 0.1);
+  border-top: 5px solid #4b6cb7;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Media Queries สำหรับ Responsive */
+@media screen and (max-width: 992px) {
+  #requirment thead th,
+  #requirment tbody td {
+    padding: 10px;
+  }
+  
+  .dataTables_filter input {
+    width: 180px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #requirment {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  #requirment img {
+    max-width: 100px;
+  }
+  
+  .dataTables_filter input {
+    width: 140px;
+  }
+  
+  .dataTables_length select,
+  .dataTables_filter input {
+    font-size: 13px;
+  }
+
+   #requirment th:nth-child(1),
+    #requirment td:nth-child(1) {
+        width: 2% !important; /* ปรับความกว้างให้เล็กลงเมื่อหน้าจอมีขนาดเล็ก */
+    }
+}
+
+@media screen and (max-width: 576px) {
+  #requirment thead th,
+  #requirment tbody td {
+    padding: 8px;
+    font-size: 13px;
+  }
+  
+  #requirment .badge {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  
+  .dataTables_filter,
+  .dataTables_length {
+    text-align: left;
+    margin-bottom: 10px;
+  }
+  
+  .dataTables_paginate .paginate_button {
+    padding: 4px 8px !important;
+    font-size: 12px;
+  }
+
+    #requirment th:nth-child(1),
+    #requirment td:nth-child(1) {
+        width: 1% !important; /* ปรับความกว้างให้เล็กลงเมื่อหน้าจอมีขนาดเล็กมาก */
+    }
+}
+</style>
+
+<!-- The Modal -->
+<div class="modal fade" id="requirment_modal" tabindex="-1" aria-labelledby="requirment_modal_01" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Header with improved styling -->
+      <div class="modal-header" style="background-color: #ffffff; color: black;">
+        <h4 class="modal-title" id="requirment_modal_01">ความต้องการอาคารที่พักสวัสดิการ</h4>
+        <button type="button" id="requirment_modal_02" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Body with centered image and organized information -->
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <div class="container">
+          <div class="row justify-content-center mb-4">
+            <div class="col-md-4 text-center mb-3">
+              <div class="mx-auto" style="width: 150px; height: auto; background-color: #f0f0f0; overflow: visible; border: 3px solid #e0e0e0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <img id="requirment13" src="https://img2.pic.in.th/pic/Untitled-designa64a7773ec4d81e9.png" alt="รูปประจำตัว" style="width: 100%; height: auto; object-fit: contain;">
+              </div>
+            </div>
+          </div>
+
+          <form id="requirment_modal_03" onsubmit="approveSubmitForm(this)" class="row g-3">
+            <!-- <input type="hidden" id="requirment01" name="requirment01"> -->
+            <!-- <input type="hidden" id="requirment02" name="requirment03"> -->
+
+            <!-- Personal Information Section -->
+            <div class="col-12 mb-2">
+              <h5 class="border-bottom pb-2" style="color: #3e64ff;">ข้อมูลส่วนบุคคล</h5>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="requirment02" class="form-label">ยศ ชื่อ สกุล</label>
+              <input type="text" class="form-control" id="requirment02" name="requirment02" readonly>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="requirment03" class="form-label">ตำแหน่ง</label>
+              <input type="text" class="form-control" id="requirment03" name="requirment03" readonly>
+            </div>
+
+            <div class="col-md-12 mb-2">
+              <label for="requirment09" class="form-label">เหตุผลความจำเป็น</label>
+              <input type="text" class="form-control" id="requirment09" name="requirment09" readonly>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="requirment04" class="form-label">เบอร์โทร</label>
+              <input type="text" class="form-control" id="requirment04" name="requirment04" readonly>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="requirment05" class="form-label">เงินเดือน</label>
+              <input type="text" class="form-control" id="requirment05" name="requirment05" readonly>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="requirment06" class="form-label">ค่าเช่าบ้าน</label>
+              <input type="text" class="form-control" id="requirment06" name="requirment06" readonly>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="requirment07" class="form-label">ค่าผ่อนรถ</label>
+              <input type="text" class="form-control" id="requirment07" name="requirment07" readonly>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="requirment08" class="form-label">จำนวนผู้พักอาศัย</label>
+              <input type="text" class="form-control" id="requirment08" name="requirment08" readonly>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="requirment10" class="form-label">จำนวนบุตร</label>
+              <input type="text" class="form-control" id="requirment10" name="requirment10" readonly>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="requirment11" class="form-label">จำนวนพาหนะ</label>
+              <input type="text" class="form-control" id="requirment11" name="requirment11" readonly>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="requirment12" class="form-label">ปีเกษียณอายุ</label>
+              <input type="text" class="form-control" id="requirment12" name="requirment12" readonly>
+            </div>
+
+            <!-- <input type="hidden" id="requirment13" name="requirment13"> -->
+          </form>
+        </div>
+      </div>
+
+      <!-- Footer with action buttons -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+        <!-- <button type="button" class="btn btn-primary" onclick="document.getElementById('requirment05').requestSubmit()">บันทึก</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <h1 class="mb-2" id="titlerequirment"><i class="fa-solid fa-building"></i> สรุปข้อมูลความต้องการอาคารที่พักสวัสดิการ</h1> -->
+
+
+<div class="dashboard-container">
+
+    <div class="header_2">
+        <h1>สรุปข้อมูลความต้องการอาคารที่พักสวัสดิการ</h1>
+        <div class="date-display" id="chart-personnel-by-rank-2_xx"></div>
+    </div>
+
+    <div class="dashboard">
+                
+            <div class="stats-container">
+                <div class="stat-card employees">
+                    <h2 id="total-employees_2">--</h2>
+                    <p>ทั้งหมด</p>
+                    <div class="icon-container">👨‍👩‍👧‍👦</div>
+                </div>
+
+                <div class="stat-card vacancies">
+                    <h2 id="total-contract_2">--</h2>
+                    <p>สัญญาบัตร</p>
+                    <div class="icon-container">👮‍♂️</div>
+                </div>
+
+                <div class="stat-card retiring">
+                    <h2 id="total-retiring_2">--</h2>
+                    <p>ประทวน</p>
+                    <div class="icon-container">👨‍✈️</div>
+                </div>
+
+                <div class="stat-card closed">
+                    <h2 id="total-others_2">--</h2>
+                    <p>พนักงานราชการ</p>
+                    <div class="icon-container">👨‍🦳</div>
+                </div>
+
+            </div>
+            
+    </div>
+
+     <!-- Person Cards Container -->
+        <!-- <div id="person-cards-container" class="person-cards-container"> -->
+            <!-- Person cards will be dynamically inserted here -->
+        <!-- </div> -->
+
+
+
+<div class="table-responsive" id="shorequirment">
+  <table id="requirment" class="table table-striped table-sm table table-hover align-middle"
+    style="width:100%; font-size:14px;">
+    <thead class="bg-thead text-black"></thead>
+  </table>
+</div>
+
+
+</div>
+
+<script>
+
+// เรียกใช้งานฟังก์ชันดึงข้อมูลจาก Google Apps Script เมื่อโหลดหน้า
+google.script.run.withSuccessHandler(requirshowData).requirmentGetData();
+
+function requirshowData(dataSet) {
+    // แสดง loading
+    // showLoading();
+    
+    // ตรวจสอบว่า dataSet มีข้อมูลหรือไม่
+    if (!dataSet || !Array.isArray(dataSet)) {
+        console.error('ไม่มีข้อมูลหรือข้อมูลไม่ถูกต้อง');
+        // hideLoading();
+        return;
+    }
+
+    // Ensure each row has the required number of columns
+    dataSet = dataSet.map(row => {
+        while (row.length < 20) { // เพิ่มเป็น 20 คอลัมน์เพื่อรองรับ URL รูปภาพ
+            row.push('');
+        }
+        return row;
+    });
+
+    // Initialize DataTable
+const table = new DataTable('#requirment', {
+    columns: [
+        {
+            title: 'ลำดับ',
+            width: '3%', // ปรับความกว้างให้เล็กลง
+            responsivePriority: 1 // ลำดับความสำคัญสูงสุด จะแสดงก่อน
+        },
+        {
+            title: 'รูปประจำตัว',
+            width: '5%',
+            responsivePriority: 3,
+            render: function (data, type, row) {
+                const picUrl = row[1] || 'https://img2.pic.in.th/pic/Untitled-designa64a7773ec4d81e9.png';
+                if (type === 'display' && picUrl) {
+                    return `<img src="${picUrl}" alt="รูปภาพ" class="profile-image" onerror="this.onerror=null;this.src='https://img2.pic.in.th/pic/Untitled-designa64a7773ec4d81e9.png';">`;
+                }
+                return '';
+            }
+        },
+        {
+            title: 'ยศ ชื่อ-สกุล',
+            width: '10%',
+            responsivePriority: 2 // ลำดับความสำคัญรองลงมา
+        },
+        {
+            title: 'ตำแหน่ง',
+            width: '3%',
+            responsivePriority: 5 // ลำดับความสำคัญต่ำสุด จะซ่อนก่อน
+        },
+        {
+            title: 'รายละเอียด',
+            width: '5%',
+            responsivePriority: 1, // ลำดับความสำคัญสูงสุดเท่ากับลำดับ
+            render: function (data, type, row) {
+                const rank_name_last = row[1] || '';
+                if (type === 'display') {
+                    return `<span class='badge bg-success text-white sfont view-details'
+                              data-id="${rank_name_last}"
+                              data-bs-toggle="modal"
+                              data-bs-target="#requirment_modal">ดูข้อมูล</span>`;
+                }
+                return '';
+            }
+        }
+    ],
+        data: dataSet.length > 1 ? dataSet.slice(1) : [],
+        bFilter: true,
+        responsive: {
+            details: {
+                type: 'column',
+                target: 'tr'
+            }
+        },
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/th.json',
+            search: "ค้นหา:",
+            lengthMenu: "แสดง _MENU_ รายการ",
+            info: "แสดง _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
+            infoEmpty: "ไม่พบรายการ",
+            infoFiltered: "(กรองจากทั้งหมด _MAX_ รายการ)",
+            paginate: {
+                first: "หน้าแรก",
+                last: "หน้าสุดท้าย",
+                next: "ถัดไป",
+                previous: "ก่อนหน้า"
+            }
+        },
+        destroy: true,
+        order: [[0, 'asc']],
+        columnDefs: [
+            {
+                targets: '_all',
+                className: 'dt-center align-middle'
+            }
+        ],
+        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+             '<"row"<"col-sm-12"tr>>' +
+             '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "ทั้งหมด"]],
+        initComplete: function (settings) {
+            const api = new $.fn.dataTable.Api(settings);
+            
+            // เพิ่มปุ่มสำหรับ export ข้อมูล (ถ้าต้องการ)
+            /*
+            $('<button class="btn btn-primary btn-sm mx-2">Excel</button>')
+                .appendTo('#requirment_wrapper .dt-buttons')
+                .on('click', function() {
+                    // โค้ดสำหรับ export Excel
+                });
+            */
+            
+            // เพิ่ม event listener สำหรับปุ่มดูข้อมูล
+            $('#requirment').on('click', '.view-details', function() {
+                const id = $(this).data('id');
+                newFetchrequirmentData(id);
+            });
+            
+            hideLoading(); // ซ่อน loading เมื่อโหลดตารางเสร็จ
+        }
+    });
+
+    // เพิ่ม event listener สำหรับการปรับขนาดหน้าจอ
+    $(window).on('resize', function() {
+        table.columns.adjust().responsive.recalc();
+    });
+
+    $.fn.DataTable.ext.pager.numbers_length = 5;
+}
+
+// ฟังก์ชันแสดง loading
+function showLoading() {
+    if (!$('#loading_1_1').length) {
+        $('body').append(`
+            <div id="loading_1_1">
+                <div class="loading_1_1-spinner"></div>
+                <p class="mt-3">กำลังโหลดข้อมูล...</p>
+            </div>
+        `);
+    } else {
+        $('#loading_1_1').show();
+    }
+}
+
+// ฟังก์ชันซ่อน loading
+function hideLoading() {
+    $('#loading_1_1').fadeOut(300);
+}
+
+</script>
+
+<script>
+  function newFetchrequirmentData(roomNumber) {
+    // ตรวจสอบว่า roomNumber มีค่าหรือไม่
+    if (!roomNumber) {
+        alert('ข้อมูลไม่ถูกต้อง');
+        return;
+    }
+
+    // ตั้งค่าและแสดง LoadingOverlay
+    if (typeof $.LoadingOverlay === 'function') {
+        $.LoadingOverlaySetup({
+            background      : "rgba(0, 0, 0, 0.5)",
+            image           : "https://img2.pic.in.th/pic/Untitled-designa64a7773ec4d81e9.png",
+            imageAnimation  : "1.5s fadein",
+            imageColor      : "#ffcc00"
+        });
+        $.LoadingOverlay("show");
+    } else {
+        console.warn('LoadingOverlay ไม่ได้ถูกโหลด');
+    }
+
+    // เรียก Google Apps Script เพื่อดึงข้อมูล
+    google.script.run
+        .withSuccessHandler(handlerequirData)
+        .withFailureHandler(handlerequirError)
+        .fetchDataByrequir(roomNumber);
+}
+
+function handlerequirData(data) {
+    // ซ่อน LoadingOverlay เมื่อได้รับข้อมูล
+    if (typeof $.LoadingOverlay === 'function') {
+        $.LoadingOverlay("hide");
+    }
+
+    // ตรวจสอบข้อมูลและแสดงในฟอร์ม
+    if (data && data.length > 0) {
+        requireditData(data[0]);
+    } else {
+        alert('ไม่พบข้อมูล');
+    }
+}
+
+function handlerequirError(error) {
+    // ซ่อน LoadingOverlay เมื่อเกิดข้อผิดพลาด
+    if (typeof $.LoadingOverlay === 'function') {
+        $.LoadingOverlay("hide");
+    }
+    
+    alert('เกิดข้อผิดพลาด: ' + (error && error.message ? error.message : 'ไม่ทราบสาเหตุ'));
+}
+
+function requireditData(data) {
+    // ตรวจสอบว่า data มีค่าหรือไม่
+    if (!data || !Array.isArray(data)) {
+        console.error('ข้อมูลที่ได้รับไม่ถูกต้อง');
+        return;
+    }
+
+    // ฟังก์ชันช่วยกำหนดค่า element แบบปลอดภัย
+    function setValueSafely(elementId, value) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.value = value || '';
+        } else {
+            console.warn(`ไม่พบ element ที่มี ID: ${elementId}`);
+        }
+    }
+
+    // ฟังก์ชันอัปเดตสถานะ checkbox
+    function updateCheckbox(elementId, value) {
+        const checkbox = document.getElementById(elementId);
+        if (checkbox) {
+            checkbox.checked = !!value;
+        } else {
+            console.warn(`ไม่พบ checkbox ที่มี ID: ${elementId}`);
+        }
+    }
+
+    // กำหนดค่าในฟอร์ม
+    setValueSafely('requirment01', data[0]); // ลำดับ
+    setValueSafely('requirment02', data[2]); // ยศ ชื่อ สกุล
+    setValueSafely('requirment03', data[3]); // ตำแหน่ง
+    setValueSafely('requirment04', data[4]); // หมายเลขโทรศัพท์
+    setValueSafely('requirment05', data[5]); // เงินเดือน
+    setValueSafely('requirment06', data[6]);
+    setValueSafely('requirment07', data[7]);
+    setValueSafely('requirment08', data[8]);
+    setValueSafely('requirment09', data[9]);
+    setValueSafely('requirment10', data[10]);
+    setValueSafely('requirment11', data[11]);
+    setValueSafely('requirment12', data[12]);
+    setValueSafely('requirment13', data[1]);
+    // setValueSafely('requirment14', data[13]);
+    // setValueSafely('requirment15', data[14]);
+    // setValueSafely('requirment16', data[15]);
+    // setValueSafely('requirment17', data[16]);
+    // setValueSafely('requirment18', data[17]);
+    // setValueSafely('requirment19', data[18]);
+
+    // อัปเดตสถานะ checkbox ตามข้อมูล
+    // updateCheckbox('requirment21', data[15]);
+    // updateCheckbox('requirment23', data[16]);
+    // updateCheckbox('requirment25', data[17]);
+
+    // ตรวจสอบว่ามี URL ของรูปภาพหรือไม่
+    const profileImage = document.getElementById('requirment13');
+    if (profileImage && data[1]) {
+        profileImage.src = data[1];
+    } else if (profileImage) {
+        profileImage.src = "https://img2.pic.in.th/pic/Untitled-designa64a7773ec4d81e9.png"; // ใช้รูปภาพตัวอย่างถ้าไม่มี URL
+    }
+}
+
+  </script>

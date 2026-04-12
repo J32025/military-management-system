@@ -1,0 +1,685 @@
+<!-- <script>
+function backMainpage() {
+  $("#loader").show();
+  $("#login_container").hide();
+  $("#regictor_container").hide();  
+  $("#mainpage").show();
+  $("#loginSection").hide();
+  $("#manuLog").show();
+  $(".profile").hide();
+  $("#notification").hide();
+  toastAlert("🐌 กลับสู่หน้าเว็บไซต์หลัก", "text-bg-light");
+}  
+function change_regictor() {
+  $("#loader").show();
+  $("#login_container").hide();
+  $("#regictor_container").show();
+  $("#mainpage").hide();
+  $("#loginSection").show();
+  toastAlert("🌟 สมัครสมาชิกของเว็บไซต์", "text-bg-primary");
+}
+function backloginpage() {
+  $("#loader").show();
+  $("#login_container").show();
+  $("#regictor_container").hide();  
+  $("#mainpage").hide();
+  $("#loginSection").show();
+  toastAlert("⚙️ เข้าสู่ระบบของเว็บไซต์", "text-bg-primary");
+}
+var currentTab = 0;
+showTab(currentTab); 
+        
+function showTab(n) {
+  var x = document.getElementsByClassName("step");
+  x[n].style.display = "block";
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+    $("#cancelregictor").show();
+  } else {
+    $("#cancelregictor").hide();
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == 0) {
+    $("#step1").show();
+    $("#step2").hide();
+    $("#step3").hide();
+    $("#step4").hide();
+    $("#nextBtn").show();
+    $("#saveregictor").hide();
+    $("#nextBtn").prop("disabled", false);
+  } else if (n == 1) {
+    $("#step1").hide();
+    $("#step2").show();
+    $("#step3").hide();
+    $("#step4").hide();
+    $("#nextBtn").show();
+    $("#saveregictor").hide();
+    $("#nextBtn").prop("disabled", false);
+  } else if (n == 2) {
+    $("#step1").hide();
+    $("#step2").hide();
+    $("#step3").show();
+    $("#step4").hide();
+    $("#nextBtn").show();
+    $("#saveregictor").hide();
+    checkOtp();
+  } else if (n == 3) {
+    $("#step1").hide();
+    $("#step2").hide();
+    $("#step3").hide();
+    $("#step4").show();
+    $("#nextBtn").hide();
+    $("#saveregictor").show();
+  }
+  fixStepIndicator(n)
+}
+        
+function nextPrev(n) {
+  var x = document.getElementsByClassName("step");
+  if (n == 1 && !validateForm()) return false;
+  x[currentTab].style.display = "none";
+  currentTab = currentTab + n;
+  if (currentTab >= x.length) {
+    document.getElementById("stapregictor").submit();
+    return false;
+  }
+  showTab(currentTab);
+}
+        
+function validateForm() {
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("step");
+  y = x[currentTab].getElementsByTagName("input");
+  for (i = 0; i < y.length; i++) {
+    if (y[i].value == "") {
+      y[i].className += " invalid";
+      valid = false;
+    }
+  }
+  if (valid) {
+    document.getElementsByClassName("stepIndicator")[currentTab].className += " finish";
+  }
+  return valid; 
+}
+        
+function fixStepIndicator(n) {
+  var i, x = document.getElementsByClassName("stepIndicator");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  x[n].className += " active";
+}
+
+$.Thailand({ 
+    $search: $('#regictordataAddress'),
+    onDataFill: function(data){ 
+      $('#regictordata10').val('ตำบล' + data.district + ' อำเภอ' + data.amphoe + ' จังหวัด' + data.province + ' รหัสไปรษณีย์ ' + data.zipcode);  
+    }
+});
+function sendOTP() {
+  if ($("#regictordata11").hasClass("is-invalid")) {
+    toastAlert("📧 โปรดตรวจสอบ E-Mail เนื่องจากถูกใช้ไปแล้ว", "text-bg-danger");
+  } else if ($("#regictordata11").val() === "") {
+    $("#regictordata11").addClass('is-invalid');
+    toastAlert("📧 โปรดกรอก E-Mail ของท่าน", "text-bg-warning");
+  } else {
+    toastAlert("📨 ระบบได้ส่งหมายเลข OTP ใน E-Mail ของท่านแล้ว", "text-bg-warning");
+    var email = $("#regictordata11").val();
+    google.script.run.withSuccessHandler(function(data) {
+      otpcomplate = data;
+    }).sendOTP(email);
+  }
+}
+function forgetsendOTP() {
+  $(".form-control").removeClass('is-invalid');
+  if ($("#forgetPassword1").val() === "") {
+    $("#forgetPassword1").addClass('is-invalid');
+    toastAlert("📧 โปรดกรอก E-Mail ของท่าน", "text-bg-warning");
+  } else {
+    toastAlert("📨 ระบบได้ส่งหมายเลข OTP ใน E-Mail ของท่านแล้ว", "text-bg-warning");
+    var email = $("#forgetPassword1").val();
+    google.script.run.withSuccessHandler(function(data) {
+      otpforget = data;
+      $("#forgetPasswordOTPdiv").show();
+      showUserforReset();
+    }).forgetsendOTP(email);
+  }
+}
+let otpcomplate;
+let otpforget;
+function checkOtp() {
+  var enteredOtp = $("#regictordata12").val();
+  if (enteredOtp == otpcomplate) {
+    $("#nextBtn").prop("disabled", false);
+    $("#regictordata12").addClass('is-valid').removeClass('is-invalid'); 
+    toastAlert("👍 ยืนยัน E-Mail สำเร็จ", "text-bg-success");
+  } else if (enteredOtp.length === 6 && enteredOtp != otpcomplate) { 
+    $("#nextBtn").prop("disabled", true);
+    toastAlert("⚠️ หมายเลข OTP ไม่ถูกต้อง", "text-bg-danger");
+    $("#regictordata12").addClass('is-invalid').removeClass('is-valid'); 
+  } else {
+    $("#nextBtn").prop("disabled", true);
+  }
+}
+function forgetcheckOtp() {
+  var enteredOtp = $("#forgetPassword2").val();
+  if (enteredOtp == otpforget) {
+    $("#forgetPasswordBtn").prop("disabled", false);
+    $("#forgetPassword2").addClass('is-valid').removeClass('is-invalid'); 
+    toastAlert("👍 ยืนยัน E-Mail สำเร็จ", "text-bg-success");
+    $("#rowDivEmail").hide();
+    $("#rowDivReset").show();
+  } else if (enteredOtp.length === 6 && enteredOtp != otpforget) { 
+    $("#forgetPasswordBtn").prop("disabled", true);
+    toastAlert("⚠️ หมายเลข OTP ไม่ถูกต้อง", "text-bg-danger");
+    $("#forgetPassword2").addClass('is-invalid').removeClass('is-valid'); 
+  } else {
+    $("#forgetPasswordBtn").prop("disabled", true);
+  }
+}
+function completeRegictor() {
+  if ($("#condition").prop("checked")) {
+    $("#saveregictor").removeAttr("disabled");
+  } else {
+    $("#saveregictor").attr("disabled", true);
+  }
+}
+let alluser;
+google.script.run.withSuccessHandler(function(data) {
+  alluser = data;
+}).getAllUser();
+function forgetPassword() {
+  forgetcheckOtp();
+  $("#forgetpwModalBtn").click();
+  google.script.run.withSuccessHandler(function(data) {
+    alluser = data;
+  }).getAllUser();
+}
+function showUserforReset() {
+  const email = $("#forgetPassword1").val();
+  const dataUser = alluser.filter(r => r[5] == email);
+
+  $("#forgetPassword3").val(dataUser[0][1]);
+}
+function confirmResetPassword() {
+  $("#loader").show();
+  $(".form-control").removeClass("is-invalid");
+  if ($("#forgetPassword4").val() === "") {
+    $("#forgetPassword4").addClass('is-invalid');
+    toastAlert('⚠️ กรุณาระบุรหัสผ่านใหม่', 'text-bg-danger');
+  } else if ($("#forgetPassword5").val() === "") {
+    $("#forgetPassword5").addClass('is-invalid');
+    toastAlert('⚠️ กรุณาระบุรหัสผ่านสำหรับยืนยัน', 'text-bg-danger');
+  } else if ($("#forgetPassword5").val() !== $("#forgetPassword4").val()) {
+    $("#forgetPassword5").addClass('is-invalid');
+    $("#forgetPassword4").addClass('is-invalid');
+    toastAlert('⚠️ กรุณาระบุรหัสผ่านให้ตรงกัน', 'text-bg-danger');
+  } else if ($("#forgetPassword5").val() === $("#forgetPassword4").val()) {
+    $("#forgetPassword5").addClass('is-valid');
+    $("#forgetPassword4").addClass('is-valid');
+    var obj = {}
+      obj.user = $("#forgetPassword3").val();
+      obj.password = $("#forgetPassword4").val();
+    google.script.run.withSuccessHandler(function(data) {
+      toastAlert('🔓 รีเซ็ตรหัสผ่านใหม่สำเร็จ', 'text-bg-success');
+      backloginpage() 
+      $("#loguser").val(obj.user)
+      $("#logpass").val(obj.password)
+    }).confirmResetPassword(obj);
+  }
+}
+function addRegictor() {
+  $("#loader").show();
+  $(".form-control").removeClass("is-invalid");
+  if ($("#regictordata1").hasClass("is-invalid")) {
+    toastAlert("⚠️ โปรดตรวจสอบ username เนื่องจากถูกใช้ไปแล้ว", "text-bg-danger");
+  } else if ($("#regictordata1").val() == "") {
+    $("#regictordata1").addClass("is-invalid");
+    toastAlert('⚠️ กรุณาระบุไอดีสำหรับสมัครสมาชิก', 'text-bg-danger');
+  } else if ($("#regictordata2").val() == "") {
+    $("#regictordata2").addClass("is-invalid");
+    toastAlert('⚠️ กรุณาระบุรหัสผ่านสำหรับสมัครสมาชิก', 'text-bg-danger');
+  } else if ($("#regictordata4").val() == "") {
+    $("#regictordata4").addClass("is-invalid");
+    toastAlert('⚠️ กรุณาระบุชื่อจริงของท่าน', 'text-bg-danger');
+  } else if ($("#regictordata5").val() == "") {
+    $("#regictordata5").addClass("is-invalid");
+    toastAlert('⚠️ กรุณาระบุนามสกุลของท่าน', 'text-bg-danger');
+  } else if ($("#regictordata6").val() == "") {
+    $("#regictordata6").addClass("is-invalid");
+    toastAlert('⚠️ กรุณาระบุหมายเลขโทรศัพท์ของท่าน', 'text-bg-danger');
+  } else if ($("#regictordata6").val() == "") {
+    $("#regictordata6").addClass("is-invalid");
+    toastAlert('⚠️ กรุณาระบุหมายเลขโทรศัพท์ของท่าน', 'text-bg-danger');
+  } else if ($("#regictordata10").val() == "") {
+    $("#regictordata10").addClass("is-invalid");
+    toastAlert('⚠️ กรุณาระบุที่อยู่ที่สามารถติดต่อได้ของท่าน', 'text-bg-danger');
+  } else {
+    var obj = {}
+      obj.dataUser1 = $("#regictordata1").val();
+      obj.dataUser2 = $("#regictordata2").val();
+      obj.dataUser3 = $("#regictordata3").val();
+      obj.dataUser4 = $("#regictordata4").val();
+      obj.dataUser5 = $("#regictordata5").val();
+      obj.dataUser6 = $("#regictordata6").val();
+      obj.dataUser7 = $("#regictordata7").val();
+      obj.dataUser8 = $("#regictordata8").val();
+      obj.dataUser9 = $("#regictordata9").val();
+      obj.dataUser10 = $("#regictordata10").val();
+      obj.dataUser11 = $("#regictordata11").val();
+    google.script.run.withSuccessHandler(function(responsive) {
+      $("#loader").hide();
+      backloginpage() 
+      $("#loguser").val(obj.dataUser1)
+      $("#logpass").val(obj.dataUser2)
+      toastAlert('⭐ ลงทะเบียนสมาชิกสำเร็จ', 'text-bg-success');
+    }).addRegictorGs(obj);  
+  }
+} 
+async function getIPAddress() {
+  const ipAPI = "//api.ipify.org?format=json";
+  const response = await fetch(ipAPI); 
+  const data = await response.json(); 
+  const inputValue = data.ip;
+  
+  return inputValue;
+}
+async function loginCheck() {
+  $("#loader").show();
+  var usernameGeneral = $("#loguser").val();
+  var passwordGeneral = $("#logpass").val();
+  var rememberMe = document.getElementById("rememberMe");
+  
+  const ipCheck = await getIPAddress();
+  const userAgent = navigator.userAgent;
+
+  google.script.run.withSuccessHandler(function(user) {
+    if (user && user !== '⚠️ ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง' && user !== '⚠️ ชื่อผู้ใช้งานนี้ถูกระงับการใช้งาน') {
+      toastAlert('🔓 เข้าสู่ระบบสำเร็จ ยินดีต้อนรับ' + user.name , 'text-bg-success');
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('codeID', user.codeID);
+      localStorage.setItem('username', user.username);
+      localStorage.setItem('password', user.password);
+      localStorage.setItem('name', user.name);
+      localStorage.setItem('tel', user.tel);
+      localStorage.setItem('email', user.email);
+      localStorage.setItem('address', user.address);
+      localStorage.setItem('imgProfile', user.imgProfile);
+      localStorage.setItem('tokenLine', user.tokenLine);
+      localStorage.setItem('levelID', user.levelID);
+      localStorage.setItem('status', user.status); 
+      localStorage.setItem('coin', user.coin); 
+      localStorage.setItem('qrpayment', user.qrpayment); 
+      loginsuccess(user);   
+      if (user.imgProfile === "") {
+        $("#btnUploadimageModal").click()
+      }
+      $("#btnbuyProjectNow").show();
+      if (rememberMe.checked) {
+        localStorage.setItem('usernameSave', usernameGeneral);
+        localStorage.setItem('passwordSave', passwordGeneral);
+        localStorage.setItem('checked', 'checked');
+      } else {
+        localStorage.removeItem('usernameSave');
+        localStorage.removeItem('passwordSave');
+        localStorage.removeItem('checked'); 
+      }
+    } else {
+      toastAlert(user, 'text-bg-danger');
+      $("#btnbuyProjectNow").hide();
+    }
+  }).checkLoginSystem(usernameGeneral, passwordGeneral, ipCheck, userAgent);
+}
+async function logoutSystem() {
+  $("#loader").show();
+  change_page('mainPage');
+  const usernameGeneral = localStorage.getItem('username');
+  const ipCheck = await getIPAddress();
+  const userAgent = navigator.userAgent;
+  google.script.run.withSuccessHandler(function(user) {
+    backMainpage(); 
+    toastAlert('🔐 ออกจากระบบแล้ว', 'text-bg-primary');
+    localStorage.removeItem('codeID');
+    localStorage.removeItem('username');
+    localStorage.removeItem('password');
+    localStorage.removeItem('name');
+    localStorage.removeItem('tel');
+    localStorage.removeItem('email');
+    localStorage.removeItem('address');
+    localStorage.removeItem('imgProfile');
+    localStorage.removeItem('tokenLine');
+    localStorage.removeItem('levelID');
+    localStorage.removeItem('status');
+    localStorage.removeItem('coin');
+    localStorage.removeItem('qrpayment');
+    localStorage.removeItem('isLoggedIn');
+    if(localStorage.getItem('checked') === "") {
+      localStorage.removeItem('usernameSave');
+      localStorage.removeItem('passwordSave');
+      localStorage.removeItem('checked');
+    }
+  }).checkLogoutSystem(usernameGeneral, ipCheck, userAgent);
+}
+function loginsuccess(user) {
+  $("#login_container").hide();
+  $("#regictor_container").hide();  
+  $("#mainpage").show();
+  $("#loginSection").hide();
+  $("#manuLog").hide();
+  $(".profile").show();
+  $("#notification").show();
+
+  $("#profilePayment").attr('src', user.qrpayment);
+  $("#profileImg").attr('src', user.imgProfile);
+  $("#profileData1").text(user.name);
+  $("#profileData2").text(user.levelID);
+  $("#profileData3").text(user.tel);
+  $("#profileData4").text(user.email);
+  $("#profileData5").text(user.address);
+
+  $("#yourDataProfile").val(user.codeID);
+  $("#yourDataProfile1").val(user.username);
+  $("#yourDataProfile3").val(user.name);
+  $("#yourDataProfile4").val(user.tel);
+  $("#yourDataProfile5").val(user.email);
+  $("#yourDataProfile6").val(user.address);
+
+  $("#profileSrc").attr('src', user.imgProfile);
+  $("#userName1").text(user.name);
+  $("#userCoin").html('<i class="fa-solid fa-spider fa-flip" style="color: #63E6BE;"></i> ' + (parseInt(user.coin)).toLocaleString() + ' SPIDER');
+  $("#userCoin2").html('<i class="fa-solid fa-spider" style="color: #63E6BE;"></i> ' + (parseInt(user.coin)).toLocaleString() + ' SPIDER');
+  $("#userName2").html('<i class="fa-regular fa-user"></i> ' + user.username);
+  $("#userEmail1").text(user.email);
+  $("#userName3").text(user.name);
+
+  google.script.run.withSuccessHandler(function(response) {
+    projectData = response;
+    displayProject(projectData)
+  }).checkProjet(user.codeID)
+  insertBuySaleData(user.codeID);
+  insertBoughtData(user.username);
+  insertActiveData(user.username);
+  insertSaleData(user.codeID);
+  backpack(user.username);
+  changeLink(user.tokenLine, user.codeID);
+}
+let allData = null; 
+google.script.run.withSuccessHandler(function(data) {
+  allData= data;
+  showAllDataProject(data);  
+}).getAllProject();
+
+var searchInput = document.getElementById("searchName");
+searchInput.addEventListener('input', searchForData);
+
+function searchForData() {
+  var keyWord = document.getElementById("searchName").value;
+  var searchTerm = searchInput.value.toLowerCase();
+  var searchData = allData.filter(function(researchData) {
+    for (var i = 0; i < researchData.length; i++) {
+      if (researchData[i] !== null && researchData[i].toString().toLowerCase().includes(searchTerm)) {
+          $("#breadcrumbA").removeClass('active');
+          $("#breadcrumbName").show();
+          $("#nameActive").addClass('active').show().text('ค้นหา : ' + keyWord);
+        return true;
+      }
+    }
+    return false;
+  });
+
+  showAllDataProject(searchData);
+}
+
+function showAllDataProject(data) {
+  const dataContainer = $("#projectworkingShow");
+  dataContainer.empty(); 
+
+  data.sort(function(a, b) {
+    return b[7] - a[7];
+  });
+
+  var cardRow = document.createElement("div");
+  cardRow.className = window.innerWidth < 576 ? "row row-cols-1 g-3" : "row row-cols-md-5 g-3";
+  
+  data.forEach(function(item) {
+    var col = document.createElement("div");
+    col.className = "col mb-2"; 
+
+    var card = document.createElement("div");
+    card.className = "card h-100 rounded-4 border-0";
+    card.style.overflow = "hidden";
+    card.style.backgroundColor = "var(--light)";
+    card.style.boxShadow = "rgba(149, 157, 165, 0.2) 0px 8px 24px";
+
+    var cardBody = document.createElement("div");
+    cardBody.className = "card-body";
+
+    var stopSelling = document.createElement("img");
+    stopSelling.src = 'https://lh3.googleusercontent.com/d/1pwTmTUbAfPcPbD6fYfO3lKfh95zfT1UO';
+    stopSelling.style.position = 'absolute';
+    stopSelling.style.maxWidth = "100%";
+    stopSelling.style.minHeight = "120px";
+    stopSelling.style.objectFit = "cover";
+    stopSelling.style.zIndex = '1'; 
+    stopSelling.style.display = 'block'; 
+
+    var cardImage = document.createElement("img");
+    cardImage.className = "card-img-top";
+    cardImage.style.maxWidth = "100%";
+    cardImage.style.minHeight = "120px";
+    cardImage.style.objectFit = "cover";
+    cardImage.src = item[6];
+
+    var cardTitle = document.createElement("h6");
+    cardTitle.className = "card-title text-danger fw-bold";
+    cardTitle.textContent = item[1];
+      
+    var additionalText1 = document.createElement("h6");
+    additionalText1.className = "card-text";
+    if (item[3] === "0") {
+      additionalText1.style.color = "var(--box4)";
+      additionalText1.innerHTML = '<i class="fa-solid fa-crown"></i> โปรเจกต์ฟรี';
+    } else {
+      additionalText1.style.color = "#e51c23";
+      additionalText1.innerHTML = 'ราคา ' + (parseInt(item[3])).toLocaleString() + ' <i class="fa-solid fa-spider" style="color: #63E6BE;"></i>';
+    }
+
+    var star = '';
+    var score = parseFloat(item[8]);
+
+    if (!isNaN(score) && score >= 1 && score <= 5) {
+      var fullStars = Math.floor(score);
+      for (var i = 0; i < fullStars; i++) {
+        star += '<i class="fa-solid fa-star" style="color: #FFD43B;"></i>';
+      }
+      if (score % 1 !== 0) {
+        star += '<i class="fa-solid fa-star-half" style="color: #FFD43B;"></i>';
+      }
+    }
+
+    var additionalText2 = document.createElement("h6");
+    additionalText2.className = "card-text text-secondary";
+    additionalText2.style.fontSize = "14px";
+    additionalText2.innerHTML = 'คะแนนรีวิว ' + star + ' (' + item[8] + ' คะแนน)';
+
+    var img = "<img src='" + item[10] + "' style='width: 30px;height: 30px;object-fit: cover;border-radius: 50%;'>";
+    var owner = item[9];
+
+    var additionalText3 = document.createElement("h6");
+    additionalText3.className = "card-text text-secondary";
+    additionalText3.style.fontSize = "14px";
+    additionalText3.innerHTML = 'ผู้สร้าง ' + img + ' ' + owner;
+
+    var rowFooter = document.createElement("div");
+    rowFooter.className = "row align-items-end"
+
+    var colrowFooter1 = document.createElement("div");
+    colrowFooter1.className = "col"; 
+
+    var colrowFooter2 = document.createElement("div");
+    colrowFooter2.className = "col"; 
+
+    var additionalText4 = document.createElement("h6");
+    additionalText4.className = "card-text badge rounded-pill text-bg-warning position-relative";
+    additionalText4.innerHTML = '<i class="fa-solid fa-download"></i> ขายได้';
+
+    var spanadditionalText4 = document.createElement("span");
+    spanadditionalText4.className = "position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger";
+    spanadditionalText4.textContent = item[7];
+
+    var visually = document.createElement("span");
+    visually.className = "visually-hidden";
+    visually.innerHTML = "unread messages";
+
+    var additionalText5 = document.createElement("h6");
+    additionalText5.className = "card-text text-secondary";
+    additionalText5.innerHTML = '<i class="fa-solid fa-eye"></i> จำนวนผู้เข้าชม ';
+    additionalText5.style.fontSize = "10px";
+
+    var spanadditionalText5 = document.createElement("span");
+    spanadditionalText5.textContent = item[13] + ' ครั้ง';
+
+    var btnDetail = document.createElement("button");
+    btnDetail.className = "btn btn-danger btn-sm rounded-pill w-100 btn-pay";
+    btnDetail.innerHTML = '<i class="fa-solid fa-ban"></i> ยังไม่เปิดขาย';
+
+    if (item[14] === "TRUE") {
+      stopSelling.style.display = 'none';
+      cardTitle.className = "card-title text-primary fw-bold";
+      cardTitle.addEventListener("click", function() {
+        getDetailData(item[0]);
+      });
+      btnDetail.addEventListener("click", function() {
+        getDetailData(item[0]);
+      });
+      btnDetail.innerHTML = '<i class="fa-solid fa-laptop-code"></i> รายละเอียด';
+      btnDetail.className = "btn btn-primary btn-sm rounded-pill w-100 btn-pay";
+    }    
+
+    spanadditionalText4.appendChild(visually);
+    additionalText4.appendChild(spanadditionalText4);
+    colrowFooter1.appendChild(additionalText4);
+
+    additionalText5.appendChild(spanadditionalText5);
+    colrowFooter1.appendChild(additionalText5);
+
+    colrowFooter2.appendChild(btnDetail);
+
+    rowFooter.appendChild(colrowFooter1);
+    rowFooter.appendChild(colrowFooter2);
+
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(additionalText1);
+    cardBody.appendChild(additionalText2);
+    cardBody.appendChild(additionalText3);
+    cardBody.appendChild(rowFooter);
+
+    card.appendChild(stopSelling);
+    card.appendChild(cardImage);
+    card.appendChild(cardImage);
+    card.appendChild(cardBody);
+    col.appendChild(card);
+    cardRow.appendChild(col);
+  });
+  dataContainer.append(cardRow);
+}
+
+function getDetailData(code) {
+  google.script.run.withSuccessHandler(function(result) {
+    google.script.run.withSuccessHandler(function(data) {
+      allData= data;
+      showAllDataProject(data);  
+    }).getAllProject();
+  }).addViwer(code);
+  $('#loader-iframe').removeClass('d-none');
+  $("#projectworkingDiv").hide();
+  $("#detailDataDiv").show();
+  $("#backtopage").show();
+  let dataProject = allData.filter(r => r[0] == code);
+  
+  toastAlert("🐌 "+ dataProject[0][1], "text-bg-warning");
+
+  $("#detaildataId").val(dataProject[0][0]);
+  $("#detaildataImg").val(dataProject[0][6]);
+
+  $("#detaildata1").attr('src', dataProject[0][4]);    
+
+  var element;
+  if (dataProject[0][5] !== "") {
+    var youtubeEmbedUrl = dataProject[0][5].replace("https://youtu.be/", "https://www.youtube.com/embed/");
+    element = $('<iframe>').attr({
+      src: youtubeEmbedUrl,
+      style: 'width: 100%; object-fit: cover;',
+      class: 'rounded-4 shadow',
+      frameborder: '0',
+      allowfullscreen: true
+    });
+  } else {
+    element = $('<img>').attr({
+      src: dataProject[0][6],
+      style: 'width: 100%; object-fit: cover;',
+      class: 'rounded-4 shadow'
+    });
+  }
+  $("#detaildata2").html(element);
+
+  $("#totalPaymentOwner").text(dataProject[0][3]);  
+  $("#totalCoinOwner").text(dataProject[0][3]);  
+  $("#totalhasCoinOwner").text(localStorage.getItem('coin'));
+  $("#totalexOwner").text(parseInt(localStorage.getItem('coin')) - parseInt(dataProject[0][3]));
+
+  $("#detaildata0").val(dataProject[0][11]);
+  $("#detaildata3").text(dataProject[0][1]);
+  $("#detaildata4").attr('src', dataProject[0][10]);
+  $("#detaildata5").text(dataProject[0][9]);
+
+  var detail = '';
+  if (dataProject[0][2] === "") {
+    detail += "ไม่ได้ระบุรายละเอียดเพิ่มเติมเกี่ยวกับโปรเจ็คนี้"
+  } else {
+    detail += dataProject[0][2];
+  }
+  $("#detaildata6").html(detail);
+  $("#detaildata7").html('<i class="fa-solid fa-spider" style="color: #63E6BE;"></i> <span class="fw-bold">' + dataProject[0][3] + '</span> SPIDER');
+
+  var star = '';
+  var score = parseFloat(dataProject[0][8]);
+  if (!isNaN(score) && score >= 1 && score <= 5) {
+    var fullStars = Math.floor(score);
+    for (var i = 0; i < fullStars; i++) {
+      star += '<i class="fa-solid fa-star" style="color: #FFD43B;"></i>';
+    }
+    if (score % 1 !== 0) {
+      star += '<i class="fa-solid fa-star-half" style="color: #FFD43B;"></i>';
+    }
+  }
+  $("#detaildata8").html(star + ' (' + dataProject[0][8] + ' คะแนน)');
+  $("#detaildata9").html('<i class="fa-solid fa-download"></i> ' + dataProject[0][7] + ' ครั้ง');
+  document.getElementById('detaildata1').onload = function() {
+    hideLoader();
+  };
+
+  $("#breadcrumbA").removeClass('active');
+  $("#breadcrumbName").show();
+  $("#nameActive").addClass('active').show().text(dataProject[0][1]);
+}
+
+function backtopage() {
+  $("#projectworkingDiv").show();
+  $("#detailDataDiv").hide();
+  $("#backtopage").hide();
+
+  $("#breadcrumbA").addClass('active');
+  $("#breadcrumbName").hide();
+  $("#nameActive").removeClass('active').hide().text('');
+
+  $("#btnbuyProjectNow").html('<i class="fa-solid fa-cash-register"></i> สั่งซื้อโปรเจกต์นี้').removeClass('btn-success').addClass('btn-primary');
+
+  toastAlert("🪄 กลับหน้าแรกเว็บไซต์", "text-bg-primary");
+}
+
+function hideLoader() {
+  $('#loader-iframe').addClass('d-none');
+}
+
+</script> -->

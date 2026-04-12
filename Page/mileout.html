@@ -1,0 +1,314 @@
+<div class="modal" id="carout">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header bg-primary text-white">
+        <h4 class="modal-title text-white">แบบฟอร์มบันทึกการใช้รถขาออก</h4>
+        <button type="button" id="mileoutbtn-close" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="mileoutmyForm" onsubmit="mileoutsubmitForm(this)" class="row g-2">
+
+          <input type="text" id="numid_mileout" name="numid_mileout" hidden>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspชื่อผู้จอง</label>
+            <input type="text" class="form-control" id="name_mileout" name="name_mileout" style="color:blue; border:none; background:none;" readonly>
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspแผนก</label>
+            <input type="text" class="form-control" id="dep_mileout" name="dep_mileout" style="color:blue; border:none; background:none;" readonly>
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspรถคันที่กำลังใช้งาน</label>
+            <input type="text" class="form-control" id="car_mileout" name="car_mileout" style="color:blue; border:none;" >
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspสถานที่ๆไปติดต่อ</label>
+            <input type="text" class="form-control" id="loca_mileout" name="loca_mileout" style="color:blue; border:none; background:none;" readonly>
+          </div>
+
+          <!-- วันและเวลาเริ่มต้น -->
+          <input type="text" class="form-control" id="startDate_mileout" name="startDate_mileout" style="display:none;">
+          <input type="text" class="form-control" id="startTime_mileout" name="startTime_mileout" style="display:none;">
+          <!-- วันและเวลาเริ่มต้น -->
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspกำหนดคืนรถวันที่</label>
+            <input type="text" class="form-control" id="endDate_mileout" name="endDate_mileout" style="color:blue;border:none; background:none;"readonly>
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspกำหนดคืนรถเวลา</label>
+            <input type="text" class="form-control" id="endTime_mileout" name="endTime_mileout" style="color:blue;border:none; background:none;"readonly>
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspวันที่ใช้งานรถ</label>
+            <input type="text" class="form-control" id="dateout_mileout" name="dateout_mileout" style="color:blue;" readonly>
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspเวลาที่ใช้งานรถ</label>
+            <input type="time" class="form-control" id="timeout_mileout" name="timeout_mileout" style="color:blue;" required>
+          </div>
+
+          <!-- สถานะกับชื่อผู้อนุมัติ -->
+          <input type="text" class="form-control" id="preapporved_mileout" name="preapporved_mileout" value="กำลังใช้งาน" style="display:none;">
+          <input type="text" class="form-control" id="apporve_mileout" name="apporve_mileout"style="display:none;">
+          <input type="text" class="form-control" id="drive_mileout" name="drive_mileout"style="display:none;">
+          <!-- สถานะกับชื่อผู้อนุมัติ -->
+
+          <div class="col-12 col-md-6 mb-2">
+            <label>&nbspอื่นๆ</label>
+            <input type="text" class="form-control" id="other_mileout" name="other_mileout" style="color:blue;">
+          </div>
+
+
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspเลขไมล์ออก</label>
+            <input type="number" class="form-control" id="mileout_mileout" name="mileout_mileout" style="color:blue;" required>
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspชื่อคนขับ</label>
+            <input type="text" class="form-control" id="driver_mileout" name="driver_mileout" style="color:blue;" readonly>
+          </div>
+          <div class="d-flex justify-content-center mt-4">
+            <button type="submit" class="btn bg-primary col-12 text-white"><i class="fas fa-paper-plane"></i> บันทึกเลขไมล์ออก</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<h1 class="mb-3"><i class="fa-solid fa-gauge"></i> บันทึกเลขไมล์ขาออก</h1>
+<form id="search-formmileout" class="form-inline" onsubmit="mileoutsearchData(this)">
+  <div class="form-group mb-2">
+    <div class="form-group mx-sm-3 mb-2">
+      <label>ชื่อผู้จองรถ</label>
+      <input  type="text" class="form-control sm" id="searchname_out" name="searchname_out" placeholder="ระบุชื่อผู้จอง" style="color:blue;" readonly>
+
+      <input type="text" class="form-control" id="searchcar_out" name="searchcar_out" value="อนุมัติ" hidden>
+
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <button type="submit" class="btn btn-primary" type="button">แสดงข้อมูล</button>
+    </div>
+
+</form>
+
+
+<div class="table-responsive" id="showtb_carout">
+  <table id="mileoutcar" class="table table-striped table-sm table table-hover align-middle"
+    style="width:100%; font-size:14px;">
+    <thead class="bg-success text-white"></thead>
+  </table>
+</div>
+
+
+
+<script>
+
+function mileoutshowData(dataSet){
+   table = new DataTable('#mileoutcar', {
+    //header = dataSet
+    //console.log(dataSet)
+    columns: [
+        { title: 'ไอดี' },
+        { title: 'ชื่อผู้จอง' },
+        { title: 'แผนก' },
+        { title: 'รถ' },
+        { title: 'สถานที่ๆไปติดต่อ' },
+        { title: 'วันที่ออก' },
+        { title: 'เวลาออก' },
+        { title: 'วันที่เข้า' },
+        { title: 'เวลาเข้า' },
+        { title: 'คนขับ' },
+        { title: 'อื่นๆ' },
+       { title: 'สถานะ' ,    
+        targets: 11,
+           render: function (data) {    
+        if(data ==="รออนุมัติ"){
+        data = "<span class='badge bg-warning text-white sfont'>รออนุมัติ</span>";
+        }else if(data ==="อนุมัติ") {
+        data = "<span class='badge bg-success text-white sfont'><i class='fa-regular fa-circle-check fa-beat-fade'></i>อนุมัติ</span>";
+        }else if(data ==="ไม่อนุมัติ") {
+        data = "<span class='badge bg-danger text-white sfont'>ไม่อนุมัติ</span>";
+        }else if(data ==="ยกเลิกการจองรถ") {
+        data = "<span class='badge bg-danger text-white sfont'>ยกเลิกการจองรถ</span>";
+        }else if(data ==="ส่งคืน") {
+        data = "<span class='badge bg-info text-white sfont'>ส่งคืน</span>";
+        }else if(data ==="กำลังใช้งาน") {
+        data = "<span class='badge bg-primary text-white sfont'>กำลังใช้งาน</span>";
+        }
+        return data;
+        }
+        }, 
+        { title: 'ผู้อนุมัติ' },
+       { title: 'แก้ไข' ,    
+        targets: 13,
+            data: null,
+            defaultContent: '&nbsp&nbsp&nbsp<i class="fa-solid fa-pencil fa-xl" style="color: green; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#carout" onclick="mileouteditData(this);"></i>',
+        },
+    ],
+    data: dataSet,
+    responsive: true,
+    destroy:true,
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/th.json',
+    },
+    
+    "destroy": true,
+      order: [[0, 'asc']],
+      columnDefs:[
+          {
+          targets: [13],className: 'all',},
+       ],
+      //จำกัดให้แสดงปุ่มหน้าตามจำนวนที่ต้องการ
+         initComplete: function(settings){
+          var api = new $.fn.dataTable.Api( settings );
+          $('.table-filter-container', api.table().container()).append(
+          );
+
+           $('#table-filter select').on('change', function(){
+             table.columns(13).search(this.value).draw();   
+          });
+          }
+      });    
+        //It will show only 4 pager buttons.
+    $.fn.DataTable.ext.pager.numbers_length = 5;
+    }
+
+  function mileoutsearchData(obj) {
+      event.preventDefault()
+        Swal.fire({
+            position: 'center',
+            title: '<i class="fa-solid fa-truck-fast fa-beat"></i><h4><br>กำลังค้นหาข้อมูล...</h4>',
+            showConfirmButton: false,
+          })
+           Swal.showLoading()
+            google.script.run.withSuccessHandler(data=>{
+              if(data != ''){
+                mileoutshowData(data)
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+
+                Toast.fire({
+                  icon: 'success',
+                  title: 'พบข้อมูลที่ท่านจองไว้แล้ว'
+                })
+                $('#showtb_carout').show()
+               mileoutshowData(data)
+              }else{
+                  Swal.fire({
+                    position: 'top',
+                    icon: 'warning',
+                    title:'แจ้งให้ทราบ',
+                    text: 'ชื่อผู้ใช้นี้ยังไม่ได้อยู่ในสถานะการใช้รถ',
+                    showConfirmButton: false,
+                    timer: 3000
+                  })
+                   $('#showtb_carout').hide()
+              }
+               
+              
+               //document.getElementById("search-formmileout").reset();
+            }).mileout_searchData(obj);
+            
+            }
+    
+ function mileouteditData(el){
+  var numid_mileout = el.parentNode.parentNode.cells[0].innerText
+  var name_mileout = el.parentNode.parentNode.cells[1].innerText
+  var dep_mileout = el.parentNode.parentNode.cells[2].innerText
+  var car_mileout = el.parentNode.parentNode.cells[3].innerText
+  var loca_mileout = el.parentNode.parentNode.cells[4].innerText
+  var startDate_mileout = el.parentNode.parentNode.cells[5].innerText
+  var startTime_mileout = el.parentNode.parentNode.cells[6].innerText
+  var endDate_mileout = el.parentNode.parentNode.cells[7].innerText
+  var endTime_mileout = el.parentNode.parentNode.cells[8].innerText
+  var drive_mileout = el.parentNode.parentNode.cells[9].innerText
+  var other_mileout = el.parentNode.parentNode.cells[10].innerText
+  //var preapporved = el.parentNode.parentNode.cells[10].innerText
+  var apporve_mileout = el.parentNode.parentNode.cells[12].innerText
+  var dateout_mileout = el.parentNode.parentNode.cells[13].innerText
+  var dateout_mileout = el.parentNode.parentNode.cells[5].innerText
+  var driver_mileout = el.parentNode.parentNode.cells[9].innerText
+
+  
+// console.log(record)
+    document.getElementById('numid_mileout').value = numid_mileout
+    document.getElementById('name_mileout').value = name_mileout
+    document.getElementById('dep_mileout').value = dep_mileout
+    document.getElementById('car_mileout').value = car_mileout
+    document.getElementById('loca_mileout').value = loca_mileout
+    document.getElementById('startDate_mileout').value = startDate_mileout
+    document.getElementById('startTime_mileout').value = startTime_mileout
+    document.getElementById('endDate_mileout').value = endDate_mileout
+    document.getElementById('endTime_mileout').value = endTime_mileout
+    document.getElementById('drive_mileout').value = drive_mileout
+    document.getElementById('other_mileout').value = other_mileout
+    document.getElementById('apporve_mileout').value = apporve_mileout
+    document.getElementById('dateout_mileout').value = dateout_mileout
+    //document.getElementById('driver_mileout').value = driver_mileout
+ 
+
+  }
+
+
+    function mileoutsubmitForm(obj){
+        event.preventDefault()
+          Swal.fire({
+            position: 'center',
+            title: '<i class="fa-solid fa-download fa-bounce me-2"></i><h4><br>กำลังบันทึกข้อมูล...</h4>',
+            showConfirmButton: false,
+          })
+           Swal.showLoading()
+
+       google.script.run.withSuccessHandler(mileoutaddSuccess).mileoutaddRecord(obj)
+       
+       }
+      function mileoutaddSuccess(result){
+       if(result == true){
+          document.getElementById('timeout_mileout').value=""
+          document.getElementById('mileout_mileout').value=""
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+           
+            text: 'บันทึกการใช้งานรถเรียบร้อยแล้ว',
+            //showConfirmButton: true,
+            showConfirmButton: false,
+            timer: 2500
+           })
+
+           google.script.run.withSuccessHandler(cardailyshowData).cardailygetData()
+           google.script.run.withSuccessHandler(checkcarstatusshowData).checkcarstatusgetdata()
+           google.script.run.withSuccessHandler(cancelshowData).cancelgetdata()
+           google.script.run.withSuccessHandler(approveeditcarshowData).approveeditcargetdata()
+           google.script.run.withSuccessHandler(checkcarshowData).checkcargetdata()
+
+           document.getElementById("mileoutbtn-close").click(); 
+           $('#showtb_carout').hide()
+      
+      }
+       }
+       
+
+      
+</script>

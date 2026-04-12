@@ -1,0 +1,171 @@
+
+<div id="layoutAuthentication">
+  <div id="layoutAuthentication_content">
+    <main>
+      <div class="container-xl px-4">
+        <div class="row justify-content-center">
+          <div class="col-lg-5">
+            <!-- Basic login form-->
+            
+            <div class="card shadow-xl border-1 rounded-xl mt-5">
+              <div class="card-header text-center bg-white">
+                  <!-- เพิ่มรูป logo ด้านบนสุด -->
+                <img src="https://lh3.googleusercontent.com/d/10hu2Rd6AmmymuejRg7rowd7Ddf-PXw0p" alt="Logo" class="img-fluid">
+                <h4 class="fw-bold my-2">ระบบบริหารจัดการ กองกลาง ยก.ทหาร บก.ทท.</h4>
+              </div>
+              <div class="card-body">
+                <!-- Login form-->
+                <form id="loginpage" onsubmit="login(this)">
+                  <div class="mb-3">
+                    <label class="small mb-1" for="inputEmailAddress">ชื่อผู้ใช้</label>
+                    <input class="form-control" type="text" id="username" name="username" placeholder="ชื่อผู้ใช้ของท่าน" oninput="this.value = this.value.toLowerCase()" required />
+                  </div>
+                  <div class="mb-3">
+                    <label class="small mb-1" for="inputPassword">รหัสผ่าน</label>
+                    <input class="form-control" type="password" id="password" name="password" placeholder="รหัสผ่านของท่าน" required />
+                  </div>
+                  <!-- Form Group (login box)-->
+                  <div class="d-flex align-items-center justify-content-center mt-4 mb-0">
+                  <button type="submit" class="btn btn-primary submit col-12">Log in</button>
+                  <!-- <button type="button" class="btn btn-secondary submit col-6 mx-1">ลืมรหัสผ่าน</button> -->
+                  </div>
+
+                </form>
+              </div>
+              <!-- <div class="card-footer text-center">
+                <div class="small"><a type="button" data-bs-toggle="modal" data-bs-target="#registermember">
+                    หากยังไม่ได้ลงทะเบียน ท่านสามารถลงทะเบียนได้ที่นี่
+                  </a></div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Button trigger modal -->
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="registermember" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">ลงทะเบียน</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+       <div class="modal-body">
+          <form id="register_newmember" onsubmit="registerMember(this)">
+
+            <div class="mb-3">
+              <label class="form-label">อีเมล์ ทอ. ไม่ต้องใส่ @rtaf.mi.th</label>
+              <input type="text" class="form-control" id="regis_username" name="regis_username"  placeholder="อีเมล์ ทอ.ของท่าน" required >
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">รหัสผ่าน</label>
+              <input type="password" class="form-control" id="regis_password" name="regis_password" placeholder="รหัสผ่านของท่าน" required >
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">อัพโหลดรูปของคุณ</label>
+              <input type="file" class="form-control" id="file" name="file" accept="image/*">
+              <div class="mt-2"><img id="image1" width="150"></div>
+            </div>
+            
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="checkbok" onclick="check_click()">
+            <label class="form-check-label" for="flexSwitchCheckChecked">
+    ยินยอมให้ใช้ข้อมูลของท่านเพื่อใช้งานระบบ
+  </label>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" id="btn_savemember" disabled>ลงทะเบียนใช้งานระบบ</button>
+          <button class="btn btn-primary"  id="btn_spinner"  type="button" disabled style="display:none">
+              <span class="spinner-grow spinner-grow-sm"role="status" aria-hidden="true"></span>
+            กำลังบันทึกข้อมูล...
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="layoutAuthentication_footer">
+    <footer class="footer-admin mt-auto footer-dark">
+      <div class="container-xl px-4">
+        <div class="row">
+          <div class="col-md-6 text-md-end small">
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+
+  function registerMember(obj){
+    event.preventDefault()
+    $("#btn_savemember").hide();
+     
+    $("#btn_spinner").show();
+
+    // ตรวจสอบค่าของ image1
+    var image1Url = document.getElementById('image1').src;
+    if (!image1Url) {
+        // ถ้าค่าว่างให้กำหนด URL รูปภาพที่ต้องการแทนที่
+        image1Url = 'https://img5.pic.in.th/file/secure-sv1/images4d93a3674ce9c036.th.png'; // แทนที่ด้วย URL ที่ต้องการ
+    }
+
+    google.script.run.withSuccessHandler(function(){
+      
+        Swal.fire({
+        icon: 'success',
+        title: 'ลงทะเบียนเรียบร้อยแล้ว',
+        timer: 1500
+    });
+    $("#btn_spinner").hide(); 
+    $("#btn_savemember").show();
+    $("#closeform").click();
+    document.getElementById('register_newmember').reset()
+    document.getElementById('image1').src = image1Url;
+    reLoad()  
+    }).saveregister(obj)
+
+}
+
+//แสดงตัวอย่างก่อนอัพโหลดไฟล์ กรณีมีมากกว่า 1ไฟล์ให้เปลี่ยนค่าตัวแปร
+  const filedata1 =document.getElementById('file') 
+  filedata1.addEventListener('change',e=>{
+  const fileinput =file.files[0]
+  const src = URL.createObjectURL(fileinput)
+  document.getElementById('image1').src = src
+  const reader = new FileReader()
+
+  reader.addEventListener('load',()=>{
+    
+  })
+  reader.readAsDataURL(fileinput)
+  }
+)   
+
+//checkbok enablebutton
+function check_click()
+{
+if(document.getElementById('checkbok').checked==true)
+{
+document.getElementById('btn_savemember').disabled = false;
+}
+else
+{
+document.getElementById('btn_savemember').disabled = true;
+}
+}
+
+
+</script>

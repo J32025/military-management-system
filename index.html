@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <base target="_top">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="ระบบบริหารจัดการ กกล.ยก.ทหาร บก.ทท." />
+  <title>ระบบบริหารจัดการ กกล.ยก.ทหาร บก.ทท.</title>
+
+  <link href="https://fastly.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+  <link href="https://fastly.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" rel="stylesheet" />
+  <link href="https://sb-admin-pro.startbootstrap.com/css/styles.css" rel="stylesheet" />
+  <link href="https://fastly.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+  <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" rel="stylesheet" />
+  <link href="https://cdn.datatables.net/searchbuilder/1.5.0/css/searchBuilder.bootstrap5.min.css" rel="stylesheet" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/js/all.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://fastly.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    body, h5 {
+      font-family: 'Kanit';
+      font-weight: bold;
+    }
+    a { text-decoration: none; }
+    .container3 { display: flex; }
+    .color-box1 { background-color: yellow; padding: 10px; text-align: center; height: 10px; }
+    .color-box2 { background-color: green; padding: 10px; text-align: center; height: 10px; }
+    .color-box3 { background-color: red; padding: 10px; text-align: center; height: 10px; }
+    .color-box4 { background-color: indigo; padding: 10px; text-align: center; height: 10px; }
+    .color-box5 { background-color: indigo; padding: 10px; text-align: center; height: 10px; }
+    .page-header .page-header-content { padding-top: 0rem; padding-bottom: 0rem; }
+    .container, .container-fluid, .container-xxl, .container-xl,
+    .container-lg, .container-md, .container-sm {
+      --bs-gutter-x: 0.5rem;
+      --bs-gutter-y: 0;
+      width: 100%;
+      padding-right: calc(var(--bs-gutter-x)* 0.5);
+      padding-left: calc(var(--bs-gutter-x)* 0.5);
+      margin-right: auto;
+      margin-left: auto;
+    }
+    /* Loader spinner */
+    #page-loader {
+      position: fixed; inset: 0; background: rgba(0,0,0,.45);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    #page-loader .spinner-border { width: 3rem; height: 3rem; color: #fff; }
+  </style>
+</head>
+
+<body class="nav-fixed">
+
+  <!-- ===== Gas Bridge + Config ===== -->
+  <script src="js/config.js"></script>
+  <script src="js/gas-bridge.js"></script>
+
+  <!-- ===== Page Loader ===== -->
+  <div id="page-loader">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- ===== Modals (โหลดแบบ dynamic) ===== -->
+  <div id="partial-changpassword"></div>
+  <div id="partial-addcarAnddept"></div>
+  <div id="partial-Setting"></div>
+  <div id="partial-checkhistorycar"></div>
+
+  <!-- ===== LOGIN PAGE ===== -->
+  <div id="loginpage" class="bg-white">
+    <div id="layoutAuthentication">
+      <div id="layoutAuthentication_content">
+        <main>
+          <div class="container-xl px-4">
+            <div class="row justify-content-center">
+              <div class="col-lg-5">
+                <div class="card shadow-xl border-1 rounded-xl mt-5">
+                  <div class="card-header text-center bg-white">
+                    <img src="https://lh3.googleusercontent.com/d/10hu2Rd6AmmymuejRg7rowd7Ddf-PXw0p" alt="Logo" class="img-fluid">
+                    <h4 class="fw-bold my-2">ระบบบริหารจัดการ กองกลาง ยก.ทหาร บก.ทท.</h4>
+                  </div>
+                  <div class="card-body">
+                    <form id="loginpage-form" onsubmit="login(this); return false;">
+                      <div class="mb-3">
+                        <label class="small mb-1">ชื่อผู้ใช้</label>
+                        <input class="form-control" type="text" id="username" name="username"
+                          placeholder="ชื่อผู้ใช้ของท่าน"
+                          oninput="this.value = this.value.toLowerCase()" required />
+                      </div>
+                      <div class="mb-3">
+                        <label class="small mb-1">รหัสผ่าน</label>
+                        <input class="form-control" type="password" id="password" name="password"
+                          placeholder="รหัสผ่านของท่าน" required />
+                      </div>
+                      <div class="d-flex align-items-center justify-content-center mt-4 mb-0">
+                        <button type="submit" class="btn btn-primary submit col-12">Log in</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+      <div id="layoutAuthentication_footer">
+        <footer class="footer-admin mt-auto footer-dark">
+          <div class="container-xl px-4">
+            <div class="row">
+              <div class="col-md-6 text-md-end small"></div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div><!-- /loginpage -->
+
+  <!-- ===== MAIN SESSION ===== -->
+  <div id="showsession" style="display:none">
+
+    <!-- Navbar -->
+    <nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white"
+      id="sidenavAccordion">
+      <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 me-2 ms-lg-2 me-lg-0" id="sidebarToggle">
+        <i data-feather="menu"></i>
+      </button>
+      <a class="navbar-brand pe-3 ps-4 ps-lg-2">ระบบบริหารจัดการ กกล.ยก.ทหาร</a>
+      <ul class="navbar-nav align-items-center ms-auto">
+        <li class="nav-item dropdown no-caret d-none d-md-block me-3">
+          <a class="nav-link dropdown-toggle" href="javascript:void(0);" role="button"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="fw-500">แจ้งเตือนภารกิจ</div>
+            <i class="fas fa-chevron-right dropdown-arrow"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end py-0 me-sm-n15 me-lg-0 o-hidden animated--fade-in-up"></div>
+        </li>
+        <li class="nav-item dropdown no-caret d-none d-sm-block me-3 dropdown-notifications">
+          <i class="fa-solid fa-bell fa-shake fa-xl" id="notify" type="button"></i>
+          <i class="fa-solid fa-bell fa-xl" id="notify1" style="display:none"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge text-bg-danger"
+            id="totalpreapproval_1" onclick="hidenotify()"></span>
+        </li>
+        <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
+          <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage"
+            href="javascript:void(0);" role="button" data-bs-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <img class="img-fluid" id="profile"
+              src="https://sb-admin-pro.startbootstrap.com/assets/img/illustrations/profiles/profile-1.png" />
+          </a>
+          <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up">
+            <h6 class="dropdown-header d-flex align-items-center">
+              <img class="dropdown-user-img" id="profile2"
+                src="https://sb-admin-pro.startbootstrap.com/assets/img/illustrations/profiles/profile-1.png" />
+              <div class="dropdown-user-details">
+                <div class="dropdown-user-details-name"><span id="showuser"></span></div>
+                <div class="dropdown-user-details-email">กำลังใช้งาน</div>
+                <div class="dropdown-user-details-email"><span id="ipusershow"></span></div>
+              </div>
+            </h6>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" id="openchangtoken" type="button"
+              data-bs-toggle="modal" data-bs-target="#btnchengtoken" style="display:none">
+              <div class="dropdown-item-icon"><i data-feather="settings"></i></div>
+              ตั้งค่าระบบ
+            </a>
+            <a class="dropdown-item" type="button" onclick="logout()">
+              <div class="dropdown-item-icon"><i data-feather="log-out"></i></div>
+              ออกจากระบบ
+            </a>
+          </div>
+        </li>
+      </ul>
+    </nav><!-- /navbar -->
+
+    <!-- Layout -->
+    <div id="layoutSidenav">
+      <div id="layoutSidenav_nav">
+        <nav class="sidenav shadow-right sidenav-light">
+          <div class="sidenav-menu">
+            <div class="nav accordion" id="accordionSidenav">
+
+              <!-- ===== MENU (inline) ===== -->
+              <a class="nav-link mt-2" id="homepage" type="button" onclick="openPage('home',this)">
+                <div class="nav-link-icon"><i data-feather="home"></i></div>
+                หน้าหลัก
+              </a>
+
+              <!-- Admin menu -->
+              <div id="menu_admin">
+                <div class="sidenav-menu-heading">สำหรับผู้บังคับบัญชา</div>
+                <a class="nav-link collapsed" href="javascript:void(0);"
+                  data-bs-toggle="collapse" data-bs-target="#collapseFlows"
+                  aria-expanded="false" aria-controls="collapseFlows" onclick="openPage('home',this)">
+                  <div class="nav-link-icon"><i class="fa-solid fa-building"></i></div>
+                  อาคารสวัสดิการ
+                  <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseFlows" data-bs-parent="#accordionSidenav">
+                  <nav class="sidenav-menu-nested nav">
+                    <a class="nav-link collapsed" href="javascript:void(0);"
+                      data-bs-toggle="collapse" data-bs-target="#collapseFlows_1"
+                      aria-expanded="false" aria-controls="collapseFlows_1"
+                      onclick="openPage('requirement_dashbroad',this)">
+                      ความต้องการเข้าพัก
+                      <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseFlows_1">
+                      <nav class="sidenav-menu-nested nav">
+                        <a class="nav-link" type="button" onclick="openPage('requirement_2',this)">ผู้เช่าบ้าน</a>
+                        <a class="nav-link" type="button" onclick="openPage('requirement_3',this)">ส. พักห้อง น.</a>
+                        <a class="nav-link" type="button" onclick="openPage('requirement_4',this)">ผู้ผ่อนผัน</a>
+                        <a class="nav-link" type="button" onclick="openPage('requirement_5',this)">ผู้หมดสิทธิ์</a>
+                      </nav>
+                    </div>
+                    <a class="nav-link collapsed" href="javascript:void(0);"
+                      data-bs-toggle="collapse" data-bs-target="#collapseFlows_2"
+                      aria-expanded="false" aria-controls="collapseFlows_2">
+                      รายชื่อผู้เข้าพัก
+                      <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseFlows_2">
+                      <nav class="sidenav-menu-nested nav">
+                        <a class="nav-link" type="button" onclick="openPage('tbapprove',this)">ทุ่ง 1 อาคาร 9</a>
+                        <a class="nav-link" type="button" onclick="openPage('checkcar',this)">ทุ่ง 1 อาคาร 13</a>
+                        <a class="nav-link" type="button" onclick="openPage('cardaily',this)">ทุ่ง 2 อาคาร 10</a>
+                        <a class="nav-link" type="button" onclick="openPage('closestatus',this)">ทุ่ง 3 อาคาร 1</a>
+                        <a class="nav-link" type="button" onclick="openPage('carstatus',this)">ทุ่ง 3 อาคาร 33</a>
+                      </nav>
+                    </div>
+                  </nav>
+                </div>
+
+                <a class="nav-link collapsed" href="javascript:void(0);"
+                  data-bs-toggle="collapse" data-bs-target="#collapseFlows2"
+                  aria-expanded="false" aria-controls="collapseFlows2" onclick="openPage('chart_2',this)">
+                  <div class="nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                  กำลังพล
+                  <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseFlows2">
+                  <nav class="sidenav-menu-nested nav">
+                    <a class="nav-link" type="button" onclick="openPage('person_1',this)">
+                      <i class="fa-solid fa-user"></i>&nbsp;สถานภาพกำลังพล
+                    </a>
+                  </nav>
+                </div>
+
+                <a class="nav-link collapsed" href="javascript:void(0);"
+                  data-bs-toggle="collapse" data-bs-target="#collapseFlows3"
+                  aria-expanded="false" aria-controls="collapseFlows3" onclick="openPage('chart_3',this)">
+                  <div class="nav-link-icon"><i class="fa-solid fa-gas-pump"></i></div>
+                  สป.3
+                  <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseFlows3">
+                  <nav class="sidenav-menu-nested nav">
+                    <a class="nav-link" type="button" onclick="openPage('Fule_1',this)">
+                      <i class="fa-solid fa-gas-pump"></i>&nbsp;บันทึกข้อมูล
+                    </a>
+                  </nav>
+                </div>
+
+                <a class="nav-link collapsed" href="javascript:void(0);"
+                  data-bs-toggle="collapse" data-bs-target="#collapseFlows4"
+                  aria-expanded="false" aria-controls="collapseFlows4" onclick="openPage('chart_4',this)">
+                  <div class="nav-link-icon"><i class="fa-solid fa-car-side"></i></div>
+                  สป.ยานพาหนะ
+                  <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseFlows4">
+                  <nav class="sidenav-menu-nested nav">
+                    <a class="nav-link" type="button" onclick="openPage('baseperson',this)">
+                      <i class="fa-solid fa-check"></i>&nbsp;ข้อมูลกำลังพล
+                    </a>
+                  </nav>
+                </div>
+              </div><!-- /menu_admin -->
+
+              <!-- User menu -->
+              <div id="page_user">
+                <div class="sidenav-menu-heading">สำหรับเจ้าหน้าที่</div>
+                <a class="nav-link collapsed" href="javascript:void(0);"
+                  data-bs-toggle="collapse" data-bs-target="#collapseFlows_user"
+                  aria-expanded="false" aria-controls="collapseFlows_user">
+                  <div class="nav-link-icon"><i class="fa-solid fa-building"></i></div>
+                  อาคารสวัสดิการ
+                  <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseFlows_user">
+                  <nav class="sidenav-menu-nested nav">
+                    <a class="nav-link collapsed" href="javascript:void(0);"
+                      data-bs-toggle="collapse" data-bs-target="#collapseFlows_user_1"
+                      aria-expanded="false" onclick="openPage('user_requirement_dashbroad',this)">
+                      ความต้องการเข้าพัก สำหรับเจ้าหน้าที่
+                      <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseFlows_user_1">
+                      <nav class="sidenav-menu-nested nav">
+                        <a class="nav-link" type="button" onclick="openPage('requirement_2',this)">ผู้เช่าบ้าน</a>
+                        <a class="nav-link" type="button" onclick="openPage('requirement_3',this)">ส. พักห้อง น.</a>
+                        <a class="nav-link" type="button" onclick="openPage('requirement_4',this)">ผู้ผ่อนผัน</a>
+                        <a class="nav-link" type="button" onclick="openPage('requirement_5',this)">ผู้หมดสิทธิ์</a>
+                      </nav>
+                    </div>
+                  </nav>
+                </div>
+              </div><!-- /page_user -->
+
+              <!-- Driver menu -->
+              <div id="page_driver" style="display:none;">
+                <div class="sidenav-menu-heading">สำหรับบุคคลทั่วไป</div>
+                <a class="nav-link" id="diarycheckCar" type="button" onclick="openPage('cardaily',this)">
+                  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+                  ภารกิจวันนี้
+                </a>
+              </div>
+
+              <!-- VIP menu -->
+              <div id="page_vip" style="display:none;">
+                <div class="sidenav-menu-heading">สำหรับ VIP</div>
+                <a class="nav-link" type="button" onclick="openPage('preapprove',this)">
+                  <div class="nav-link-icon"><i data-feather="minus-circle"></i></div>
+                  รออนุมัติ
+                </a>
+                <a class="nav-link" type="button" onclick="openPage('checkcar',this)">
+                  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+                  อนุมัติแล้ว
+                </a>
+                <a class="nav-link" type="button" onclick="openPage('baseperson',this)">
+                  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+                  ข้อมูลกำลังพล
+                </a>
+              </div>
+
+              <!-- Finance menu -->
+              <div id="page_finance" style="display:none;">
+                <div class="sidenav-menu-heading">สำหรับเจ้าหน้าที่การเงิน</div>
+                <a class="nav-link" type="button" onclick="openPage('checkcar',this)">
+                  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+                  อนุมัติแล้ว
+                </a>
+                <a class="nav-link" type="button" onclick="openPage('baseperson',this)">
+                  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+                  ข้อมูลกำลังพล
+                </a>
+              </div>
+
+              <!-- Schedule menu -->
+              <div id="page_schedule" style="display:none;">
+                <div class="sidenav-menu-heading">สำหรับเจ้าหน้าที่ ผธก.</div>
+                <a class="nav-link" type="button" onclick="openPage('baseperson',this)">
+                  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+                  ข้อมูลกำลังพล
+                </a>
+                <a class="nav-link" type="button" onclick="openPage('schedule',this)">
+                  <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+                  อัพโหลดตารางเวร
+                </a>
+              </div>
+
+              <!-- Sidenav Footer -->
+              <div class="sidenav-footer">
+                <div class="sidenav-footer-content">
+                  <div class="sidenav-footer-subtitle">เวอร์ชั่นระบบ: 1.0.1</div>
+                  <span>จำนวนผู้ใช้งาน <span id="countPage"></span> ครั้ง</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </nav>
+      </div><!-- /layoutSidenav_nav -->
+
+      <div id="layoutSidenav_content">
+        <main>
+          <header class="page-header page-header-dark pb-10" style="background-color: #ADD8E6;">
+            <div class="container-fluid px-4">
+              <div class="page-header-content pt-4"></div>
+            </div>
+          </header>
+
+          <div class="container-fluid px-12 mt-n10">
+            <div class="row mx-0">
+              <div class="card h-100">
+                <div class="card-body h-100 px-2 p-5">
+                  <div class="row align-items-center">
+                    <div class="col-xl-8 col-xxl-12">
+                      <div class="col-xl-4 col-xxl-12 text-center mb-3">
+                        <img class="img-fluid"
+                          src="https://lh3.googleusercontent.com/d/10hu2Rd6AmmymuejRg7rowd7Ddf-PXw0p"
+                          style="max-width: 26rem" />
+                      </div>
+                      <div class="col-xl-8 col-xxl-12">
+                        <div class="text-center text-xl-start text-xxl-center mb-4 mb-xl-0 mb-xxl-4">
+                          <h1 class="text-primary">ระบบบริหารจัดการ กกล.ยก.ทหาร</h1>
+                          <p class="text-gray-700 mb-0">
+                            <marquee id="publicize-text">ระบบบริหารจัดการ กองกลาง ยก.ทหาร บก.ทท.</marquee>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- ====== Page Content Sections ====== -->
+                    <div id="home" class="content">
+                      <div id="partial-chart"></div>
+                    </div>
+                    <div id="chart_2" class="content">
+                      <div id="partial-chart_2"></div>
+                    </div>
+                    <div id="chart_3" class="content">
+                      <div id="partial-chart_3"></div>
+                    </div>
+                    <div id="chart_4" class="content">
+                      <div id="partial-chart_4"></div>
+                    </div>
+                    <div id="Fule_1" class="content">
+                      <div id="partial-Fule_1"></div>
+                    </div>
+                    <div id="person_1" class="content">
+                      <div id="partial-person_1"></div>
+                    </div>
+                    <div id="requirement" class="content">
+                      <div id="partial-requirement"></div>
+                    </div>
+                    <div id="requirement_dashbroad" class="content">
+                      <div id="partial-requirement_dashbroad"></div>
+                    </div>
+                    <div id="user_requirement_dashbroad" class="content">
+                      <div id="partial-user_requirement_dashbroad"></div>
+                    </div>
+                    <div id="requirement_1" class="content">
+                      <div id="partial-requirement_1"></div>
+                    </div>
+                    <div id="user_requirement_1" class="content">
+                      <div id="partial-user_requirement_1"></div>
+                    </div>
+                    <div id="requirement_2" class="content">
+                      <div id="partial-requirement_2"></div>
+                    </div>
+                    <div id="requirement_3" class="content">
+                      <div id="partial-requirement_3"></div>
+                    </div>
+                    <div id="confirmbook" class="content">
+                      <div id="partial-cancelbook"></div>
+                    </div>
+                    <div id="booking" class="content">
+                      <div id="partial-Booking"></div>
+                    </div>
+                    <div id="checkcar" class="content">
+                      <div id="partial-checkcar"></div>
+                    </div>
+                    <div id="tbapprove" class="content">
+                      <div id="partial-tbapprove"></div>
+                    </div>
+                    <div id="totalcar" class="content">
+                      <div id="partial-totalcar"></div>
+                    </div>
+                    <div id="carstatus" class="content">
+                      <div id="partial-carstatus"></div>
+                    </div>
+                    <div id="cancelcarforuser" class="content">
+                      <div id="partial-usercancelbookcar"></div>
+                    </div>
+                    <div id="closestatus" class="content">
+                      <div id="partial-closestatus"></div>
+                    </div>
+                    <div id="cardaily" class="content">
+                      <div id="partial-cardaily"></div>
+                    </div>
+                    <div id="milein" class="content">
+                      <div id="partial-milein"></div>
+                    </div>
+                    <div id="mileout" class="content">
+                      <div id="partial-mileout"></div>
+                    </div>
+                    <div id="search_user_show" class="content">
+                      <div id="partial-searchname"></div>
+                    </div>
+                    <div id="preapprove_user_show" class="content">
+                      <div id="partial-searchPreapprove"></div>
+                    </div>
+                    <div id="baseperson" class="content">
+                      <div id="partial-baseperson"></div>
+                    </div>
+                    <div id="schedule" class="content">
+                      <div id="partial-schedule"></div>
+                    </div>
+                    <div id="preapprove" class="content">
+                      <div id="partial-preapprove"></div>
+                    </div>
+                    <!-- Hidden approve element for title -->
+                    <div id="shoapprove" class="content" style="display:none;"></div>
+                    <h5 id="titleapprove"></h5>
+
+                  </div><!-- /row align-items-center -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </main>
+
+        <footer class="footer-admin mt-auto footer-light">
+          <div class="container-fluid px-4">
+            <div class="row">
+              <div class="col-md-6 small">ออกแบบและพัฒนาโดย <span id="devname-text">กกล.ยก.ทหาร</span></div>
+              <div class="col-md-6 text-md-end small">
+                <span id="organization-text">กกล.ยก.ทหาร บก.ทท.</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+      </div><!-- /layoutSidenav_content -->
+    </div><!-- /layoutSidenav -->
+  </div><!-- /showsession -->
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="https://fastly.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://fastly.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+  <script src="https://sb-admin-pro.startbootstrap.com/js/scripts.js"></script>
+  <script src="https://fastly.jsdelivr.net/npm/litepicker/dist/bundle.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.8/countUp.umd.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+  <script src="https://cdn.datatables.net/searchbuilder/1.5.0/js/dataTables.searchBuilder.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+
+  <!-- ===== Main Application Script ===== -->
+  <script>
+
+    // ================================================================
+    // LOGIN
+    // ================================================================
+    function login(obj) {
+      event.preventDefault();
+      Swal.fire({
+        position: 'center',
+        title: '<h4>กำลังตรวจสอบข้อมูล...</h4>',
+        showConfirmButton: false,
+      });
+      Swal.showLoading();
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+      google.script.run.withSuccessHandler(checkLoginStatus).authenticateUser(username, password);
+    }
+
+    function checkLoginStatus(data) {
+      if (data != null) {
+        var idmember = data[0][0];
+        var user = data[0][1];
+        var pass = data[0][2];
+        var status = data[0][3];
+        var fname = data[0][4];
+        var section = data[0][5];
+        var profile = data[0][6];
+
+        if (status === 'ระงับการใช้งาน') {
+          Swal.fire({ position: 'top-center', icon: 'error', title: 'ชื่อผู้ใช้นี้ถูกระงับการใช้งานแล้ว', showConfirmButton: false, timer: 1500 });
+          document.getElementById('loginpage-form').reset();
+          return;
+        }
+
+        // บันทึก session
+        sessionStorage.setItem('permission', status);
+        sessionStorage.setItem('fname', fname);
+        sessionStorage.setItem('section', section);
+        sessionStorage.setItem('profile', profile);
+        sessionStorage.setItem('user', user);
+
+        showLoad();
+        Swal.fire({ position: 'top', icon: 'success', title: '<h4>เข้าสู่ระบบสำเร็จ</h4>', showConfirmButton: false, timer: 2500 });
+
+        applyPermission(status, fname, section, profile, user);
+
+      } else {
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        Swal.fire({
+          position: 'center', icon: 'error',
+          title: '<h4>กรุณาตรวจสอบชื่อผู้ใช้หรือรหัสผ่านของท่าน</h4>',
+          showConfirmButton: true, confirmButtonText: 'Close',
+        });
+      }
+    }
+
+    function applyPermission(status, fname, section, profile, user) {
+      $('#loginpage').hide();
+      $('#showsession').show();
+      $('#userlogin').html(status);
+      $('#showuser').html(fname);
+
+      // ค่าที่ใส่ทุก role
+      var profileFields = ['profile', 'profile2'];
+      profileFields.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.src = profile;
+      });
+
+      var fieldsMap = {
+        'name_book': fname, 'dropdown_dep': section,
+        'apporve_approve': fname, 'apporve_approve1': fname,
+        'apporve_approve2': fname, 'apporve_approve3': fname, 'apporve_approve4': fname,
+        'searchname_name': fname, 'searchname_preapprove': fname,
+        'searchname_cancel': fname, 'namecancel_car': fname,
+        'searchname_out': fname, 'searchname_in': fname,
+        'driver_mileout': fname, 'driver_milein': fname, 'uname': user
+      };
+      Object.keys(fieldsMap).forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.value = fieldsMap[id];
+      });
+
+      if (status === 'admin') {
+        $('#menu_admin').show();
+        $('#openchangtoken').show();
+        $("#searchname_in, #searchname_out, #searchname_name, #searchname_preapprove").prop("readonly", false);
+        $("#pageinput, #pageinput2").prop("hidden", false);
+      } else if (status === 'user') {
+        $('#menu_admin').hide();
+        $('#openchangtoken').hide();
+        $('#bookingcaruser').click();
+        $('#shoapprove').hide();
+        $('#titleapprove').html('<i class="fa-solid fa-triangle-exclamation fa-beat-fade text-danger"></i> <span class="text-danger">หน้านี้ถูกจำกัดสิทธิ์การใช้งาน สำหรับเจ้าหน้าที่เท่านั้น!</span>');
+      } else if (status === 'general') {
+        $('#menu_admin, #page_user, #admin_page').hide();
+        $('#page_driver').show();
+        $('#diarycheckCar').click();
+        $('#openchangtoken').hide();
+        $('#shoapprove').hide();
+        $('#titleapprove').html('<i class="fa-solid fa-triangle-exclamation fa-beat-fade text-danger"></i> <span class="text-danger">หน้านี้ถูกจำกัดสิทธิ์การใช้งาน สำหรับเจ้าหน้าที่เท่านั้น!</span>');
+      } else if (status === 'vip') {
+        $('#menu_admin, #page_user, #admin_page').hide();
+        $('#page_vip').show();
+        $('#diarycheckCar').click();
+        $('#openchangtoken').hide();
+      } else if (status === 'finance') {
+        $('#menu_admin, #page_user, #admin_page').hide();
+        $('#page_finance').show();
+        $('#diarycheckCar').click();
+        $('#openchangtoken').hide();
+      } else if (status === 'schedule') {
+        $('#menu_admin, #page_user, #admin_page').hide();
+        $('#page_schedule').show();
+        $('#diarycheckCar').click();
+        $('#openchangtoken').hide();
+      }
+
+      var ipShow = document.getElementById('ipusershow');
+      if (ipShow) ipShow.innerText = sessionStorage.getItem('ipCheck') || '';
+
+      // Load settings (publicize, devname, organization)
+      google.script.run.withSuccessHandler(function (obj) {
+        if (obj) {
+          var pt = document.getElementById('publicize-text');
+          if (pt && obj.publicize) pt.textContent = obj.publicize;
+          var dt = document.getElementById('devname-text');
+          if (dt && obj.devname) dt.textContent = obj.devname;
+          var ot = document.getElementById('organization-text');
+          if (ot && obj.organization) ot.textContent = obj.organization;
+        }
+      }).getSetting();
+    }
+
+    // ================================================================
+    // SESSION RESTORE (โหลดหน้าใหม่แต่ session ยังอยู่)
+    // ================================================================
+    (function restoreSession() {
+      var permission = sessionStorage.getItem('permission');
+      var fname = sessionStorage.getItem('fname');
+      var section = sessionStorage.getItem('section');
+      var profile = sessionStorage.getItem('profile');
+      var user = sessionStorage.getItem('user');
+      if (permission && permission !== 'viewer') {
+        applyPermission(permission, fname, section, profile, user);
+      }
+    })();
+
+    // ================================================================
+    // PAGE NAVIGATION
+    // ================================================================
+    function openPage(pageName, elmnt) {
+      var contents = document.querySelectorAll('.content');
+      contents.forEach(function (c) { c.style.display = 'none'; });
+      var target = document.getElementById(pageName);
+      if (target) target.style.display = 'block';
+    }
+
+    // ================================================================
+    // LOGOUT
+    // ================================================================
+    function logout() {
+      Swal.fire({
+        title: 'ยืนยันการออกจากระบบ?',
+        text: 'ท่านแน่ใจหรือว่าจะออกจากระบบตอนนี้',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          sessionStorage.clear();
+          showLoad();
+          setTimeout(function () { window.location.reload(); }, 1500);
+        }
+      });
+    }
+
+    // ================================================================
+    // RELOAD (แทนที่ google.script.run.getURL)
+    // ================================================================
+    function reLoad() {
+      showLoad();
+      setTimeout(function () { window.location.reload(); }, 500);
+    }
+
+    // ================================================================
+    // NOTIFICATION BELL
+    // ================================================================
+    function hidenotify() {
+      var totalpreapproval_1 = document.getElementById('totalpreapproval_1');
+      var notifyElement = document.getElementById('notify');
+      var notifyElement1 = document.getElementById('notify1');
+      if (!totalpreapproval_1) return;
+      if (totalpreapproval_1.textContent.trim() === '0') {
+        totalpreapproval_1.style.display = 'none';
+        if (notifyElement) notifyElement.style.display = 'none';
+        if (notifyElement1) notifyElement1.style.display = 'block';
+      } else {
+        totalpreapproval_1.style.display = 'block';
+        if (notifyElement) notifyElement.style.display = 'block';
+        if (notifyElement1) notifyElement1.style.display = 'none';
+      }
+    }
+
+    // ================================================================
+    // AUTO REFRESH SUMMARY (ทุก 5 วินาที)
+    // ================================================================
+    function startAutoRefresh() {
+      setInterval(function () {
+        google.script.run.withSuccessHandler(function (r) {
+          if (r) hidenotify();
+        }).getData_ChartBar();
+
+        var ids = ['totalpreapproval','totalpreapproval_1','totalpreapproval_2','total_approval','total_unapproval','total_cancelbook'];
+        google.script.run.withSuccessHandler(function (data) {
+          if (!data) return;
+          ids.forEach(function (id, i) {
+            var el = document.getElementById(id);
+            if (el && data[i] !== undefined) el.innerHTML = data[i];
+          });
+          hidenotify();
+        }).getSummary();
+      }, 5000);
+    }
+
+    // ================================================================
+    // COUNTUP ANIMATION
+    // ================================================================
+    var _done = [];
+    function isComing(el) {
+      var rect = el.getBoundingClientRect();
+      return rect.top <= (window.innerHeight || document.documentElement.clientHeight);
+    }
+    function s_counters() {
+      document.querySelectorAll('.s-counter').forEach(function (cntr) {
+        if (isComing(cntr)) {
+          var id = cntr.id;
+          if (!_done[id]) {
+            var val = cntr.dataset.value;
+            var cu = new countUp.CountUp(id, val);
+            cu.start();
+            _done[id] = true;
+          }
+        }
+      });
+    }
+    document.addEventListener('DOMContentLoaded', s_counters);
+    window.addEventListener('scroll', s_counters, { passive: true });
+
+    // ================================================================
+    // SHOW LOADING OVERLAY
+    // ================================================================
+    function showLoad() {
+      $.LoadingOverlaySetup({
+        background: 'rgba(0, 0, 0, 0.5)',
+        image: 'https://img2.pic.in.th/pic/Untitled-designa64a7773ec4d81e9.png',
+        imageAnimation: '1.5s fadein',
+        imageColor: '#ffcc00'
+      });
+      $.LoadingOverlay('show');
+      setTimeout(function () { $.LoadingOverlay('hide'); }, 3000);
+    }
+
+    // ================================================================
+    // IP DETECTION
+    // ================================================================
+    document.addEventListener('DOMContentLoaded', function () {
+      async function getIPAddress() {
+        try {
+          var resp = await fetch('//api.ipify.org?format=json');
+          var data = await resp.json();
+          return data.ip;
+        } catch (e) { return ''; }
+      }
+      async function loginCheck() {
+        var username = document.getElementById('username').value;
+        var ipCheck = await getIPAddress();
+        sessionStorage.setItem('ipCheck', ipCheck);
+        var userAgent = navigator.userAgent;
+        google.script.run.loginCheckip(username, ipCheck, userAgent);
+        var el = document.getElementById('ipusershow');
+        if (el) el.innerText = ipCheck;
+      }
+      var uInput = document.getElementById('username');
+      if (uInput) uInput.addEventListener('change', loginCheck);
+    });
+
+    // ================================================================
+    // COUNT PAGE VISITS
+    // ================================================================
+    $(document).ready(function () {
+      google.script.run.withSuccessHandler(function (data) {
+        $('#countPage').text(data);
+      }).countPage();
+    });
+
+    // ================================================================
+    // LOAD ALL HTML PARTIALS
+    // ================================================================
+    document.addEventListener('DOMContentLoaded', function () {
+      var partials = [
+        // Modals
+        ['partial-changpassword', 'Page/changpassword.html'],
+        ['partial-addcarAnddept', 'Page/addcarAnddept.html'],
+        ['partial-Setting', 'Page/Setting.html'],
+        ['partial-checkhistorycar', 'Page/checkhistorycar.html'],
+        // Pages
+        ['partial-chart', 'Admin/chart.html'],
+        ['partial-chart_2', 'Admin/chart_2.html'],
+        ['partial-chart_3', 'Admin/chart_3.html'],
+        ['partial-chart_4', 'Admin/chart_4.html'],
+        ['partial-Fule_1', 'Fule/Fule_1.html'],
+        ['partial-person_1', 'Page/person_1.html'],
+        ['partial-requirement', 'Home/requirement.html'],
+        ['partial-requirement_dashbroad', 'Home/requirement_dashbroad.html'],
+        ['partial-user_requirement_dashbroad', 'Home/user_requirement_dashbroad.html'],
+        ['partial-requirement_1', 'Home/requirement_1.html'],
+        ['partial-user_requirement_1', 'Home/user_requirement_1.html'],
+        ['partial-requirement_2', 'Home/requirement_2.html'],
+        ['partial-requirement_3', 'Home/requirement_3.html'],
+        ['partial-cancelbook', 'Page/cancelbook.html'],
+        ['partial-Booking', 'Page/Booking.html'],
+        ['partial-checkcar', 'Page/checkcar.html'],
+        ['partial-tbapprove', 'Page/tbapprove.html'],
+        ['partial-totalcar', 'Page/totalcar.html'],
+        ['partial-carstatus', 'Page/carstatus.html'],
+        ['partial-usercancelbookcar', 'Page/usercancelbookcar.html'],
+        ['partial-closestatus', 'Page/closestatus.html'],
+        ['partial-cardaily', 'Page/cardaily.html'],
+        ['partial-milein', 'Page/milein.html'],
+        ['partial-mileout', 'Page/mileout.html'],
+        ['partial-searchname', 'Page/searchname.html'],
+        ['partial-searchPreapprove', 'Page/searchPreapprove.html'],
+        ['partial-baseperson', 'Page/baseperson.html'],
+        ['partial-schedule', 'Page/schedule.html'],
+        ['partial-preapprove', 'Page/preapprove.html'],
+      ];
+
+      Promise.all(partials.map(function (p) {
+        return loadHTML(p[0], p[1]);
+      })).then(function () {
+        // ซ่อน page loader
+        var loader = document.getElementById('page-loader');
+        if (loader) loader.style.display = 'none';
+
+        // เริ่ม auto refresh
+        startAutoRefresh();
+
+        // Initialize feather icons
+        if (typeof feather !== 'undefined') feather.replace();
+
+        // เปิดหน้าหลักอัตโนมัติ
+        var homepageBtn = document.getElementById('homepage');
+        if (homepageBtn) homepageBtn.click();
+      });
+    });
+
+  </script>
+
+</body>
+</html>

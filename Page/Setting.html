@@ -1,0 +1,101 @@
+<div class="modal fade" id="btnchengtoken" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="changtokenLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="changtokenLabel"><i class="fa-solid fa-gears"></i>ตั้งค่าระบบ</h5>
+        <button type="button" id="clodesettoken" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="tokenid" class="form-label text-success"><i class="fa-brands fa-line"></i> ระบุTokenกลุ่มไลน์ (สำหรับผู้อนุมัติ)</label>
+            <a href="https://notify-bot.line.me/th/" target="_blank"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="หากท่านยังไม่มีสามารถคลิกเพื่อสมัครได้ที่นี่">
+<i class="fa-solid fa-circle-info"></i>
+</a>
+            <input type="text" class="form-control" id="tokenid" name="tokenid" required>
+          </div>
+            <div class="mb-3">
+            <label for="tokenid" class="form-label text-success"><i class="fa-brands fa-line"></i> ระบุTokenกลุ่มไลน์ (สำหรับผู้จอง) <a href="https://notify-bot.line.me/th/" target="_blank"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="หากท่านยังไม่มีสามารถคลิกเพื่อสมัครได้ที่นี่">
+<i class="fa-solid fa-circle-info"></i>
+</a></label>
+            <input type="text" class="form-control" id="tokenid2" name="tokenid2" required>
+          </div>
+             <div class="mb-3">
+            <label for="tokenid" class="form-label text-warning"><i class="fa-solid fa-folder-open"></i>Idfolder Profile</label>
+            <input type="text" class="form-control" id="idfolderimag" name="idfolderimag" required>
+          </div>
+           <div class="mb-3">
+            <label for="tokenid" class="form-label text-primary"><i class="fa-solid fa-bullhorn"></i>ข่าวประชาสัมพันธ์</label>
+            <textarea class="form-control" id="publicize" name="publicize" rows="3" required></textarea>
+          </div>
+           <div class="mb-3">
+            <label for="tokenid" class="form-label text-primary"><i class="fa-solid fa-circle-user"></i>ชื่อผู้พัฒนา</label>
+            <input type="text" class="form-control" id="devname" name="devname" required>
+          </div>
+            <div class="mb-3">
+            <label for="tokenid" class="form-label text-primary"><i class="fa-solid fa-landmark"></i>ชื่อองค์กรของท่าน</label>
+            <input type="text" class="form-control" id="organization" name="organization" required>
+          </div>
+      </div>
+          
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btntoken" onclick="updatesetting()"><i class="fa-solid fa-floppy-disk"></i> บันทึการตั้งค่าระบบ</button>
+        <button class="btn btn-primary" id="btnloadchang" type="button" disabled style="display:none">
+  <span role="status" ><i class="fa-solid fa-gear fa-spin"></i>กำลังบันทึกการแก้ไข...</span>
+</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  //เมื่อมีการกดบันทึการเปลี่ยนแลงToken
+    document.addEventListener("DOMContentLoaded", function() {
+      google.script.run.withSuccessHandler(function(obj) {
+       showTokenold(obj)
+      }).getSetting();
+
+    });
+    function showTokenold(obj) {
+      document.getElementById('tokenid').value = obj.token;
+      document.getElementById('tokenid2').value = obj.token2;
+      document.getElementById('idfolderimag').value = obj.idfolderimag;
+      document.getElementById('publicize').value = obj.publicize;
+      document.getElementById('devname').value = obj.devname;
+      document.getElementById('organization').value = obj.organization;
+      
+      
+      
+    }
+
+
+//UpdateToken
+  function updatesetting() {
+    $('#btntoken').hide()
+    $('#btnloadchang').show()
+  var obj = {
+  token: document.getElementById('tokenid').value,
+  token2: document.getElementById('tokenid2').value,
+  idfolderimag: document.getElementById('idfolderimag').value,
+  publicize:document.getElementById('publicize').value,
+  devname:document.getElementById('devname').value,
+  organization:document.getElementById('organization').value
+  };
+
+  google.script.run.withSuccessHandler(function(response) {
+    Swal.fire({
+        icon: 'success',
+        title: 'ดำเนินการเสร็จสิ้น!',
+        text: 'บันทึกการตั้งค่าtokenเรียบร้อยแล้ว',
+        time:1500
+      });
+    $('#btntoken').show()
+    $('#btnloadchang').hide()
+    $('#clodesettoken').trigger('click')
+  }).updateSetting(obj);
+    reLoad() 
+}
+</script>

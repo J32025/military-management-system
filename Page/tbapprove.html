@@ -1,0 +1,652 @@
+<link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" rel="stylesheet">
+
+<style>
+  #approve td {
+    font-weight: normal;
+    /* ให้เป็นตัวบาง */
+    font-size: 14px;
+    color: #333;
+  }
+
+  /* จัดข้อความในตารางให้อยู่ตรงกลาง */
+  #approve td,
+  #approve th {
+    /* text-align: center; จัดข้อความในแนวนอน */
+    vertical-align: middle;
+    /* จัดข้อความในแนวตั้ง */
+  }
+
+  #approve {
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  #approve tbody tr {
+    height: 50px;
+    /* กำหนดความสูงของแถว */
+  }
+
+  #approve tbody td {
+    overflow: hidden;
+    /* ซ่อนเนื้อหาที่เกิน */
+    white-space: nowrap;
+    /* ไม่ให้ข้อความขึ้นบรรทัดใหม่ */
+    text-overflow: ellipsis;
+    /* แสดง ... เมื่อข้อความยาวเกิน */
+  }
+
+  #approve thead th {
+    height: 30px;
+    /* กำหนดความสูงของหัวคอลัมน์ */
+    overflow: hidden;
+    /* ซ่อนเนื้อหาที่เกิน */
+    white-space: nowrap;
+    /* ไม่ให้ข้อความขึ้นบรรทัดใหม่ */
+    text-overflow: ellipsis;
+    /* แสดง ... เมื่อข้อความยาวเกิน */
+    background-color: #add8e6;
+    /* สีพื้นหลัง */
+    border: 1px solid #dee2e6;
+    /* เส้นขอบ */
+  }
+
+  #approve thead th:first-child {
+    border-top-left-radius: 10px;
+    /* ขอบมนด้านบนซ้าย */
+    border-bottom-left-radius: 10px;
+    /* ขอบมนด้านล่างซ้าย */
+  }
+
+  #approve thead th:last-child {
+    border-top-right-radius: 10px;
+    /* ขอบมนด้านบนขวา */
+    border-bottom-right-radius: 10px;
+    /* ขอบมนด้านล่างขวา */
+  }
+
+  #loading_1_1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+  }
+
+  .loading_1_1-spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<!-- The Modal -->
+<div class="modal fade" id="approveform" tabindex="-1" aria-labelledby="approveformLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Header with improved styling -->
+      <div class="modal-header" style="background-color: #ffffff; color: black;">
+        <h4 class="modal-title" id="approveformLabel">ข้อมูลกำลังพล</h4>
+        <button type="button" id="approvebtnclose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Body with centered image and organized information -->
+      <div class="modal-body">
+        <div class="container">
+         <div class="row justify-content-center mb-4">
+          <!-- Central image placeholder -->
+          <div class="col-md-4 text-center mb-3">
+            <div class="mx-auto" style="width: 150px; height: auto; background-color: #f0f0f0; overflow: visible; border: 3px solid #e0e0e0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+              <img id="profileImage" src="https://img2.pic.in.th/pic/Untitled-designa64a7773ec4d81e9.png" alt="รูปประจำตัว" style="width: 100%; height: auto; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+
+          <form id="approvemyForm" onsubmit="approvesubmitForm(this)" class="row g-3">
+            <!-- Hidden fields -->
+            <input type="hidden" id="numid_approve" name="numid_approve">
+            <input type="hidden" id="apporve_approve" name="apporve_approve">
+
+            <!-- Personal Information Section -->
+            <div class="col-12 mb-2">
+              <h5 class="border-bottom pb-2" style="color: #3e64ff;">ข้อมูลส่วนบุคคล</h5>
+            </div>
+
+            <div class="col-md-2 mb-2">
+              <label for="startTime_approve" class="form-label">ยศ</label>
+              <input type="text" class="form-control" id="startTime_approve" name="startTime_approve" readonly>
+            </div>
+
+            <div class="col-md-5 mb-2">
+              <label for="endDate_approve" class="form-label">ชื่อ</label>
+              <input type="text" class="form-control" id="endDate_approve" name="endDate_approve" readonly>
+            </div>
+
+            <div class="col-md-5 mb-2">
+              <label for="endTime_approve" class="form-label">นามสกุล</label>
+              <input type="text" class="form-control" id="endTime_approve" name="endTime_approve" readonly>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="drive_approve" class="form-label">ตำแหน่ง</label>
+              <input type="text" class="form-control" id="drive_approve" name="drive_approve" readonly>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="other_approve_approve_1" class="form-label">สังกัด</label>
+              <input type="text" class="form-control" id="other_approve_approve_1" name="other_approve_approve_1" readonly>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="other_approve_approve_5" class="form-label">เบอร์โทร</label>
+              <input type="text" class="form-control" id="other_approve_approve_5" name="other_approve_approve_5" readonly>
+            </div>
+
+            <!-- Accommodation Information Section -->
+            <div class="col-12 mt-3 mb-2">
+              <h5 class="border-bottom pb-2" style="color: #3e64ff;">ข้อมูลที่พักอาศัย</h5>
+            </div>
+
+            <div class="col-md-3 mb-2">
+              <label for="name_approve" class="form-label">หมายเลขห้อง</label>
+              <input type="text" class="form-control" id="name_approve" name="name_approve" readonly>
+            </div>
+
+            <div class="col-md-3 mb-2">
+              <label for="dep_approve" class="form-label">พื้นที่</label>
+              <input type="text" class="form-control" id="dep_approve" name="dep_approve" readonly>
+            </div>
+
+            <div class="col-md-3 mb-2">
+              <label for="car_approve" class="form-label">ชั้น</label>
+              <input type="text" class="form-control" id="car_approve" name="car_approve" readonly>
+            </div>
+
+            <div class="col-md-3 mb-2">
+              <label for="loca_approve" class="form-label">อาคารหมายเลข</label>
+              <input type="text" class="form-control" id="loca_approve" name="loca_approve" readonly>
+            </div>
+
+            <div class="col-md-3 mb-2">
+              <label for="startDate_approve" class="form-label">ประเภท</label>
+              <input type="text" class="form-control" id="startDate_approve" name="startDate_approve" readonly>
+            </div>
+
+            <div class="col-md-3 mb-2">
+              <label for="other_approve_approve_2" class="form-label">สถานะการจัด</label>
+              <input type="text" class="form-control" id="other_approve_approve_2" name="other_approve_approve_2" readonly>
+            </div>
+
+            <div class="col-md-3 mb-2">
+              <label for="other_approve_approve_3" class="form-label">จำนวนผู้พักอาศัย</label>
+              <input type="text" class="form-control" id="other_approve_approve_3" name="other_approve_approve_3" readonly>
+            </div>
+
+            <!-- Residence Status Section -->
+            <div class="col-12 mt-3 mb-2">
+              <h5 class="border-bottom pb-2" style="color: #3e64ff;">สถานะการพักอาศัย</h5>
+            </div>
+
+            <div class="col-md-4 mb-2">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="other_approve_approve_6_check" disabled>
+                <label class="form-check-label" for="other_approve_approve_6_check">พักอาศัยเอง</label>
+                <input type="hidden" class="form-control" id="other_approve_approve_6" name="other_approve_approve_6" readonly>
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-2">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="other_approve_approve_7_check" disabled>
+                <label class="form-check-label" for="other_approve_approve_7_check">ให้ญาติพัก</label>
+                <input type="hidden" class="form-control" id="other_approve_approve_7" name="other_approve_approve_7" readonly>
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-2">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="other_approve_approve_8_check" disabled>
+                <label class="form-check-label" for="other_approve_approve_8_check">ไม่อยู่บ้าน</label>
+                <input type="hidden" class="form-control" id="other_approve_approve_8" name="other_approve_approve_8" readonly>
+              </div>
+            </div>
+
+            <!-- Family Information Section -->
+            <div class="col-12 mt-3 mb-2">
+              <h5 class="border-bottom pb-2" style="color: #3e64ff;">ข้อมูลผู้พักอาศัย</h5>
+            </div>
+
+            <div class="col-12 mb-2">
+              <label for="other_approve_approve_4" class="form-label">รายชื่อผู้พักอาศัยในทะเบียนบ้าน</label>
+              <textarea class="form-control" id="other_approve_approve_4" name="other_approve_approve_4" rows="3" readonly></textarea>
+            </div>
+
+            <!-- Additional hidden field for consistency -->
+            <input type="hidden" id="other_approve_approve_9" name="other_approve_approve_9">
+          </form>
+        </div>
+      </div>
+
+      <!-- Footer with action buttons -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+        <!-- <button type="button" class="btn btn-primary" onclick="document.getElementById('approvemyForm').requestSubmit()">บันทึก</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1 class="mb-2" id="titleapprove"><i class="fa-solid fa-building"></i> ทุ่งสีกัน 1 อาคาร 9 สนผ.ยก.ทหาร รับผิดชอบ
+  (อาคารชั้นประทวน)</h1>
+
+<div class="table-responsive" id="shoapprove">
+  <table id="approve" class="table table-striped table-sm table table-hover align-middle"
+    style="width:100%; font-size:14px;">
+    <thead class="bg-thead text-black"></thead>
+  </table>
+</div>
+
+<script>
+  document.getElementById('approvebtnclose').addEventListener('click', function() {
+    clearForm(); // เรียกฟังก์ชันล้างค่าฟอร์ม
+  });
+  
+  function clearForm() {
+    // รีเซ็ตฟอร์ม
+    document.getElementById('approvemyForm').reset();
+
+    // ล้างค่าใน textarea
+    document.getElementById('other_approve_approve_4').value = '';
+
+    // รีเซ็ตรูปภาพเป็น URL เริ่มต้นหรือว่างเปล่า
+    const defaultImageSrc = 'https://img2.pic.in.th/pic/Untitled-designa64a7773ec4d81e9.png';
+    document.getElementById('profileImage').src = defaultImageSrc;
+
+    // ตรวจสอบว่ารูปภาพถูกเปลี่ยนแปลง
+    // console.log('Profile image source set to:', document.getElementById('profileImage').src);
+}
+
+
+  // เมื่อปุ่มปิดถูกคลิก
+  document.getElementById('approvebtnclose').addEventListener('click', function() {
+      clearForm();
+  });
+
+  // เมื่อ Modal ถูกซ่อน (ใช้กับ Bootstrap)
+  $('#approveform').on('hidden.bs.modal', function () {
+      clearForm();
+  });
+
+  function unapprove(value){
+  var other_approve = document.getElementById("other_approve");
+      if(value == "ไม่อนุมัติ"){
+        $('#memo').show();
+       Swal.fire({
+            position: 'top',
+            icon: 'info',
+            title: 'แจ้งเตือน',
+            text:'กรุณาระบุเหตุผลที่ช่องบันทึกข้อความเพิ่มเติม',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          other_approve.setAttribute("required", "required");
+      }else{
+          $('#memo').hide();
+          other_approve.removeAttribute("required");
+
+      }
+    }
+     
+  function approvesubmitForm(obj){
+        event.preventDefault()
+          Swal.fire({
+            position: 'center',
+            title: '<i class="fa-solid fa-download fa-bounce me-2"></i><h4><br>กำลังบันทึกข้อมูล...</h4>',
+            showConfirmButton: false,
+          })
+           Swal.showLoading()
+
+        // drive_approve = document.getElementById('drive_approve').value  
+
+        // if(drive_approve == "พร้อมคนขับ"){
+        //             Swal.fire({
+        //               position: 'center',
+        //               icon: 'error',
+        //               text: 'กรุณาเลือกชื่อคนขับรถ',
+        //               showConfirmButton: true,
+        //               confirmButtonText: 'กดปิด',
+        //             })
+        //       return
+        //     }
+
+       google.script.run.withSuccessHandler(addSuccess).approveaddRecord(obj)
+       }
+
+    function addSuccess(result){
+       if(result == true){
+          
+          document.getElementById("other_approve").value = "" 
+          document.getElementById("preapporved_approve").value = "" 
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+           
+            text: 'อนุมัติเรียบร้อยแล้ว',
+            //showConfirmButton: true,
+            showConfirmButton: false,
+            timer: 2500
+           })
+             document.getElementById("approvebtnclose").click(); 
+       
+           google.script.run.withSuccessHandler(cardailyshowData).cardailygetData()
+           google.script.run.withSuccessHandler(approveshowData).approvegetdata()
+           google.script.run.withSuccessHandler(preapproveshowData).preapprovegetdata()
+           google.script.run.withSuccessHandler(checkcarshowData).checkcargetdata()
+           google.script.run.withSuccessHandler(cancelshowData).cancelgetdata()
+      }
+      // else{
+      //    Swal.fire({
+      //       position: 'center',
+      //       icon: 'error',
+      //       text: 'พนักงานขับรถมีคิวขับแล้วกรุณาเลือกพนักงานขับรถคนอื่น',
+      //       showConfirmButton: true,
+      //       confirmButtonText: 'กดปิด',
+      //     })
+      //   }
+       }
+       
+       
+// เรียกใช้งานฟังก์ชันดึงข้อมูลจาก Google Apps Script เมื่อโหลดหน้า
+google.script.run.withSuccessHandler(approveshowData).approvegetdata();
+
+function approveshowData(dataSet) {
+    // ตรวจสอบว่า dataSet มีข้อมูลหรือไม่
+    if (!dataSet || !Array.isArray(dataSet)) {
+        console.error('ไม่มีข้อมูลหรือข้อมูลไม่ถูกต้อง');
+        return;
+    }
+
+    // Ensure each row has the required number of columns
+    dataSet = dataSet.map(row => {
+        while (row.length < 20) { // เพิ่มเป็น 20 คอลัมน์เพื่อรองรับ URL รูปภาพ
+            row.push('');
+        }
+        return row;
+    });
+
+    // Initialize DataTable
+    const table = new DataTable('#approve', {
+        columns: [
+            { title: 'ลำดับ', width: '2%' },
+            { title: 'ห้อง', width: '10%' },
+            { 
+                title: 'ยศและชื่อ', width: '15%',
+                render: function (data, type, row) {
+                    // ตรวจสอบว่า row[6], row[7], row[8] มีค่าหรือไม่
+                    const rank = row[6] || '';
+                    const firstName = row[7] || '';
+                    const lastName = row[8] || '';
+                    return `${rank} ${firstName} ${lastName}`.trim();
+                }
+            },
+            {
+                title: 'รายละเอียด', width: '5%',
+                render: function (data, type, row) {
+                    // ตรวจสอบว่า row[1] มีค่าหรือไม่
+                    const roomNumber = row[1] || '';
+                    return `<span class='badge bg-success text-white sfont'
+                                data-bs-toggle="modal"
+                                data-bs-target="#approveform" type="button"
+                                onclick="fetchRoomData('${roomNumber}');">ดูข้อมูล</span>`;
+                }
+            }
+        ],
+        data: dataSet.length > 1 ? dataSet.slice(1) : [], // ป้องกันกรณี dataSet มีแค่ header
+        bFilter: true,
+        responsive: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/th.json',
+        },
+        destroy: true,
+        order: [[0, 'asc']],
+        columnDefs: [
+            {
+                targets: '_all',
+                className: 'dt-center',
+            }
+        ],
+        initComplete: function (settings) {
+            const api = new $.fn.dataTable.Api(settings);
+            // ตรวจสอบว่า element ที่จะ append มีหรือไม่
+            if ($('.table-filter-container', api.table().container()).length) {
+                $('.table-filter-container', api.table().container()).append();
+            }
+            
+            // ตรวจสอบว่า table-filter มีหรือไม่
+            $('#table-filter select').on('change', function () {
+                table.columns(3).search(this.value).draw();
+            });
+        }
+    });
+
+    // Limit the number of pager buttons
+    $.fn.DataTable.ext.pager.numbers_length = 5;
+}
+
+function approveeditData(data) {
+    // ตรวจสอบว่า data มีค่าหรือไม่
+    if (!data || !Array.isArray(data)) {
+        console.error('ข้อมูลที่ได้รับไม่ถูกต้อง');
+        return;
+    }
+    
+    // ฟังก์ชันช่วยกำหนดค่า element แบบปลอดภัย
+    function setValueSafely(elementId, value) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.value = value || '';
+        } else {
+            console.warn(`ไม่พบ element ที่มี ID: ${elementId}`);
+        }
+    }
+
+    // กำหนดค่าในฟอร์ม
+    setValueSafely('numid_approve', data[0]);
+    setValueSafely('name_approve', data[1]);
+    setValueSafely('dep_approve', data[2]);
+    setValueSafely('car_approve', data[3]);
+    setValueSafely('loca_approve', data[4]);
+    setValueSafely('startDate_approve', data[5]);
+    setValueSafely('startTime_approve', data[6]);
+    setValueSafely('endDate_approve', data[7]);
+    setValueSafely('endTime_approve', data[8]);
+    setValueSafely('drive_approve', data[9]);
+    setValueSafely('other_approve_approve_1', data[10]);
+    setValueSafely('other_approve_approve_2', data[11]);
+    setValueSafely('other_approve_approve_3', data[12]);
+    setValueSafely('other_approve_approve_4', data[13]);
+    setValueSafely('other_approve_approve_5', data[14]);
+    setValueSafely('other_approve_approve_6', data[15]);
+    setValueSafely('other_approve_approve_7', data[16]);
+    setValueSafely('other_approve_approve_8', data[17]);
+    setValueSafely('other_approve_approve_9', data[18]);
+
+    // อัปเดตสถานะ checkbox ตามข้อมูล
+    updateCheckbox('other_approve_approve_6_check', data[15]);
+    updateCheckbox('other_approve_approve_7_check', data[16]);
+    updateCheckbox('other_approve_approve_8_check', data[17]);
+
+    // ตรวจสอบว่ามี URL ของรูปภาพหรือไม่
+    const profileImage = document.getElementById('profileImage');
+    if (profileImage && data[19]) {
+        profileImage.src = data[19];
+    } else if (profileImage) {
+        profileImage.src = "https://img2.pic.in.th/pic/Untitled-designa64a7773ec4d81e9.png"; // ใช้รูปภาพตัวอย่างถ้าไม่มี URL
+    }
+}
+
+// ฟังก์ชันช่วยอัปเดตสถานะ checkbox
+function updateCheckbox(elementId, value) {
+    const checkbox = document.getElementById(elementId);
+    if (checkbox) {
+        checkbox.checked = value === 'true' || value === true || value === '1' || value === 1;
+    }
+}
+
+function fetchRoomData(roomNumber) {
+    // ตรวจสอบว่า roomNumber มีค่าหรือไม่
+    if (!roomNumber) {
+        alert('หมายเลขห้องไม่ถูกต้อง');
+        return;
+    }
+
+    // ตั้งค่าและแสดง LoadingOverlay
+    if (typeof $.LoadingOverlay === 'function') {
+        $.LoadingOverlaySetup({
+            background      : "rgba(0, 0, 0, 0.5)",
+            image           : "https://img2.pic.in.th/pic/Untitled-designa64a7773ec4d81e9.png",
+            imageAnimation  : "1.5s fadein",
+            imageColor      : "#ffcc00"
+        });
+        $.LoadingOverlay("show");
+    } else {
+        console.warn('LoadingOverlay ไม่ได้ถูกโหลด');
+    }
+
+    // เรียก Google Apps Script เพื่อดึงข้อมูล
+    google.script.run
+        .withSuccessHandler(handleRoomData)
+        .withFailureHandler(handleError)
+        .fetchDataByRoom(roomNumber);
+}
+
+function handleRoomData(data) {
+    // ซ่อน LoadingOverlay เมื่อได้รับข้อมูล
+    if (typeof $.LoadingOverlay === 'function') {
+        $.LoadingOverlay("hide");
+    }
+
+    // ตรวจสอบข้อมูลและแสดงในฟอร์ม
+    if (data && data.length > 0) {
+        approveeditData(data[0]);
+    } else {
+        alert('ไม่พบข้อมูลสำหรับห้องนี้');
+    }
+}
+
+function handleError(error) {
+    // ซ่อน LoadingOverlay เมื่อเกิดข้อผิดพลาด
+    if (typeof $.LoadingOverlay === 'function') {
+        $.LoadingOverlay("hide");
+    }
+    
+    alert('เกิดข้อผิดพลาด: ' + (error && error.message ? error.message : 'ไม่ทราบสาเหตุ'));
+}
+
+// ฟังก์ชัน submit form (เพิ่มเติม)
+function approvesubmitForm(form) {
+    event.preventDefault(); // ป้องกันการ refresh หน้า
+    
+    // ตั้งค่าและแสดง LoadingOverlay
+    if (typeof $.LoadingOverlay === 'function') {
+        $.LoadingOverlay("show");
+    }
+    
+    // สร้าง FormData จากฟอร์ม
+    const formData = new FormData(form);
+    const data = {};
+    
+    // แปลง FormData เป็น Object
+    for (const [key, value] of formData.entries()) {
+        data[key] = value;
+    }
+    
+    // ส่งข้อมูลไปยัง Google Apps Script
+    google.script.run
+        .withSuccessHandler(function(response) {
+            if (typeof $.LoadingOverlay === 'function') {
+                $.LoadingOverlay("hide");
+            }
+            alert('บันทึกข้อมูลสำเร็จ');
+            $('#approveform').modal('hide');
+            // รีโหลดข้อมูล
+            google.script.run.withSuccessHandler(approveshowData).approvegetdata();
+        })
+        .withFailureHandler(function(error) {
+            if (typeof $.LoadingOverlay === 'function') {
+                $.LoadingOverlay("hide");
+            }
+            alert('เกิดข้อผิดพลาด: ' + (error && error.message ? error.message : 'ไม่ทราบสาเหตุ'));
+        })
+        .updateApproveData(data); // ต้องสร้างฟังก์ชัน updateApproveData ใน Google Apps Script
+}
+
+function approvedelData(el){
+ Swal.fire({
+  position: 'top',
+  title: 'ลบข้อมูล?',
+  text: "เมื่อท่านลบแล้วจะไม่สามารถกู้คืนข้อมูลได้อีก!!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'ยืนยันการลบ',
+  cancelButtonText: 'ยกเลิก'
+}).then((result) => {
+  if (result.isConfirmed) {
+     var record = el.parentNode.parentNode.cells[0].innerText 
+ google.script.run.withSuccessHandler(()=>{
+ google.script.run.withSuccessHandler(approveshowData).approvegetdata()
+ google.script.run.withSuccessHandler(preapproveshowData).preapprovegetdata()
+ google.script.run.withSuccessHandler(checkcarshowData).checkcargetdata()
+ google.script.run.withSuccessHandler(cancelshowData).cancelgetdata()
+}).approvedelData(record)
+   
+   Swal.fire({
+  position: 'top',
+  icon: 'success',
+  title: 'ลบข้อมูลเรียบร้อย',
+  showConfirmButton: false,
+  timer: 2500
+})
+ 
+  }
+})
+}
+
+</script>
+
+<!-- <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js ">
+</script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script> -->

@@ -1,0 +1,331 @@
+<style>
+  #searchname_table td {
+    font-weight: normal; /* ให้เป็นตัวบาง */
+    font-size: 14px;
+    color: #333;
+}
+</style>
+
+<!-- The Modal -->
+<div class="modal" id="searcheditform">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header bg-red text-white">
+        <h4 class="modal-title text-white">แก้ไขข้อมูลภารกิจ</h4>
+        <button type="button" id="searchapproveeditcarbtnclose" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="searchapproveeditcarmyForm" onsubmit="searchapproveeditcarsubmitForm(this)" class="row g-2">
+
+          <input type="text" id="searchnumid_approveeditcar" name="searchnumid_approveeditcar" hidden>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspยศ ชื่อ สกุล</label>
+            <input type="text" class="form-control" id="searchname_approveeditcar" name="searchname_approveeditcar" style="color:red; border:none; background:none;" >
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspสังกัด</label>
+            <input type="text" class="form-control" id="searchdep_approveeditcar" name="searchdep_approveeditcar" style="color:red; border:none; background:none;" >
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspเป็นหัวหน้าชุดหรือไม่</label>
+            <input type="text" class="form-control" id="searchleader_approveeditcar" name="searchleader_approveeditcar" style="color:red; border:none; background:none;" >
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspประเภท</label>
+            <input type="text" class="form-control" id="searchloca_approveeditcar" name="searchloca_approveeditcar" style="color:red; border:none; background:none;" >
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspวันที่เริ่มต้น</label>
+            <input type="text" class="form-control" id="searchstartDate_approveeditcar" name="searchstartDate_approveeditcar" style="color:red; border:none; background:none;" >
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspวันที่สิ้นสุด</label>
+            <input type="text" class="form-control" id="searchstartTime_approveeditcar" name="searchstartTime_approveeditcar" style="color:red; border:none; background:none;" >
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspเลขที่หนังสือ</label>
+            <input type="text" class="form-control" id="searchendDate_approveeditcar" name="searchendDate_approveeditcar" style="color:red; border:none; background:none;" >
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspชื่อเรื่อง</label>
+            <input type="text" class="form-control" id="searchendTime_approveeditcar" name="searchendTime_approveeditcar" style="color:red;border:none; background:none;" >
+          </div> 
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspสถานที่</label>
+            <input type="text" class="form-control" id="searchplace_approveeditcar" name="searchplace_approveeditcar" style="color:red;border:none; background:none;" >
+          </div>
+
+          <div class="col-6 col-md-3 mb-2">
+            <label>&nbspอื่นๆ</label>
+            <input type="text" class="form-control" id="searchother_approveeditcar" name="searchother_approveeditcar" style="color:red;border:none; background:none;" >
+          </div>
+
+          <div class="col-12 col-md-3 mb-2">
+            <div class="form-group"> <label>&nbspสถานะ</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-list-check"></i></span>
+                <select class="form-select" id="searchpreapporved_approveeditcar" name="searchpreapporved_approveeditcar" aria-label="Default select example" style="color:red;" required onchange="unapprove1(value)">
+                  <!-- <option value=""></option> -->
+                      <!-- <option value="อนุมัติ">อนุมัติ</option> -->
+                      <option value=" รออนุมัติ">รออนุมัติ</option>
+                      <option value="ยกเลิก">ยกเลิก</option>
+                   
+                </select>
+              </div>
+            </div>
+          </div>
+  
+            <div class="col-12 col-md-3 mb-2"> 
+            <div class="form-group"> <label>&nbspผู้แก้ไขข้อมูล</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
+                 <input type="text" class="form-control" id="searchapporve_approve" name="searchapporve_approve" style="color:red;"readonly required>  <!-- ดึงค่ามาจาก sesssionstorage  -->
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="searchvaluepreapporved_approveeditcar" class="form-label">*บันทึกข้อความเพิ่มเติม</label>
+              <textarea id="searchvaluepreapporved_approveeditcar" name="searchvaluepreapporved_approveeditcar" class="form-control"></textarea>
+          </div>
+
+        </form>
+
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1 class="mb-3"><i class="fa-solid fa-user-pen"></i> แก้ไขข้อมูล</h1>
+<section id="pageinput" hidden>
+<form id="search_name_form" class="form-inline" onsubmit="search_name_Data(this)">
+  <div class="form-group mb-2">
+    <div class="form-group mx-sm-3 mb-2">
+      <label>ยศ ชื่อ สกุล</label>
+      <input  type="text" class="form-control sm" id="searchname_name" name="searchname_name" placeholder="ยศ ชื่อ สกุล" style="color:blue;"  required readonly>
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <button type="submit" class="btn btn-primary" id ="search9" type="button">ค้นหาข้อมูล</button>
+    </div>
+  </div>
+</form>
+</section>
+
+
+<div class="table-responsive" id="show_searchname">
+  <table id="searchname_table" class="table table-striped table-sm table table-hover align-middle"
+    style="width:100%; font-size:14px;">
+    <thead class="bg-red text-white"></thead>
+  </table>
+</div>
+
+<script>
+
+function clickopenPage_edit(){
+
+    document.getElementById('search9').click()
+    
+    }
+
+function search_name_Data(obj) {
+      event.preventDefault()
+        Swal.fire({
+            position: 'center',
+            title: '<i class="fa-solid fa-magnifying-glass fa-beat"></i><h4><br>กำลังค้นหาข้อมูล...</h4>',
+            showConfirmButton: false,
+          })
+           Swal.showLoading()
+            google.script.run.withSuccessHandler(data=>{
+              if(data != ''){
+                searchshowData(data)
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+
+                Toast.fire({
+                  icon: 'success',
+                  title: 'พบข้อมูล'
+                })
+                  $('#show_searchname').show()
+              }else{
+                  Swal.fire({
+                    position: 'top',
+                    icon: 'warning',
+                    title:'แจ้งให้ทราบ',
+                    text: 'ไม่พบข้อมูล',
+                    showConfirmButton: false,
+                    timer: 3000
+                  })
+                  $('#show_searchname').hide()
+              }
+            
+            
+            }).searchnameData(obj);
+            
+            }
+
+function searchshowData(dataSet){
+    table = new DataTable('#searchname_table', {
+        columns: [
+        { title: 'เลขที่ชุด'},  
+        { title: 'เลขประจำตัว'},  
+        // { visible: false, searchable: false },
+        // { visible: false, searchable: false },
+        { title: 'ยศ ชื่อ สกุล', responsivePriority: 1 },
+        // { visible: false, searchable: false },
+        { title: 'ตำแหน่ง'},  
+        { title: 'สังกัด'},
+        { title: 'หัวหน้าชุด'},
+        { title: 'ประเภท'},
+        { title: 'วันที่เริ่มต้น'},
+        { title: 'วันที่สิ้นสุด'},
+        { title: 'เลขที่หนังสือ'},
+        { title: 'ชื่อเรื่อง'},
+        { title: 'สถานที่'},
+        { title: 'อื่นๆ'},
+        { title: 'ชื่อผู้บันทึก'},
+        { visible: false, searchable: false },
+        { visible: false, searchable: false },
+        { visible: false, searchable: false },
+        { title: 'สถานะ' ,    
+        targets: 17,
+           render: function (data) {    
+            if(data ==="รออนุมัติ"){
+            data = "<span class='badge bg-yellow text-white sfont'>รออนุมัติ</span>";
+            }else if(data ==="อนุมัติ") {
+            data = "<span class='badge bg-success text-white sfont'>อนุมัติ</span>";
+            }else if(data ==="ไม่อนุมัติ") {
+            data = "<span class='badge bg-danger text-white sfont'>ไม่อนุมัติ</span>";
+            }else if(data ==="ยกเลิก") {
+            data = "<span class='badge bg-danger text-white sfont'>ยกเลิกการจองรถ</span>";
+            }else if(data ==="ส่งคืน") {
+            data = "<span class='badge bg-info text-white sfont'>ส่งคืน</span>";
+            }else if(data ==="กำลังใช้งาน") {
+            data = "<span class='badge bg-primary text-white sfont'>กำลังใช้งาน</span>";
+            }
+            return data;
+            }
+        }, 
+        { title: 'แก้ไข' ,    
+        targets: 18,
+            data: null,
+            defaultContent: '&nbsp&nbsp&nbsp<i class="fa-solid fa-pencil fa-xl" style="color: red; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#searcheditform" onclick="searcheditData(this);"></i>',
+        }, 
+
+    ],
+        data: dataSet,
+        responsive: true,
+        destroy: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/th.json',
+        },
+        order: [[1, 'asc']],
+        columnDefs: [
+            { targets: [18], className: 'all' },
+        ],
+        initComplete: function(settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            $('.table-filter-container', api.table().container()).append();
+            $('#table-filter select').on('change', function() {
+                table.columns(18).search(this.value).draw();
+            });
+        }
+    });
+
+    // It will show only 4 pager buttons.
+    $.fn.DataTable.ext.pager.numbers_length = 5;
+}
+
+function searcheditData(el) {
+    var ar0 = el.parentNode.parentNode.cells[0].innerText;
+    // var searchname_searchpreapprove = el.parentNode.parentNode.cells[1].innerText;
+    var ar2 = el.parentNode.parentNode.cells[2].innerText;
+    // var searchcar_searchpreapprove = el.parentNode.parentNode.cells[3].innerText;
+    var ar4 = el.parentNode.parentNode.cells[4].innerText;
+    var ar5 = el.parentNode.parentNode.cells[5].innerText;
+    var ar6 = el.parentNode.parentNode.cells[6].innerText;
+    var ar7 = el.parentNode.parentNode.cells[7].innerText;
+    var ar8 = el.parentNode.parentNode.cells[8].innerText;
+    var ar9 = el.parentNode.parentNode.cells[9].innerText;
+    var ar10 = el.parentNode.parentNode.cells[10].innerText;
+    var ar11 = el.parentNode.parentNode.cells[11].innerText;
+    var ar12 = el.parentNode.parentNode.cells[12].innerText;
+    var ar13 = el.parentNode.parentNode.cells[13].innerText;
+    var ar14 = el.parentNode.parentNode.cells[14].innerText;
+    // var ar15 = el.parentNode.parentNode.cells[15].innerText;
+    // var searchvaluepreapporved_approveedit2 = el.parentNode.parentNode.cells[15].innerText;
+
+    document.getElementById('searchnumid_approveeditcar').value = ar0
+    document.getElementById('searchname_approveeditcar').value = ar2
+    document.getElementById('searchdep_approveeditcar').value = ar4
+    document.getElementById('searchleader_approveeditcar').value = ar5
+    document.getElementById('searchloca_approveeditcar').value = ar6
+    document.getElementById('searchstartDate_approveeditcar').value = ar7
+    document.getElementById('searchstartTime_approveeditcar').value = ar8
+    document.getElementById('searchendDate_approveeditcar').value = ar9
+    document.getElementById('searchendTime_approveeditcar').value = ar10
+    document.getElementById('searchplace_approveeditcar').value = ar11
+    document.getElementById('searchother_approveeditcar').value = ar12
+    document.getElementById('searchapporve_approve').value = ar13
+    // document.getElementById('searchpreapporved_approveeditcar').value = ar13
+    // document.getElementById('searchapporve_approve').value = searchvaluepreapporved_approveeditcar
+    // document.getElementById('searchvaluepreapporved_approveeditcar').value = searchvaluepreapporved_approveeditcar
+
+}
+
+ function searchapproveeditcarsubmitForm(obj){
+        event.preventDefault()
+          Swal.fire({
+            position: 'center',
+            title: '<i class="fa-solid fa-download fa-bounce me-2"></i><h4><br>กำลังบันทึกข้อมูล...</h4>',
+            showConfirmButton: false,
+          })
+           Swal.showLoading()
+
+       google.script.run.withSuccessHandler(searchapproveeditcaraddSuccess).searchapproveeditcareditcaraddRecord(obj)
+
+    }
+
+      function searchapproveeditcaraddSuccess(result){
+       if(result == true){
+          
+    
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+           
+            text: 'แก้ไขข้อมูลภารกิจเรียบร้อย',
+            //showConfirmButton: true,
+            showConfirmButton: false,
+            timer: 2500
+           })
+             document.getElementById("searchapproveeditcarbtnclose").click(); 
+       
+         
+          //  google.script.run.withSuccessHandler(approveeditcarshowData).approveeditcargetdata()
+          //  google.script.run.withSuccessHandler(preapproveeditcarshowData).preapproveeditcargetdata()
+          //  google.script.run.withSuccessHandler(checkcarshowData).checkcargetdata()
+          //  google.script.run.withSuccessHandler(cancelshowData).cancelgetdata()
+      }
+    }
+
+</script>

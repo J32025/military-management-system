@@ -1,0 +1,167 @@
+<style>
+
+  .cardBox {
+        position: relative;
+        width: 100%;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 30px;
+      }
+      .cardBox .card-link {
+        position: relative;
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      .cardBox .card-link:nth-child(1) .numbers{
+        position: relative;
+        font-weight: 500;
+        font-size: 2.5rem;
+        color: green;
+      }
+      .cardBox .card-link:nth-child(2) .numbers{
+        position: relative;
+        font-weight: 500;
+        font-size: 2.5rem;
+        color: #FF9900;
+      }
+      .cardBox .card-link:nth-child(3) .numbers{
+        position: relative;
+        font-weight: 500;
+        font-size: 2.5rem;
+        color: #330066;
+      }
+      .cardBox .card-link:nth-child(4) .numbers{
+        position: relative;
+        font-weight: 500;
+        font-size: 2.5rem;
+        color: #CC0000;
+      }
+
+
+
+      .cardBox .card-link .cardName {
+        color: var(--black2);
+        font-size: 1.1rem;
+        margin-top: 5px;
+      }
+
+      .cardBox .card-link .iconBx {
+        font-size: 3.5rem;
+        color: var(--black2);
+      }
+
+      .cardBox .card-link:nth-child(1):hover {
+            background: green;
+        }
+
+        .cardBox .card-link:nth-child(2):hover {
+            background: #FF9900; /* เปลี่ยนสีตามที่คุณต้องการ */
+        }
+
+        .cardBox .card-link:nth-child(3):hover {
+            background: #330066; /* เปลี่ยนสีตามที่คุณต้องการ */
+        }
+
+        .cardBox .card-link:nth-child(4):hover {
+            background: #CC0000; /* เปลี่ยนสีตามที่คุณต้องการ */
+        }
+      .cardBox .card-link:hover .numbers,
+      .cardBox .card-link:hover .cardName,
+      .cardBox .card-link:hover .iconBx {
+        color: white;
+      }
+
+</style>
+
+      <div class="cardBox">
+                <div class="card-link" onclick="c1()" >
+                    <div>
+                        <div class="numbers fw-bold" id="total1"></div>
+                        <div class="cardName">อนุมัติ</div>
+                    </div>
+                    <div class="iconBx">
+                        <ion-icon name="checkmark-circle"></ion-icon>
+                    </div>
+                </div>
+
+                <div class="card-link" onclick="c2()">
+                    <div>
+                        <div class="numbers fw-bold" id="total2"></div>
+                        <div class="cardName">ไม่อนุมัติ</div>
+                    </div>
+                    <div class="iconBx">
+                        <ion-icon name="time"></ion-icon>
+                    </div>
+                </div>
+
+                <div class="card-link" onclick="c3()">
+                    <div>
+                        <div class="numbers fw-bold" id="total4"></div>
+                        <div class="cardName">จำนวนวัสดุ</div>
+                    </div>
+                    <div class="iconBx">
+                        <ion-icon name="file-tray-stacked-sharp"></ion-icon>
+                    </div>
+                </div>
+
+                <div class="card-link" onclick="c4()">
+                    <div>
+                        <div class="numbers fw-bold" id="total5"></div>
+                        <div class="cardName">จำนวนเบิก</div>
+                    </div>
+                    <div class="iconBx">
+                        <ion-icon name="reader-sharp"></ion-icon>
+                    </div>
+                </div>
+       </div>
+    
+<!-- <script>
+document.addEventListener('DOMContentLoaded',function(){     
+      setInterval(function(){
+      upChartA()
+      upChartB()
+      let total1 = document.getElementById('total1')
+      let total2 = document.getElementById('total2')
+      let total3 = document.getElementById('total3')
+      let total4 = document.getElementById('total4')
+      let total5 = document.getElementById('total5')    
+      
+      google.script.run.withSuccessHandler(data=>{
+        total1.innerHTML = data[0]
+        total2.innerHTML = data[1]
+        total3.innerHTML = data[2]
+        total4.innerHTML = data[3]
+        total5.innerHTML = data[4]        
+      }).setStatus()
+  },2000)
+})
+
+//สร้างตัวแจ้งเตือนกระดิ่งเมื่อมีการบันทึกข้อมูล
+function hidenotify(){
+  // ถ้ามีค่าน้อยกว่า1ให้ตัว Notification หายไป"
+let total3 = document.getElementById('total3');
+let notifyElement = document.getElementById('notify');
+let notifyElement1 = document.getElementById('notify1');
+// ตรวจสอบว่าค่าเท่ากับหรือไม่ 0
+if (total3.textContent.trim() === '0') {
+  // หากเท่ากับ 0 ให้ซ่อนปุ่มแจ้งเตือนสถานะ
+  total3.style.display = 'none';
+  notifyElement.style.display = 'none';
+  notifyElement1.style.display = 'block';
+  hidenotifyButton.click();
+} else {
+  // หากไม่เท่ากับ 0 ให้แสดงปุ่มแจ้งเตือนสถานะ
+  total3.style.display = 'block';
+  notifyElement.style.display = 'block';
+  notifyElement1.style.display = 'none';
+  hidenotifyButton.click();
+}
+}
+</script> -->
