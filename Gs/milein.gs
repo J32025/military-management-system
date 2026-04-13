@@ -1,5 +1,5 @@
 function mileinaddRecord(obj) {
-  var mileinss = SpreadsheetApp.getActive().getSheetByName('Data')
+  var mileinss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Data')
   var mileindata = mileinss.getDataRange().getDisplayValues();
 
   let id = mileindata.map(r => r[0])
@@ -40,7 +40,7 @@ sendLinemilein(obj,thaidatemilein)
 
 
 function mileingetdata() {
-  let mileingetdatass = SpreadsheetApp.getActive()
+  let mileingetdatass = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   let mileingetdatasheet = mileingetdatass.getSheetByName("กำลังใช้งาน")
   let mileingetdatarange = mileingetdatasheet.getDataRange()
   let mileingetdatavalues = mileingetdatarange.getDisplayValues()
@@ -54,7 +54,7 @@ function mileingetdata() {
 
 //ค้นหาข้อมูล
 function milein_searchData(obj) {
-  var ss = SpreadsheetApp.getActive().getSheetByName('กำลังใช้งาน');
+  var ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('กำลังใช้งาน');
   var datacarin = ss.getDataRange().getDisplayValues();
   var output = datacarin.filter(r => r[9] + r[11] == obj.searchname_in + obj.searchcar_in);
   return output;

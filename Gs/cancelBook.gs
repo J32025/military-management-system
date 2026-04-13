@@ -1,6 +1,6 @@
 //**เพิ่มข้อมูลadmin */
   function cancelRecord(obj){
-  var ss = SpreadsheetApp.getActive().getSheetByName('Data')
+  var ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Data')
   var canceldata = ss.getDataRange().getDisplayValues(); 
 
   let id = canceldata.map(r=>r[0])
@@ -30,7 +30,7 @@ sendLineNotifycancel(obj)
   
 //**เพิ่มข้อมูลuser */
   function cancelRecorduser(obj){
-  var ss = SpreadsheetApp.getActive().getSheetByName('Data')
+  var ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Data')
   var canceldatauser = ss.getDataRange().getDisplayValues(); 
 
   let id = canceldatauser.map(r=>r[0])
@@ -61,7 +61,7 @@ sendLineNotifycanceluser(obj)
 
 
 function cancelgetdata() {
-  let ss = SpreadsheetApp.getActive()
+  let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   let sheet = ss.getSheetByName("อนุมัติ")
   let range = sheet.getDataRange()
   let values = range.getDisplayValues()
@@ -74,7 +74,7 @@ function cancelgetdata() {
 
 //ค้นหาข้อมูลเพื่อยกเลิก
 function cancelcar_searchData(obj) {
-  var ss_carcancel = SpreadsheetApp.getActive().getSheetByName('รวมภารกิจ');
+  var ss_carcancel = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('รวมภารกิจ');
   var datacar_cancel = ss_carcancel.getDataRange().getDisplayValues();
   var output1 = datacar_cancel.filter(r => r[1] + r[11] == obj.searchname_cancel + obj.searchcar_cancel);
   return output1;

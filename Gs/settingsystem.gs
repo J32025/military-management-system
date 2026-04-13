@@ -1,6 +1,6 @@
 // ฟังก์ชั่นอัพเดทการตั้งค่าTokenใน Google Sheet
 function updateToken(obj) {
-  var sheet = SpreadsheetApp.getActive().getSheetByName('setting');
+  var sheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('setting');
   var row = sheet.getRange("A2");
   var setValueto = [obj.token];
   row.setValues([setValueto]);
@@ -10,7 +10,7 @@ function updateToken(obj) {
 
 // ฟังก์ชั่นดึงการตั้งค่าจาก Google ชีต
 function getSetting() {
-  var sheet = SpreadsheetApp.getActive().getSheetByName('setting');
+  var sheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('setting');
   var data = sheet.getRange("A2:F2").getDisplayValues()[0];
   return {
     token: data[0],
@@ -24,7 +24,7 @@ function getSetting() {
 
 //เมื่อมีการส่งค่ามาจากjavaScrpt
 function updateSetting(obj) {
-  var sheet = SpreadsheetApp.getActive().getSheetByName('setting');
+  var sheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('setting');
   sheet.getRange('A2').setValue(obj.token);
   sheet.getRange('B2').setValue(obj.token2);
   sheet.getRange('C2').setValue(obj.idfolderimag);

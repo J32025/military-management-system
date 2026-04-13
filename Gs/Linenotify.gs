@@ -1,7 +1,7 @@
 
 //สำหรับผู้อนุมัติ
-function tokenId()  { return SpreadsheetApp.getActive().getSheetByName("setting").getRange('A2').getDisplayValue(); }
-function tokenId2() { return SpreadsheetApp.getActive().getSheetByName("setting").getRange('B2').getDisplayValue(); }
+function tokenId()  { return SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("setting").getRange('A2').getDisplayValue(); }
+function tokenId2() { return SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("setting").getRange('B2').getDisplayValue(); }
 
 //แจ้งเตือนการจองรถผู้ใช้แจ้งหาผู้อนุมัติ
 function sendLineNotifybookingapprove(rank,name_name,car,loca,startDate,endDate,startTime,endTime,drivebook,other,preapporved) {

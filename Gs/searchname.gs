@@ -1,5 +1,5 @@
 // function searchaddRecord(obj) {
-//   var search_sheet = SpreadsheetApp.getActive().getSheetByName('Data2')
+//   var search_sheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Data2')
 //   var search_data = search_sheet.getDataRange().getDisplayValues();
 
 //   let id = search_data.map(r => r[13])
@@ -37,7 +37,7 @@
 
 //ค้นหาข้อมูล
 function searchnameData(obj) {
-  var ss = SpreadsheetApp.getActive().getSheetByName('รออนุมัติ');
+  var ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('รออนุมัติ');
   var data = ss.getDataRange().getDisplayValues();
   var output = data.filter(r => r[13] == obj.searchname_name);
   return output;
@@ -45,7 +45,7 @@ function searchnameData(obj) {
 
 //**เพิ่มข้อมูล */
 function searchapproveeditcareditcaraddRecord(obj) {
-  var ss = SpreadsheetApp.getActive().getSheetByName('Data2')
+  var ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Data2')
   var approveeditcardata2 = ss.getDataRange().getDisplayValues()
 
   let id = approveeditcardata2.map(r => r[0] & r[2])
@@ -84,7 +84,7 @@ function searchapproveeditcareditcaraddRecord(obj) {
   ss.getRange(index + 1, 24).setValue(obj.valuepreapporved_approveeditcar)
 
   // บันทึกข้อมูลลงใน editlog
-  var editLogSheet = SpreadsheetApp.getActive().getSheetByName('editlog');
+  var editLogSheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('editlog');
   var lastRow = editLogSheet.getLastRow() + 1;
 
   // กำหนดค่าใน editlog

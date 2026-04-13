@@ -1,6 +1,6 @@
 //**เพิ่มข้อมูล */
 function approveaddRecord(obj) {
-  var ss = SpreadsheetApp.getActive().getSheetByName('Data2')
+  var ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Data2')
   var approvedata1 = ss.getDataRange().getDisplayValues()
   // var approvedata = ss.getDataRange().getDisplayValues()
  //Logger.log(data)
@@ -56,7 +56,7 @@ function approveaddRecord(obj) {
 }
 
 function requirmentGetData() {
-  let ss = SpreadsheetApp.getActive()
+  let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   let sheet = ss.getSheetByName("Data_B_Requir")
   let range = sheet.getDataRange()
   let values = range.getDisplayValues()
@@ -66,7 +66,7 @@ function requirmentGetData() {
 }
 
 function requirment_rentGetData() {
-  let ss = SpreadsheetApp.getActive()
+  let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   let sheet = ss.getSheetByName("Data_B_Requir")
   let range = sheet.getDataRange()
   let values = range.getDisplayValues()
@@ -76,7 +76,7 @@ function requirment_rentGetData() {
 }
 
 function approvegetdata() {
-  let ss = SpreadsheetApp.getActive()
+  let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   let sheet = ss.getSheetByName("Data_B_1")
   let range = sheet.getDataRange()
   let values = range.getDisplayValues()
@@ -85,7 +85,7 @@ function approvegetdata() {
   return values
 }
 function approvegetdata2() {
-  let ss = SpreadsheetApp.getActive()
+  let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   let sheet = ss.getSheetByName("Data_B_2")
   let range = sheet.getDataRange()
   let values = range.getDisplayValues()
@@ -96,7 +96,7 @@ function approvegetdata2() {
 
 
 function approvedelData(record) {
-  let ss = SpreadsheetApp.getActive().getSheetByName("Data2")
+  let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("Data2")
   var data = ss.getDataRange().getDisplayValues();
   let id = data.map(r => r[0])
   var index = id.indexOf(record)
@@ -105,7 +105,7 @@ function approvedelData(record) {
 
 
 function drive_approvegetDropdownOptions() {
-    var drive_approvesheet = SpreadsheetApp.getActive();
+    var drive_approvesheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g");
     var drive_approvedata = drive_approvesheet.getSheetByName('ชื่อคนขับรถ').getRange('B2:B').getValues();
     var drive_approveoptions = [];
  
@@ -123,7 +123,7 @@ function drive_approvegetDropdownOptions() {
 }
 
 function drivecar_approvergetDropdownOptions() {
-    var drivecar_approversheet = SpreadsheetApp.getActive();
+    var drivecar_approversheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g");
     var drivecar_approverdata = drivecar_approversheet.getSheetByName('ประเภท').getRange('B2:B').getValues();
     var drivecar_approveroptions = [];
  

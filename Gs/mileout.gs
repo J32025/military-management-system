@@ -1,6 +1,6 @@
 //**เพิ่มข้อมูล */
 function mileoutaddRecord(obj) {
-  var mileoutss = SpreadsheetApp.getActive().getSheetByName('Data')
+  var mileoutss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Data')
   var mileoutdata = mileoutss.getDataRange().getDisplayValues();
 
   let mileoutid = mileoutdata.map(r => r[0])
@@ -37,7 +37,7 @@ sendLinemileout(obj)
 
 
 function mileoutgetdata() {
-  let mileoutgetdatass = SpreadsheetApp.getActive()
+  let mileoutgetdatass = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   let mileoutgetdatasheet = mileoutgetdatass.getSheetByName("อนุมัติ")
   let mileoutgetdatarange = mileoutgetdatasheet.getDataRange()
   let mileoutgetdatavalues = mileoutgetdatarange.getDisplayValues()
@@ -49,7 +49,7 @@ function mileoutgetdata() {
 
 //ค้นหาข้อมูล
 function mileout_searchData(obj) {
-  var ss1 = SpreadsheetApp.getActive().getSheetByName('อนุมัติ');
+  var ss1 = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('อนุมัติ');
   var datacarout = ss1.getDataRange().getDisplayValues();
   var output1 = datacarout.filter(r => r[9] + r[11] == obj.searchname_out + obj.searchcar_out);
   return output1;

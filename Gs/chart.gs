@@ -14,7 +14,7 @@ function getData_ChartBar() {
 
 
 function countPage(){
-  var ss = SpreadsheetApp.getActive().getSheetByName('สรุปสถานะ')
+  var ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('สรุปสถานะ')
 
    var pageC = ss.getRange('E2').getValue()
 

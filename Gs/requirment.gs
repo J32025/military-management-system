@@ -1,5 +1,5 @@
 function requirmentGetData() {
-  let ss = SpreadsheetApp.getActive()
+  let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   let sheet = ss.getSheetByName("Data_B_Requir")
   let range = sheet.getDataRange()
   let values = range.getDisplayValues()
@@ -9,7 +9,7 @@ function requirmentGetData() {
 }
 
 function requirment_rentGetData() {
-  let ss = SpreadsheetApp.getActive()
+  let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   let sheet = ss.getSheetByName("Data_B_Requir_rent")
   let range = sheet.getDataRange()
   let values = range.getDisplayValues()
@@ -19,7 +19,7 @@ function requirment_rentGetData() {
 }
 
 function requirment_s_nGetData() {
-  let ss = SpreadsheetApp.getActive()
+  let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   let sheet = ss.getSheetByName("Data_น_พัก_ป")
   let range = sheet.getDataRange()
   let values = range.getDisplayValues()
@@ -30,7 +30,7 @@ function requirment_s_nGetData() {
 
 
 function fetchDataByRoom(roomNumber) {
-    let ss = SpreadsheetApp.getActive()
+    let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
     let sheet = ss.getSheetByName("Data_B_1")
     const data = sheet.getDataRange().getValues();
     const result = data.filter(row => row[1] === roomNumber); // ค้นหาข้อมูลตามคอลัมน์ห้อง (คอลัมน์ 1)
@@ -38,7 +38,7 @@ function fetchDataByRoom(roomNumber) {
 }
 
 function fetchDataByrequir(roomNumber) {
-    let ss = SpreadsheetApp.getActive()
+    let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
     let sheet = ss.getSheetByName("Data_B_Requir")
     const data = sheet.getDataRange().getValues();
     const result = data.filter(row => row[1] === roomNumber); // ค้นหาข้อมูลตามคอลัมน์ห้อง (คอลัมน์ 1)
@@ -46,7 +46,7 @@ function fetchDataByrequir(roomNumber) {
 }
 
 function fetchDataByrequir_rent(roomNumber) {
-    let ss = SpreadsheetApp.getActive()
+    let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
     let sheet = ss.getSheetByName("Data_B_Requir")
     const data = sheet.getDataRange().getValues();
     const result = data.filter(row => row[2] === roomNumber); // ค้นหาข้อมูลตามคอลัมน์ห้อง (คอลัมน์ 1)
@@ -54,7 +54,7 @@ function fetchDataByrequir_rent(roomNumber) {
 }
 
 function fetchDataByrequir_s_n(roomNumber) {
-    let ss = SpreadsheetApp.getActive()
+    let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
     let sheet = ss.getSheetByName("Data_B_Requir")
     const data = sheet.getDataRange().getValues();
     const result = data.filter(row => row[1] === roomNumber); // ค้นหาข้อมูลตามคอลัมน์ห้อง (คอลัมน์ 1)
@@ -62,7 +62,7 @@ function fetchDataByrequir_s_n(roomNumber) {
 }
 
 function requirment_s_nGetData(roomNumber) {
-    let ss = SpreadsheetApp.getActive()
+    let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
     let sheet = ss.getSheetByName("Data_น_พัก_ป")
     const data = sheet.getDataRange().getValues();
     const result = data.filter(row => row[1] === roomNumber); // ค้นหาข้อมูลตามคอลัมน์ห้อง (คอลัมน์ 1)

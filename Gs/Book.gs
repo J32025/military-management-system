@@ -2,7 +2,7 @@ function bookaddRecord(
   search_name_value, rank3_value, name_name_value, address_name_value, leader_1_value,
   dropdown_value, startDate_book_value, endDate_book_value, etc_value, name_value, loca_book_value, other_book_value, name_book_value, dropdown_dep_value, uuid
 ) {
-  const ss = SpreadsheetApp.getActive().getSheetByName('Data2');
+  const ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Data2');
   const bookdata = ss.getDataRange().getDisplayValues();
 
   // ตรวจสอบว่าวันที่ไม่มีการจองซ้ำกัน
@@ -72,7 +72,7 @@ function bookaddRecord(
 
 
 function _getDropdownOptions() {
-  var _sheet = SpreadsheetApp.getActive();
+  var _sheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g");
   var _data = _sheet.getSheetByName('ประเภท').getRange('B2:B').getValues();
   var options = [];
 

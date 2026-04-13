@@ -1,5 +1,5 @@
 function user_getdata() {
-  var getdatass = SpreadsheetApp.getActive()
+  var getdatass = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   var getdatasheet = getdatass.getSheetByName("Users")
   var getdatarange = getdatasheet.getDataRange()
   var getdatavalues = getdatarange.getDisplayValues()
@@ -9,7 +9,7 @@ function user_getdata() {
 }
 
 function car_getdata() {
-  var cargetdatass = SpreadsheetApp.getActive()
+  var cargetdatass = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   var cargetdatasheet = cargetdatass.getSheetByName("ประเภท")
   var cargetdatarange = cargetdatasheet.getDataRange()
   var cargetdatavalues = cargetdatarange.getDisplayValues()
@@ -19,7 +19,7 @@ function car_getdata() {
 }
 
 function drivecar_getdata() {
-  var drivecargetdatass = SpreadsheetApp.getActive()
+  var drivecargetdatass = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   var drivecargetdatasheet = drivecargetdatass.getSheetByName("ชื่อคนขับรถ")
   var drivecargetdatarange = drivecargetdatasheet.getDataRange()
   var drivecargetdatavalues = drivecargetdatarange.getDisplayValues()
@@ -31,7 +31,7 @@ function drivecar_getdata() {
 
 
 function user_Save(user_numiduser,user_nameuser,user_passuser,user_possibilityuser,user_fullnameuser,user_depuser,user_picuser){
-  let savess = SpreadsheetApp.getActive().getSheetByName("Users")
+  let savess = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("Users")
   var savedata = savess.getDataRange().getDisplayValues(); 
   var savedata1 = savess.getDataRange().getValues();
 let id = savedata.map(r=>r[0])
@@ -69,7 +69,7 @@ savess.getRange(index+1,6).setValue(user_depuser)
 
 
 function car_Save(car_numid,car_name){
-  let carsavess = SpreadsheetApp.getActive().getSheetByName("ประเภท")
+  let carsavess = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("ประเภท")
   var carsavedata = carsavess.getDataRange().getDisplayValues(); 
   var carsavedata1 = carsavess.getDataRange().getValues();
 let id = carsavedata.map(r=>r[0])
@@ -100,7 +100,7 @@ carsavess.getRange(index+1,2).setValue(car_name)
   } 
 
 function drivecar_Save(drivecar_numid,drivecar_name){
-  let drivecarsavess = SpreadsheetApp.getActive().getSheetByName("ชื่อคนขับรถ")
+  let drivecarsavess = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("ชื่อคนขับรถ")
   var drivecarsavedata = drivecarsavess.getDataRange().getDisplayValues(); 
   var drivecarsavedata1 = drivecarsavess.getDataRange().getValues();
 let id = drivecarsavedata.map(r=>r[0])
@@ -136,7 +136,7 @@ drivecarsavess.getRange(index+1,2).setValue(drivecar_name)
 
 
 function user_delData(record){
-   let delss = SpreadsheetApp.getActive().getSheetByName("Users")
+   let delss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("Users")
    var deldata = delss.getDataRange().getDisplayValues(); 
    let id = deldata.map(r=>r[0])
    var index = id.indexOf(record)
@@ -144,7 +144,7 @@ function user_delData(record){
   }
 
   function car_delData(record){
-   let carss = SpreadsheetApp.getActive().getSheetByName("ประเภท")
+   let carss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("ประเภท")
    var cardata = carss.getDataRange().getDisplayValues(); 
    let id = cardata.map(r=>r[0])
    var index = id.indexOf(record)
@@ -152,7 +152,7 @@ function user_delData(record){
   }
 
   function drivecar_delData(record){
-   let drivecardelss = SpreadsheetApp.getActive().getSheetByName("ชื่อคนขับรถ")
+   let drivecardelss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("ชื่อคนขับรถ")
    var drivecardeldata = drivecardelss.getDataRange().getDisplayValues(); 
    let id = drivecardeldata.map(r=>r[0])
    var index = id.indexOf(record)

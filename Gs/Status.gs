@@ -1,6 +1,6 @@
 //ดึงข้อมูลสรุปสถานะมาแสดง
 function getSummary() {
-  const summary = SpreadsheetApp.getActive().getSheetByName('สรุปสถานะ')
+  const summary = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('สรุปสถานะ')
   const totalpreapproval = summary.getRange('A2').getDisplayValue()
   const totalpreapproval_1 = summary.getRange('A2').getDisplayValue()
   const totalpreapproval_2 = summary.getRange('A2').getDisplayValue()

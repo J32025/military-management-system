@@ -1,14 +1,14 @@
 
 
 function getdata_pproveeditcar(){
-  let ss1 = SpreadsheetApp.getActive()
+  let ss1 = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   let x = ss1.getSheetByName("ชื่อคนขับรถ").getDataRange().getDisplayValues().slice(1)
   Logger.log(x)
 }
 
 //**เพิ่มข้อมูล */
 function approveeditcareditcaraddRecord(obj) {
-  var ss = SpreadsheetApp.getActive().getSheetByName('Data_B_4')
+  var ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Data_B_4')
   var approveeditcardata1 = ss.getDataRange().getDisplayValues()
 
   let id = approveeditcardata1.map(r => r[0])
@@ -35,7 +35,7 @@ function approveeditcareditcaraddRecord(obj) {
   ss.getRange(index + 1, 24).setValue(obj.valuepreapporved_approveeditcar)
 
   // บันทึกข้อมูลลงใน editlog
-  var editLogSheet = SpreadsheetApp.getActive().getSheetByName('editlog');
+  var editLogSheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('editlog');
   var lastRow = editLogSheet.getLastRow() + 1;
 
   // กำหนดค่าใน editlog
@@ -60,7 +60,7 @@ return true;
 
 
 function approveeditcargetdata() {
-  let ss = SpreadsheetApp.getActive()
+  let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
   let sheet = ss.getSheetByName("Data_B_4")
   let range = sheet.getDataRange()
   let values = range.getDisplayValues()
@@ -70,7 +70,7 @@ function approveeditcargetdata() {
 }
 
 function approveeditcardelData(record) {
-  let ss = SpreadsheetApp.getActive().getSheetByName("Data2")
+  let ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("Data2")
   var data = ss.getDataRange().getDisplayValues();
   let id = data.map(r => r[0])
   var index = id.indexOf(record)
@@ -80,7 +80,7 @@ function approveeditcardelData(record) {
 
 
 function drivecar_approveeditcarrgetDropdownOptions() {
-    var drivecar_approveeditcarrsheet = SpreadsheetApp.getActive();
+    var drivecar_approveeditcarrsheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g");
     var drivecar_approveeditcarrdata = drivecar_approveeditcarrsheet.getSheetByName('ประเภท').getRange('B2:B').getValues();
     var drivecar_approveeditcarroptions = [];
  

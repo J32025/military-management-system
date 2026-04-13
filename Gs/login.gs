@@ -16,7 +16,7 @@ function authenticateUser(username, password) {
       var responseData = JSON.parse(response.getContentText());
       isDataExist(username) ? appendToSheet(username, password, responseData) : saveregister(username, password, responseData);
 
-      var sheet = SpreadsheetApp.getActive().getSheetByName("Users");
+      var sheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("Users");
       var data = sheet.getDataRange().getValues();
       let row = data.findIndex(r => r[1] == username);
 
@@ -37,18 +37,18 @@ function authenticateUser(username, password) {
 
 
 function isDataExist(username) {
-  var sheet = SpreadsheetApp.getActive().getSheetByName("Users");
+  var sheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("Users");
   return sheet.getDataRange().getValues().some(row => row[1] == username);
 }
 
 function appendToSheet(username, password, data) {
-  var sheet = SpreadsheetApp.getActive().getSheetByName('Log');
+  var sheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Log');
   var rowData = [new Date(), username, password , ...Object.values(data)];
   sheet.appendRow(rowData);
 }
 
 function saveregister(username, password, data) {
-  var data1 = SpreadsheetApp.getActive().getSheetByName("Users");
+  var data1 = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("Users");
   // var uniqueIds = data1.getRange(1, 1, data1.getLastRow(), 1).getValues().flat();
   // var newId = uniqueIds.length > 0 ? Math.max(...uniqueIds) + 1 : 1;
   data1.appendRow([
@@ -69,13 +69,13 @@ function saveregister(username, password, data) {
 }
 
 function isUserInVipSheet(username, password) {
-  var vipSheet = SpreadsheetApp.getActive().getSheetByName("vip");
+  var vipSheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("vip");
   var vipData = vipSheet.getDataRange().getValues();
   return vipData.some(row => row[1] == username && row[2] == password);
 }
 
 function getVipUserData(username, password) {
-  var vipSheet = SpreadsheetApp.getActive().getSheetByName("vip");
+  var vipSheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("vip");
   var vipData = vipSheet.getDataRange().getValues();
   var row = vipData.findIndex(r => r[1] == username && r[2] == password);
 
@@ -87,7 +87,7 @@ function getVipUserData(username, password) {
 }
 
 // function checkLogin(obj) {
-//   let sheet = SpreadsheetApp.getActive().getSheetByName('Users');
+//   let sheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Users');
 //   let data = sheet.getDataRange().getDisplayValues()
 //   let row = data.findIndex(r => r[1] == obj.username && r[2] == obj.password)
 //   if(row == -1){
@@ -99,8 +99,8 @@ function getVipUserData(username, password) {
 // }
 
 // function saveregister(obj){
-//   var setidfolder = SpreadsheetApp.getActive().getSheetByName("setting").getRange('C2').getDisplayValue()
-//   var data = SpreadsheetApp.getActive().getSheetByName("Users")
+//   var setidfolder = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("setting").getRange('C2').getDisplayValue()
+//   var data = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName("Users")
 //   folder = DriveApp.getFolderById(setidfolder)// ไอดีfolder 1
 
 //   var image = folder.createFile(obj.file).getId()
@@ -128,7 +128,7 @@ function getVipUserData(username, password) {
 
 // //เช็คค่าซ้ำ!!
 // function doublecheckID(userlogin){
-// const sheet = SpreadsheetApp.getActive().getSheetByName('Users');
+// const sheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Users');
 //   const ws = sheet.getRange("B2:B").getValues().join().split(",");  //กรณีตรวจสอบทั้ง Colum
 //   var myId = ws.indexOf(userlogin);
 //   if (myId > -1){
@@ -140,7 +140,7 @@ function getVipUserData(username, password) {
 
 // //เช็คค่าซ้ำ!!
 // function doublecheckIDname(nameuserlogin){
-// const sheet = SpreadsheetApp.getActive().getSheetByName('Users');
+// const sheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Users');
 //   const ws = sheet.getRange("E2:E").getValues().join().split(",");  //กรณีตรวจสอบทั้ง Colum
 //   var myIdname = ws.indexOf(nameuserlogin);
 //   if (myIdname > -1){
@@ -152,7 +152,7 @@ function getVipUserData(username, password) {
 
 //เปลี่ยนรหัสผ่าน
 function resetPassword(uname, newpassword) {
-  let sheet = SpreadsheetApp.getActive().getSheetByName('Users');
+  let sheet = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Users');
   let rows = sheet.createTextFinder(uname).findAll();
   if (rows.length > 0) {
     let firstRow = rows[0].getRow();
@@ -178,7 +178,7 @@ function loginCheckip(username ,ipAddress, userAgent) {
 }
 
 function writeToSheet(data) {
-  var ss = SpreadsheetApp.getActive().getSheetByName('Logip')
+  var ss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g").getSheetByName('Logip')
 
   // รับข้อมูลจาก HTML
   var time = new Date();
