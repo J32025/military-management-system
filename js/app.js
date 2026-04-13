@@ -328,6 +328,23 @@
   function buildMenu() {
     var items = document.querySelectorAll('#sidebar-menu .sidebar-item');
     items.forEach(function (item) {
+      // Bind click → navigate (only once, using flag)
+      if (!item._clickBound && item.getAttribute('data-page')) {
+        item._clickBound = true;
+        item.addEventListener('click', function () {
+          var page = item.getAttribute('data-page');
+          if (page) {
+            navigate(page);
+            // Close sidebar on mobile
+            if (window.innerWidth < 768) {
+              document.getElementById('sidebar').classList.remove('sidebar-open');
+              var ov = document.getElementById('sidebar-overlay');
+              if (ov) ov.classList.add('d-none');
+            }
+          }
+        });
+      }
+
       var rolesAttr = item.getAttribute('data-roles') || 'all';
       var roles = rolesAttr.split(',').map(function (r) { return r.trim(); });
       if (hasRole(roles)) {
