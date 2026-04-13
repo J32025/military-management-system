@@ -249,11 +249,11 @@
     hideLoginAlert();
 
     API.login(username, password)
-      .then(function (result) {
-        if (!result || result.status !== 'success') {
-          throw new Error(result && result.message ? result.message : 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+      .then(function (user) {
+        if (!user || !user.username) {
+          throw new Error('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
         }
-        App.user = result.user || result;
+        App.user = user;
         if (!App.user.role) App.user.role = 'user';
         sessionStorage.setItem('app_user', JSON.stringify(App.user));
         // Log IP in background

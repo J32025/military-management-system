@@ -32,7 +32,7 @@ function authenticateUser(params) {
       var vRow = vipData[v];
       // col 0=id, 1=username, 2=password, 3=role, 4=fullname, 5=dept, 6=position
       if (vRow[1] === username && vRow[2] === password) {
-        return [[vRow[0], vRow[1], vRow[3], vRow[4], vRow[5], vRow[6]]];
+        return { id: vRow[0], username: vRow[1], role: vRow[3] || ROLE.VIP, fullname: vRow[4], dept: vRow[5], pic: vRow[6] };
       }
     }
   }
@@ -45,7 +45,7 @@ function authenticateUser(params) {
       var uRow = userData[u];
       // col 0=id, 1=username, 2=password, 3=role, 4=fullname, 5=dept, 6=pic
       if (uRow[1] === username && uRow[2] === password) {
-        return [[uRow[0], uRow[1], uRow[3], uRow[4], uRow[5], uRow[6]]];
+        return { id: uRow[0], username: uRow[1], role: uRow[3] || ROLE.USER, fullname: uRow[4], dept: uRow[5], pic: uRow[6] };
       }
     }
   }
@@ -79,7 +79,7 @@ function authenticateUser(params) {
         existingRow = newRow;
       }
 
-      return [[existingRow[0], existingRow[1], existingRow[3], existingRow[4], existingRow[5], existingRow[6]]];
+      return { id: existingRow[0], username: existingRow[1], role: existingRow[3] || ROLE.USER, fullname: existingRow[4], dept: existingRow[5], pic: existingRow[6] };
     }
   } catch (apiErr) {
     Logger.log('RTAF API error: ' + apiErr);

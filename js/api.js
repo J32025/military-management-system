@@ -14,8 +14,16 @@ var API = (function () {
     return new Promise(function (resolve, reject) {
       try {
         google.script.run
-          .withSuccessHandler(function (result) { resolve(result); })
-          .withFailureHandler(function (err)    { reject(err);     })
+          .withSuccessHandler(function (result) {
+            if (result && result.status === 'error') {
+              reject(new Error(result.message || 'GAS error'));
+            } else if (result && result.status === 'success') {
+              resolve(result.data !== undefined ? result.data : null);
+            } else {
+              resolve(result); // fallback: raw response
+            }
+          })
+          .withFailureHandler(function (err) { reject(err); })
           [action].apply(null, params || []);
       } catch (e) {
         reject(e);
@@ -26,9 +34,9 @@ var API = (function () {
   return {
 
     /* ─────────────────── Auth ─────────────────── */
-    login:         function (u, p)    { return call('authenticateUser', [u, p]); },
-    logIp:         function (u, ip, ua){ return call('loginCheckip',    [u, ip, ua]); },
-    resetPassword: function (u, p)    { return call('resetPassword',    [u, p]); },
+    login:         function (u, p)     { return call('authenticateUser', [{username: u, password: p}]); },
+    logIp:         function (u, ip, ua){ return call('loginCheckip',     [{username: u, ipAddress: ip, userAgent: ua}]); },
+    resetPassword: function (u, p)     { return call('resetPassword',    [{username: u, newPassword: p}]); },
 
     /* ─────────────────── Settings ─────────────────── */
     getSettings:  function ()    { return call('getSetting',   []); },

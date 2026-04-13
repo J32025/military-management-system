@@ -25,19 +25,25 @@
       <div class="mb-3">
         <div class="input-group">
           <span class="input-group-text bg-white"><i class="fa fa-user text-secondary"></i></span>
-          <input type="text" id="login-user" class="form-control" placeholder="ชื่อผู้ใช้">
+          <input type="text" id="login-username" class="form-control" placeholder="ชื่อผู้ใช้">
         </div>
       </div>
       <div class="mb-3">
         <div class="input-group">
           <span class="input-group-text bg-white"><i class="fa fa-lock text-secondary"></i></span>
-          <input type="password" id="login-pass" class="form-control" placeholder="รหัสผ่าน">
+          <input type="password" id="login-password" class="form-control" placeholder="รหัสผ่าน">
+          <button type="button" id="toggle-pw" class="btn btn-outline-secondary">
+            <i class="fas fa-eye"></i>
+          </button>
         </div>
       </div>
       <button id="login-btn" class="btn btn-login w-100">
-        <i class="fa fa-sign-in-alt me-2"></i>เข้าสู่ระบบ
+        <span id="login-btn-text"><i class="fa fa-sign-in-alt me-2"></i>เข้าสู่ระบบ</span>
+        <span id="login-btn-spinner" class="d-none">
+          <span class="spinner-border spinner-border-sm me-2" role="status"></span>กำลังเข้าสู่ระบบ...
+        </span>
       </button>
-      <div id="login-error" class="alert alert-danger mt-3 d-none small"></div>
+      <div id="login-alert" class="alert alert-danger mt-3 d-none small"></div>
     </div>
   </div>
 </div>
@@ -45,32 +51,40 @@
 <!-- ═══════════════════ APP SHELL ═══════════════════ -->
 <div id="app-shell" style="display:none">
 
+  <!-- Sidebar Overlay (mobile) -->
+  <div id="sidebar-overlay" class="d-none position-fixed top-0 start-0 w-100 h-100" style="background:rgba(0,0,0,.5);z-index:999;"></div>
+
   <!-- Sidebar -->
   <nav id="sidebar">
     <div class="sidebar-header">
+      <button id="sidebar-close" class="btn btn-link text-white p-0 d-md-none me-2"><i class="fa fa-times"></i></button>
       <img src="https://img2.pic.in.th/pic/Untitled-designa64a7773ec4d81e9.png" alt="logo" width="36">
       <span class="sidebar-brand">กกล.ยก.ทหาร</span>
     </div>
+    <div class="sidebar-user px-3 py-2">
+      <div id="sidebar-username" class="text-white fw-semibold small"></div>
+      <div id="sidebar-role" class="text-white-50" style="font-size:.75rem;"></div>
+    </div>
     <ul class="sidebar-menu" id="sidebar-menu">
-      <li data-page="dashboard"     data-roles="admin,vip"><i class="fa fa-chart-line"></i><span>ภาพรวม</span></li>
-      <li data-page="booking"       data-roles="admin,user"><i class="fa fa-calendar-plus"></i><span>จองรถ</span></li>
-      <li data-page="preapprove"    data-roles="admin,vip"><i class="fa fa-clock"></i><span>รออนุมัติ</span></li>
-      <li data-page="approve"       data-roles="admin,vip"><i class="fa fa-check-circle"></i><span>อนุมัติแล้ว</span></li>
-      <li data-page="mileout"       data-roles="admin,user"><i class="fa fa-arrow-right"></i><span>ไมล์ออก</span></li>
-      <li data-page="milein"        data-roles="admin,user"><i class="fa fa-arrow-left"></i><span>ไมล์เข้า</span></li>
-      <li data-page="mission-close" data-roles="admin,vip"><i class="fa fa-flag-checkered"></i><span>ปิดภารกิจ</span></li>
-      <li data-page="car-status"    data-roles="admin,vip,finance"><i class="fa fa-car"></i><span>สถานะรถ</span></li>
-      <li data-page="car-daily"     data-roles="admin,vip,user,finance,schedule,general"><i class="fa fa-calendar-day"></i><span>รถวันนี้</span></li>
-      <li data-page="history"       data-roles="admin,vip,finance"><i class="fa fa-history"></i><span>ประวัติ</span></li>
-      <li data-page="personnel"     data-roles="admin,vip,schedule"><i class="fa fa-users"></i><span>กำลังพล</span></li>
-      <li data-page="housing"       data-roles="admin,vip"><i class="fa fa-home"></i><span>ที่พัก</span></li>
-      <li data-page="schedule"      data-roles="admin,schedule"><i class="fa fa-calendar-alt"></i><span>ตารางเวร</span></li>
-      <li class="sidebar-sep" data-roles="admin"></li>
-      <li data-page="cancel"        data-roles="admin"><i class="fa fa-times-circle"></i><span>ยกเลิกการจอง</span></li>
-      <li data-page="admin-users"   data-roles="admin"><i class="fa fa-user-cog"></i><span>จัดการผู้ใช้</span></li>
-      <li data-page="admin-cars"    data-roles="admin"><i class="fa fa-car-side"></i><span>จัดการรถ</span></li>
-      <li data-page="admin-drivers" data-roles="admin"><i class="fa fa-id-card"></i><span>จัดการคนขับ</span></li>
-      <li data-page="settings"      data-roles="admin"><i class="fa fa-cog"></i><span>ตั้งค่าระบบ</span></li>
+      <li class="sidebar-item" data-page="dashboard"     data-roles="admin,vip"><i class="fa fa-chart-line"></i><span>ภาพรวม</span></li>
+      <li class="sidebar-item" data-page="booking"       data-roles="admin,user"><i class="fa fa-calendar-plus"></i><span>จองรถ</span></li>
+      <li class="sidebar-item" data-page="preapprove"    data-roles="admin,vip"><i class="fa fa-clock"></i><span>รออนุมัติ</span></li>
+      <li class="sidebar-item" data-page="approve"       data-roles="admin,vip"><i class="fa fa-check-circle"></i><span>อนุมัติแล้ว</span></li>
+      <li class="sidebar-item" data-page="mileout"       data-roles="admin,user"><i class="fa fa-arrow-right"></i><span>ไมล์ออก</span></li>
+      <li class="sidebar-item" data-page="milein"        data-roles="admin,user"><i class="fa fa-arrow-left"></i><span>ไมล์เข้า</span></li>
+      <li class="sidebar-item" data-page="mission-close" data-roles="admin,vip"><i class="fa fa-flag-checkered"></i><span>ปิดภารกิจ</span></li>
+      <li class="sidebar-item" data-page="car-status"    data-roles="admin,vip,finance"><i class="fa fa-car"></i><span>สถานะรถ</span></li>
+      <li class="sidebar-item" data-page="car-daily"     data-roles="admin,vip,user,finance,schedule,general"><i class="fa fa-calendar-day"></i><span>รถวันนี้</span></li>
+      <li class="sidebar-item" data-page="history"       data-roles="admin,vip,finance"><i class="fa fa-history"></i><span>ประวัติ</span></li>
+      <li class="sidebar-item" data-page="personnel"     data-roles="admin,vip,schedule"><i class="fa fa-users"></i><span>กำลังพล</span></li>
+      <li class="sidebar-item" data-page="housing"       data-roles="admin,vip"><i class="fa fa-home"></i><span>ที่พัก</span></li>
+      <li class="sidebar-item" data-page="schedule"      data-roles="admin,schedule"><i class="fa fa-calendar-alt"></i><span>ตารางเวร</span></li>
+      <li class="sidebar-section-label sidebar-item" data-roles="admin"></li>
+      <li class="sidebar-item" data-page="cancel"        data-roles="admin"><i class="fa fa-times-circle"></i><span>ยกเลิกการจอง</span></li>
+      <li class="sidebar-item" data-page="admin-users"   data-roles="admin"><i class="fa fa-user-cog"></i><span>จัดการผู้ใช้</span></li>
+      <li class="sidebar-item" data-page="admin-cars"    data-roles="admin"><i class="fa fa-car-side"></i><span>จัดการรถ</span></li>
+      <li class="sidebar-item" data-page="admin-drivers" data-roles="admin"><i class="fa fa-id-card"></i><span>จัดการคนขับ</span></li>
+      <li class="sidebar-item" data-page="settings"      data-roles="admin"><i class="fa fa-cog"></i><span>ตั้งค่าระบบ</span></li>
     </ul>
   </nav>
 
@@ -78,10 +92,10 @@
   <div id="main-content">
     <nav id="topnav">
       <button id="sidebar-toggle" class="btn btn-link text-dark p-0 me-3"><i class="fa fa-bars fs-5"></i></button>
-      <span id="page-title" class="fw-semibold"></span>
+      <span id="breadcrumb-current" class="fw-semibold"></span>
       <div class="ms-auto d-flex align-items-center gap-2">
-        <span id="user-display" class="text-secondary small"></span>
-        <button class="btn btn-sm btn-outline-danger" onclick="App.logout()">
+        <span id="topnav-username" class="text-secondary small"></span>
+        <button id="logout-btn" class="btn btn-sm btn-outline-danger">
           <i class="fa fa-sign-out-alt"></i>
         </button>
       </div>
