@@ -48,14 +48,10 @@ function mileoutgetdata() {
 
 
 //ค้นหาข้อมูล
-var ss1 = SpreadsheetApp.getActive().getSheetByName('อนุมัติ')
-var datacarout = ss1.getDataRange().getDisplayValues()
-var id1 = datacarout.map(r => r[9])
-
 function mileout_searchData(obj) {
-// กรองข้อมูลใน 'data' ตามเงื่อนไขที่ระบุ
+  var ss1 = SpreadsheetApp.getActive().getSheetByName('อนุมัติ');
+  var datacarout = ss1.getDataRange().getDisplayValues();
   var output1 = datacarout.filter(r => r[9] + r[11] == obj.searchname_out + obj.searchcar_out);
   return output1;
-
 }
 

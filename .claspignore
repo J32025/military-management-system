@@ -1,0 +1,6 @@
+js/**
+css/**
+*.md
+.gitignore
+index.html
+node_modules/**

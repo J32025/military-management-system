@@ -150,16 +150,17 @@ function getVipUserData(username, password) {
 //   }
 // }
 
-// //เปลี่ยนรหัสผ่าน เครดิตอ.อภิวัฒน์
-// function resetPassword(uname, newpassword) {
-//   let sheet = SpreadsheetApp.getActive().getSheetByName('Users');
-//   let rows = sheet.createTextFinder(uname).findAll();
-//   if (rows.length > 0) {
-//     let firstRow = rows[0].getRow();
-//     let cell = sheet.getRange(firstRow, 3); // เปลี่ยนตำแหน่งคอลัมน์ตามที่ต้องการ
-//     cell.setValue(newpassword);
-//   }
-// }
+//เปลี่ยนรหัสผ่าน
+function resetPassword(uname, newpassword) {
+  let sheet = SpreadsheetApp.getActive().getSheetByName('Users');
+  let rows = sheet.createTextFinder(uname).findAll();
+  if (rows.length > 0) {
+    let firstRow = rows[0].getRow();
+    let cell = sheet.getRange(firstRow, 3);
+    cell.setValue(newpassword);
+  }
+  return true;
+}
 
 function loginCheckip(username ,ipAddress, userAgent) {
   

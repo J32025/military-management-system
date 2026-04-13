@@ -1,16 +1,13 @@
 
 //สำหรับผู้อนุมัติ
-var sheettoken = SpreadsheetApp.getActive().getSheetByName("setting").getRange('A2').getDisplayValue()
-var tokenId = sheettoken
-
-var sheettoken2 = SpreadsheetApp.getActive().getSheetByName("setting").getRange('B2').getDisplayValue()
-var tokenId2 = sheettoken2
+function tokenId()  { return SpreadsheetApp.getActive().getSheetByName("setting").getRange('A2').getDisplayValue(); }
+function tokenId2() { return SpreadsheetApp.getActive().getSheetByName("setting").getRange('B2').getDisplayValue(); }
 
 //แจ้งเตือนการจองรถผู้ใช้แจ้งหาผู้อนุมัติ
 function sendLineNotifybookingapprove(rank,name_name,car,loca,startDate,endDate,startTime,endTime,drivebook,other,preapporved) {
   // ส่ง line Notify
   var url = "https://notify-api.line.me/api/notify";
-  var token = tokenId
+  var token = tokenId();
   // var imageUrl = filedata
   var imageUrl = "https://img.freepik.com/free-vector/appointment-booking-with-smartphone_23-2148554313.jpg"
 
@@ -47,7 +44,7 @@ function sendLineNotifybookingapprove(rank,name_name,car,loca,startDate,endDate,
 function sendLineNotifybookinguser(rank,name_name) {
   // ส่ง line Notify
   var url = "https://notify-api.line.me/api/notify";
-  var token = tokenId2
+  var token = tokenId2();
   // var imageUrl = filedata
   var imageUrl = "https://img.freepik.com/free-vector/appointment-booking-with-smartphone_23-2148554313.jpg"
 
@@ -76,7 +73,7 @@ function sendLineNotifybookinguser(rank,name_name) {
 function sendLineNotifyapprove(obj) {
   // ส่ง line Notify
   var url = "https://notify-api.line.me/api/notify";
-  var token = tokenId2
+  var token = tokenId2();
   // var imageUrl = filedata
   var imageUrl = "https://cdn-icons-png.flaticon.com/512/4157/4157080.png"
 
@@ -113,7 +110,7 @@ function sendLineNotifyapprove(obj) {
 function sendLinemileout(obj) {
   // ส่ง line Notify
 var url = "https://notify-api.line.me/api/notify";
-  var token = tokenId
+  var token = tokenId();
 
 
   var message = 'รถกำลังถูกใช้งานโดย' 
@@ -149,7 +146,7 @@ var url = "https://notify-api.line.me/api/notify";
 function sendLinemilein(obj,thaidatemilein) {
   // ส่ง line Notify
 var url = "https://notify-api.line.me/api/notify";
-  var token = tokenId
+  var token = tokenId();
 
 
   var message = 'รถกลับเข้ามาแล้วโดย' 
@@ -186,7 +183,7 @@ var url = "https://notify-api.line.me/api/notify";
 function sendLineNotifycancel(obj) {
   // ส่ง line Notify
   var url = "https://notify-api.line.me/api/notify";
-  var token = tokenId2
+  var token = tokenId2();
   // var imageUrl = filedata
   var imageUrl = "https://www.irctcstationcode.com/wp-content/uploads/2014/11/Cancellation-Stamp.jpg"
   var message = 'ยกเลิกการจองรถ' 
@@ -219,7 +216,7 @@ function sendLineNotifycancel(obj) {
 function sendLineNotifycanceluser(obj) {
   // ส่ง line Notify
   var url = "https://notify-api.line.me/api/notify";
-  var token = tokenId2
+  var token = tokenId2();
   // var imageUrl = filedata
   var imageUrl = "https://www.irctcstationcode.com/wp-content/uploads/2014/11/Cancellation-Stamp.jpg"
   var message = 'ยกเลิกการจองรถ' 
@@ -252,7 +249,7 @@ function sendLineNotifycanceluser(obj) {
 function sendLineNotifylogin(username , password) {
   // ส่ง line Notify
   var url = "https://notify-api.line.me/api/notify";
-  var token = tokenId2
+  var token = tokenId2();
   // var imageUrl = filedata
   var imageUrl = "https://img.freepik.com/free-vector/appointment-booking-with-smartphone_23-2148554313.jpg"
   

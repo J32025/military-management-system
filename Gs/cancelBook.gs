@@ -73,14 +73,10 @@ function cancelgetdata() {
 
 
 //ค้นหาข้อมูลเพื่อยกเลิก
-var ss_carcancel = SpreadsheetApp.getActive().getSheetByName('รวมภารกิจ')
-var datacar_cancel = ss_carcancel.getDataRange().getDisplayValues()
-var id_carcancel = datacar_cancel.map(r => r[1])
-
 function cancelcar_searchData(obj) {
-// กรองข้อมูลใน 'data' ตามเงื่อนไขที่ระบุ
+  var ss_carcancel = SpreadsheetApp.getActive().getSheetByName('รวมภารกิจ');
+  var datacar_cancel = ss_carcancel.getDataRange().getDisplayValues();
   var output1 = datacar_cancel.filter(r => r[1] + r[11] == obj.searchname_cancel + obj.searchcar_cancel);
   return output1;
-
 }
 

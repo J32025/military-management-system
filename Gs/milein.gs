@@ -53,14 +53,10 @@ function mileingetdata() {
 
 
 //ค้นหาข้อมูล
-var ss = SpreadsheetApp.getActive().getSheetByName('กำลังใช้งาน')
-var datacarin = ss.getDataRange().getDisplayValues()
-var id = datacarin.map(r => r[9])
-
 function milein_searchData(obj) {
-// กรองข้อมูลใน 'data' ตามเงื่อนไขที่ระบุ
+  var ss = SpreadsheetApp.getActive().getSheetByName('กำลังใช้งาน');
+  var datacarin = ss.getDataRange().getDisplayValues();
   var output = datacarin.filter(r => r[9] + r[11] == obj.searchname_in + obj.searchcar_in);
   return output;
-
 }
 
