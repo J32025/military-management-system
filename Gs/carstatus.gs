@@ -1,9 +1,25 @@
-function checkcarstatusgetdata() {
-  let checkcarstatusss = SpreadsheetApp.openById("1GBErFuQsyRWSAlRacTfnmnUrftwRxC_4Zk_hWbHSF5g")
-  let checkcarstatussheet = checkcarstatusss.getSheetByName("Data_B_5")
-  let checkcarstatusrange = checkcarstatussheet.getDataRange()
-  let checkcarstatusvalues = checkcarstatusrange.getDisplayValues()
+// CarStatus.gs — Vehicle status, daily missions, and history
 
-  Logger.log(checkcarstatusvalues)
-  return checkcarstatusvalues
+function carStatusGetAll() {
+  var sheet = _getSheet(SHEET.DATA_B5);
+  if (!sheet) return [];
+  return sheet.getDataRange().getDisplayValues();
+}
+
+function carDailyGetList() {
+  var sheet = _getSheet(SHEET.DATA_B3);
+  if (!sheet) return [];
+  return sheet.getDataRange().getDisplayValues();
+}
+
+function carTotalGetHistory() {
+  var sheet = _getSheet(SHEET.ALL_HISTORY);
+  if (!sheet) return [];
+  return sheet.getDataRange().getDisplayValues();
+}
+
+function carCheckGetApproved() {
+  var sheet = _getSheet(SHEET.DATA_B2);
+  if (!sheet) return [];
+  return sheet.getDataRange().getDisplayValues();
 }

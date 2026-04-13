@@ -1,29 +1,31 @@
-function saveFile(obj) {
-  let folder = DriveApp.getFolderById('1_t2OPFVQSTtFF9cbGtinU1BK8XwvLF_m');
-  var blob = Utilities.newBlob(obj.bytes, obj.mimeType, obj.filename);
-  var fileUrl = folder.createFile(blob).getUrl();
+// Schedule.gs — ตารางเวร / duty roster upload
 
-  // Get the active spreadsheet and sheet
-  let ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('ตารางเวร');
+function scheduleUpload(obj) {
+  try {
+    var setting  = _getSheet(SHEET.SETTING);
+    var folderId = setting ? setting.getRange('C2').getDisplayValue() : '';
+    var bytes    = obj.bytes || '';
+    var mimeType = obj.mimeType || 'application/pdf';
+    var filename = obj.filename || ('schedule_' + Utilities.formatDate(new Date(), 'GMT+7', 'yyyyMMdd_HHmmss') + '.pdf');
 
-  // Append a new row with the fname, email, and file URL
-  ss.appendRow([new Date,  fileUrl ]);
+    var blob = Utilities.newBlob(Utilities.base64Decode(bytes), mimeType, filename);
+    var file = folderId
+      ? DriveApp.getFolderById(folderId).createFile(blob)
+      : DriveApp.createFile(blob);
+    var fileUrl = file.getUrl();
 
-  var token = "fPKsF5gV1Dk5HTvkk99UCIdEDYy6bYorGOFoyQPQgOc";
-  var message = 'มีผู้อัพโหลดไฟล์ตารางเวรประจำเดือน'
-  +"\n"
-  message += fileUrl
+    var sheet = _getSheet(SHEET.SCHEDULE);
+    if (sheet) sheet.appendRow([new Date(), fileUrl, filename]);
 
-  var options = {
-      "method": "post",
-      "headers": {
-        "Authorization": "Bearer " + token
-      },
-      "payload": {
-        "message": message
-      }
-    };
-  UrlFetchApp.fetch("https://notify-api.line.me/api/notify", options);
+    _notifyLine(_getToken1(), '\n📅 มีผู้อัพโหลดตารางเวร\n' + fileUrl);
+    return fileUrl;
+  } catch (e) {
+    throw new Error('scheduleUpload error: ' + e.message);
+  }
+}
 
-  return 'อัปโหลดไฟล์เรียบร้อย';
+function scheduleGetList() {
+  var sheet = _getSheet(SHEET.SCHEDULE);
+  if (!sheet) return [];
+  return sheet.getDataRange().getDisplayValues();
 }

@@ -12,4 +12,4 @@
  */
 
 // TODO: แทนที่ด้วย URL จริงของ Google Apps Script Web App ของคุณ
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbzq62EaN7rrC1gNMeGZy3cINURktSEe78A9GNQ1oJfyVZaCrhXElZyv6XPUKSJxE7qI1w/exec';
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbxP8zf6V3OvBL-SKdBUnZGV07d1U4mxsgngoDuAROnxzGudykWNB8sDiZ31niBe_dwBWA/exec';
